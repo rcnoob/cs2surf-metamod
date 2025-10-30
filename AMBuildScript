@@ -118,13 +118,13 @@ class MMSPluginConfig(object):
 
 
     self.metadata = {
-      'name': 'cs2kz',
-      'alias': 'cs2kz',
-      'display_name': 'CS2KZ',
-      'description': 'CS2 KreedZ',
-      'author': 'zer0.k',
-      'url': 'http://www.cs2kz.org/',
-      'log_tag': 'CS2KZ',
+      'name': 'cs2surf',
+      'alias': 'cs2surf',
+      'display_name': 'CS2Surf',
+      'description': 'CS2 Surf Timer',
+      'author': 'zer0.k, forked by rcnoob',
+      'url': 'http://www.placeholder.com/',
+      'log_tag': 'CS2Surf',
       'license': 'GPLv3',
       'version': '0.0.0-dev'
     }

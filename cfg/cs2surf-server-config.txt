@@ -15,20 +15,11 @@
 	// Interval between tips.
 	"tipInterval"				"75"
 	
-	// Minimum jumpstat tier for broadcasting.
-	"defaultJSBroadcastMinTier"	"4"
-	
-	// Minimum jumpstat tier for sound effect.
-	"defaultJSSoundMinTier"		"4"
-	
-	// Whether jumpstats should be enabled by default.
-	"defaultShowJS"				"true"
-	
-	// Enable this to automatically record a one minute long demo of players when someone hits a wrecker jumpstat.
+	// Enable this to automatically record a one minute long demo of players when someone is flagged for cheating.
 	"autoDemoRecording"			"false"
 	
 	// Default chat prefix.
-	"chatPrefix"				"{lime}KZ {grey}|{default}"
+	"chatPrefix"				"{lime}Surf {grey}|{default}"
 	
 	// Whether we override chat processing or not.
 	"overridePlayerChat"		"true"
@@ -37,7 +28,7 @@
 	"db"
 	{
 		"driver"	"sqlite"
-		"database"	"cs2kz"
+		"database"	"cs2surf"
 		
 		// MySQL connections only, required
 		"host"		"192.168.1.8"
@@ -49,6 +40,6 @@
 		//"port"			"3306"
 	}
 
-	"apiUrl" "https://api.cs2kz.org"
+	"apiUrl" ""
 	"apiKey" ""
 }

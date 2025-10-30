@@ -36,7 +36,7 @@ class SDKPackage:
     self.addBinFolder(cxx)
     self.generateVDF()
 
-    builder.AddCopy(os.path.join(builder.buildPath, '../gamedata', 'cs2kz-core.games.txt'), self.gamedata_folder)
+    builder.AddCopy(os.path.join(builder.buildPath, '../gamedata', 'cs2surf-core.games.txt'), self.gamedata_folder)
     for filename in os.listdir(os.path.join(builder.buildPath, '../cfg')):
       builder.AddCopy(os.path.join(builder.buildPath, '../cfg', filename), builder.AddFolder('cfg'))
     for filename in os.listdir(os.path.join(builder.buildPath, '../translations')):

@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
 
 # Paths for Linux artifacts
-CS2KZ_SO="/home/runner/artifacts/cs2kz-linux/addons/cs2kz/bin/linuxsteamrt64/cs2kz.so"
-LINUX_MODES_DIR="/home/runner/artifacts/cs2kz-linux/addons/cs2kz/modes"
-LINUX_STYLES_DIR="/home/runner/artifacts/cs2kz-linux/addons/cs2kz/styles"
+CS2SURF_SO="/home/runner/artifacts/cs2surf-linux/addons/cs2surf/bin/linuxsteamrt64/cs2surf.so"
+LINUX_MODES_DIR="/home/runner/artifacts/cs2surf-linux/addons/cs2surf/modes"
+LINUX_STYLES_DIR="/home/runner/artifacts/cs2surf-linux/addons/cs2surf/styles"
 
 # Paths for Windows artifacts
-CS2KZ_DLL="/home/runner/artifacts/cs2kz-windows/addons/cs2kz/bin/win64/cs2kz.dll"
-WINDOWS_MODES_DIR="/home/runner/artifacts/cs2kz-windows/addons/cs2kz/modes"
-WINDOWS_STYLES_DIR="/home/runner/artifacts/cs2kz-windows/addons/cs2kz/styles"
+CS2SURF_DLL="/home/runner/artifacts/cs2surf-windows/addons/cs2surf/bin/win64/cs2surf.dll"
+WINDOWS_MODES_DIR="/home/runner/artifacts/cs2surf-windows/addons/cs2surf/modes"
+WINDOWS_STYLES_DIR="/home/runner/artifacts/cs2surf-windows/addons/cs2surf/styles"
 
 # Placeholder values for version, git_revision, and is_cutoff
 VERSION="$1"
 GIT_REVISION=$(git rev-parse HEAD)
 IS_CUTOFF="$2"
 
-# Calculate checksums for cs2kz
-cs2kz_sum_lin=$(md5sum "$CS2KZ_SO" | awk '{ print $1 }')
-cs2kz_sum_win=$(md5sum "$CS2KZ_DLL" | awk '{ print $1 }')
+# Calculate checksums for cs2surf
+cs2surf_sum_lin=$(md5sum "$CS2SURF_SO" | awk '{ print $1 }')
+cs2surf_sum_win=$(md5sum "$CS2SURF_DLL" | awk '{ print $1 }')
 
 # Initialize JSON strings for modes and styles
 modes_json=$(jq -n \
-    --arg linux_checksum "$cs2kz_sum_lin" \
-    --arg windows_checksum "$cs2kz_sum_win" \
+    --arg linux_checksum "$cs2surf_sum_lin" \
+    --arg windows_checksum "$cs2surf_sum_win" \
     '{
       mode: "vnl",
       linux_checksum: $linux_checksum,
@@ -31,12 +31,12 @@ modes_json=$(jq -n \
 styles_json=""
 
 # Process modes
-for mode_lin in "$LINUX_MODES_DIR"/cs2kz-mode-*.so; do
+for mode_lin in "$LINUX_MODES_DIR"/cs2surf-mode-*.so; do
   mode_name=$(basename "$mode_lin" | sed -E 's/.*-(\w+)\.so/\1/')
   mode_sum_lin=$(md5sum "$mode_lin" | awk '{ print $1 }')
 
   # Find corresponding Windows mode file
-  mode_win="$WINDOWS_MODES_DIR/cs2kz-mode-$mode_name.dll"
+  mode_win="$WINDOWS_MODES_DIR/cs2surf-mode-$mode_name.dll"
   if [[ -f "$mode_win" ]]; then
     mode_sum_win=$(md5sum "$mode_win" | awk '{ print $1 }')
   else
@@ -58,12 +58,12 @@ for mode_lin in "$LINUX_MODES_DIR"/cs2kz-mode-*.so; do
 done
 
 # Process styles
-for style_lin in "$LINUX_STYLES_DIR"/cs2kz-style-*.so; do
+for style_lin in "$LINUX_STYLES_DIR"/cs2surf-style-*.so; do
   style_name=$(basename "$style_lin" | sed -E 's/.*-(\w+)\.so/\1/')
   style_sum_lin=$(md5sum "$style_lin" | awk '{ print $1 }')
 
   # Find corresponding Windows style file
-  style_win="$WINDOWS_STYLES_DIR/cs2kz-style-$style_name.dll"
+  style_win="$WINDOWS_STYLES_DIR/cs2surf-style-$style_name.dll"
   if [[ -f "$style_win" ]]; then
     style_sum_win=$(md5sum "$style_win" | awk '{ print $1 }')
   else
@@ -97,8 +97,8 @@ styles_json="[$styles_json]"
 json_payload=$(jq -n \
   --arg version "$VERSION" \
   --arg git_revision "$GIT_REVISION" \
-  --arg linux_checksum "$cs2kz_sum_lin" \
-  --arg windows_checksum "$cs2kz_sum_win" \
+  --arg linux_checksum "$cs2surf_sum_lin" \
+  --arg windows_checksum "$cs2surf_sum_win" \
   --argjson is_cutoff "$IS_CUTOFF" \
   --argjson modes "$modes_json" \
   --argjson styles "$styles_json" \
@@ -114,6 +114,8 @@ json_payload=$(jq -n \
 
 AUTH_TOKEN="$3"
 
+# TODO: automatic version approval for global
+: '
 response=$(curl -s -o /dev/null -w "%{http_code}" \
   -X POST https://api.cs2kz.org/plugin/versions \
   -H "Content-Type: application/json" \
@@ -129,3 +131,4 @@ else
   echo "$json_payload"
   exit 1
 fi
+'
