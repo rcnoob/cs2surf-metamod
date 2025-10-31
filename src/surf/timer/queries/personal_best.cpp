@@ -130,9 +130,9 @@ struct PBRequest : public BaseRequest
 			if (req->gpbData.hasPB)
 			{
 				req->gpbData.runTime = pb.overall->time;
-				req->gpbData.rank = pb.overall->nubRank;
-				req->gpbData.maxRank = pb.overall->nubMaxRank;
-				req->gpbData.points = pb.overall->nubPoints;
+				req->gpbData.rank = pb.overall->rank;
+				req->gpbData.maxRank = pb.overall->maxRank;
+				req->gpbData.points = pb.overall->points;
 			}
 		};
 		SurfGlobalService::QueryPB(this->targetSteamID64, std::string_view(this->targetPlayerName.Get(), this->targetPlayerName.Length()),

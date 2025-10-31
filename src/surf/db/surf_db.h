@@ -29,18 +29,18 @@ public:
 
 	virtual void OnMapSetup() {}
 
-	virtual void OnTimeInserted(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles, u64 runtimeMS, u32 teleportsUsed) {}
+	virtual void OnTimeInserted(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles, u64 runtimeMS) {}
 
-	virtual void OnTimeProcessed(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles, u64 runtimeMS, u32 teleportsUsed,
-								 bool firstTime, f64 pbDiff, u32 rank, u32 maxRank, bool firstTimePro, f64 pbDiffPro, u32 rankPro, u32 maxRankPro)
+	virtual void OnTimeProcessed(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles, u64 runtimeMS,
+								 bool firstTime, f64 pbDiff, u32 rank, u32 maxRank)
 	{
 	}
 
-	virtual void OnNewRecord(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles, u32 teleportsUsed) {}
+	virtual void OnNewRecord(Player *player, u64 steamID64, u32 mapID, u32 course, u64 mode, u64 styles) {}
 
-	virtual void OnRecordMissed(Player *player, f64 recordTime, u32 course, u64 mode, u64 styles, bool pro) {}
+	virtual void OnRecordMissed(Player *player, f64 recordTime, u32 course, u64 mode, u64 styles) {}
 
-	virtual void OnPBMissed(Player *player, f64 pbTime, u32 course, u64 mode, u64 styles, bool pro) {}
+	virtual void OnPBMissed(Player *player, f64 pbTime, u32 course, u64 mode, u64 styles) {}
 };
 
 class SurfDatabaseService : public SurfBaseService
@@ -134,7 +134,7 @@ public:
 	static void InsertAndUpdateStyleIDs(CUtlString styleName, CUtlString shortName);
 
 	// Times
-	static void SaveTime(u64 steamID, u32 courseID, i32 modeID, f64 time, u64 teleportsUsed, u64 styleIDs, std::string_view metadata,
+	static void SaveTime(u64 steamID, u32 courseID, i32 modeID, f64 time, u64 styleIDs, std::string_view metadata,
 						 TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure);
 	static void QueryAllPBs(u64 steamID64, CUtlString mapName, TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure);
 	static void QueryPB(u64 steamID64, CUtlString mapName, CUtlString courseName, u32 modeID, TransactionSuccessCallbackFunc onSuccess,

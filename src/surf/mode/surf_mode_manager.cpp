@@ -296,7 +296,6 @@ bool SurfModeManager::SwitchToMode(SurfPlayer *player, const char *modeName, boo
 	utils::SendMultipleConVarValues(player->GetPlayerSlot(), Surf::mode::modeCvarRefs, player->modeService->GetModeConVarValues(), MODECVAR_COUNT);
 
 	player->SetVelocity({0, 0, 0});
-	player->jumpstatsService->InvalidateJumpstats("Externally modified");
 
 	player->profileService->currentRating = -1.0f;
 	player->profileService->RequestRating();
@@ -388,7 +387,7 @@ SurfModeManager::ModePluginInfo Surf::mode::GetModeInfo(Surf::API::Mode mode)
 {
 	switch (mode)
 	{
-		case Surf::API::Mode::_64t:
+		case Surf::API::Mode::_64tick:
 		{
 			return Surf::mode::GetModeInfo("64tick");
 		}

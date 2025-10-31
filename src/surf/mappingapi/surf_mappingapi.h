@@ -207,7 +207,7 @@ namespace Surf::mapapi
 
 	inline bool IsTimerTrigger(SurfTriggerType triggerType)
 	{
-		static_assert(SURFTRIGGER_ZONE_START == 5 && SURFZTRIGGER_ZONE_STAGE == 9,
+		static_assert(SURFTRIGGER_ZONE_START == 5 && SURFTRIGGER_ZONE_STAGE == 9,
 					  "Don't forget to change this function when changing the SurfTriggerType enum!!!");
 		return triggerType >= SURFTRIGGER_ZONE_START && triggerType <= SURFTRIGGER_ZONE_STAGE;
 	}

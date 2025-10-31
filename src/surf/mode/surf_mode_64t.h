@@ -13,6 +13,9 @@
 #define RAMP_BUG_VELOCITY_THRESHOLD 0.95f
 #define NEW_RAMP_THRESHOLD          0.95f
 
+#define DUCK_SPEED_NORMAL  8.0f
+#define DUCK_SPEED_MINIMUM 6.0234375f // Equal to if you just ducked/unducked for the first time in a while
+
 #define SPEED_NORMAL 260.0f
 
 class Surf64tModePlugin : public ISmmPlugin, public IMetamodListener
@@ -71,7 +74,7 @@ class Surf64tModeService : public SurfModeService
 
 	static inline CVValue_t modeCvarValues[] = {
 		(bool)false,    // slope_drop_enable
-		(float)10f,     // sv_accelerate
+		(float)10.0f,     // sv_accelerate
 		(bool)false,    // sv_accelerate_use_weapon_speed
 		(float)150.0f,  // sv_airaccelerate
 		(float)30.0f,   // sv_air_max_wishspeed

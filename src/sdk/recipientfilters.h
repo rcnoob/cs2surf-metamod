@@ -112,11 +112,11 @@ public:
 	{
 		m_Recipients.ClearAll();
 
-		for (int i = 0; i < g_pKZUtils->GetClientList()->Count(); i++)
+		for (int i = 0; i < g_pSurfUtils->GetClientList()->Count(); i++)
 		{
-			if (g_pKZUtils->GetClientList()->Element(i)->IsInGame())
+			if (g_pSurfUtils->GetClientList()->Element(i)->IsInGame())
 			{
-				AddRecipient(g_pKZUtils->GetClientList()->Element(i)->GetPlayerSlot());
+				AddRecipient(g_pSurfUtils->GetClientList()->Element(i)->GetPlayerSlot());
 			}
 		}
 	}

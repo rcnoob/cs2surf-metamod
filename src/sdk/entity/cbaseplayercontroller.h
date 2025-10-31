@@ -60,6 +60,6 @@ public:
 
 	void SetPawn(CCSPlayerPawn *pawn)
 	{
-		g_pKZUtils->SetPawn(this, pawn, true, false, false, false);
+		g_pSurfUtils->SetPawn(this, pawn, true, false, false, false);
 	}
 };

@@ -79,11 +79,6 @@ bool SurfTriggerService::CanTeleportToCheckpoints()
 	return this->modifiers.disableTeleportsCount <= 0;
 }
 
-bool SurfTriggerService::ShouldDisableJumpstats()
-{
-	return this->modifiers.disableJumpstatsCount > 0;
-}
-
 void SurfTriggerService::TouchModifierTrigger(TriggerTouchTracker tracker)
 {
 	const SurfTrigger *trigger = tracker.surfTrigger;

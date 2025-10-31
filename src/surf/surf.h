@@ -146,7 +146,6 @@ public:
 	SurfNoclipService *noclipService {};
 	SurfOptionService *optionService {};
 	SurfQuietService *quietService {};
-	SurfSavelocService *savelocService {};
 	SurfSpecService *specService {};
 	SurfGotoService *gotoService {};
 	SurfProfileService *profileService {};

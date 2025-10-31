@@ -159,7 +159,7 @@ public:
 
 	void DispatchSpawn(CEntityKeyValues *pEntityKeyValues = nullptr)
 	{
-		g_pKZUtils->DispatchSpawn(this, pEntityKeyValues);
+		g_pSurfUtils->DispatchSpawn(this, pEntityKeyValues);
 	}
 
 	void SetGravityScale(float scale)

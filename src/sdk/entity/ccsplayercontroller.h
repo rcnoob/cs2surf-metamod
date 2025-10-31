@@ -80,7 +80,7 @@ public:
 		}
 		else
 		{
-			g_pKZUtils->SwitchTeam(this, iTeam);
+			g_pSurfUtils->SwitchTeam(this, iTeam);
 		}
 	}
 

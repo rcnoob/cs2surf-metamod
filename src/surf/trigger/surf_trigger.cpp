@@ -1,6 +1,5 @@
 #include "surf_trigger.h"
 #include "surf/checkpoint/surf_checkpoint.h"
-#include "surf/jumpstats/surf_jumpstats.h"
 #include "surf/language/surf_language.h"
 #include "surf/mode/surf_mode.h"
 #include "surf/style/surf_style.h"
@@ -498,17 +497,10 @@ void SurfTriggerService::UpdatePlayerPostTouch()
 		return;
 	}
 	// Player has a modified velocity through trigger touching, take this into account.
-	Vector pawnAbsVel = pawn->m_vecAbsVelocity();
-	bool modifiedVelocity = this->preTouchVelocity != pawnAbsVel;
-	if (player->processingMovement && modifiedVelocity)
-	{
-		this->player->jumpstatsService->InvalidateJumpstats("Externally modified");
-	}
 
 	bool modifiedOrigin = this->preTouchOrigin != pawn->m_CBodyComponent()->m_pSceneNode()->m_vecAbsOrigin();
 	if (player->processingMovement && modifiedOrigin)
 	{
 		player->SetOrigin(pawn->m_CBodyComponent()->m_pSceneNode()->m_vecAbsOrigin());
-		this->player->jumpstatsService->InvalidateJumpstats("Externally modified");
 	}
 }

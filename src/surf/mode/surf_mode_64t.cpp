@@ -7,88 +7,7 @@
 #include "sdk/tracefilter.h"
 #include "sdk/entity/cbasetrigger.h"
 
-Surf64tModePlugin g_Surf64tModePlugin;
-
-CGameConfig *g_pGameConfig = NULL;
-SurfUtils *g_pSurfUtils = NULL;
-SurfModeManager *g_pModeManager = NULL;
-MappingInterface *g_pMappingApi = NULL;
-ModeServiceFactory g_ModeFactory = [](SurfPlayer *player) -> SurfModeService * { return new Surf64tModeService(player); };
-PLUGIN_EXPOSE(Surf64tModePlugin, g_Surf64tModePlugin);
-
 CConVarRef<f32> sv_standable_normal("sv_standable_normal");
-
-bool Surf64tModePlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late)
-{
-	PLUGIN_SAVEVARS();
-	// Load mode
-	int success;
-	g_pModeManager = (SurfModeManager *)g_SMAPI->MetaFactory(SURF_MODE_MANAGER_INTERFACE, &success, 0);
-	if (success == META_IFACE_FAILED)
-	{
-		V_snprintf(error, maxlen, "Failed to find %s interface", SURF_MODE_MANAGER_INTERFACE);
-		return false;
-	}
-	g_pSurfUtils = (SurfUtils *)g_SMAPI->MetaFactory(SURF_UTILS_INTERFACE, &success, 0);
-	if (success == META_IFACE_FAILED)
-	{
-		V_snprintf(error, maxlen, "Failed to find %s interface", SURF_UTILS_INTERFACE);
-		return false;
-	}
-	g_pMappingApi = (MappingInterface *)g_SMAPI->MetaFactory(SURF_MAPPING_INTERFACE, &success, 0);
-	if (success == META_IFACE_FAILED)
-	{
-		V_snprintf(error, maxlen, "Failed to find %s interface", SURF_MAPPING_INTERFACE);
-		return false;
-	}
-	modules::Initialize();
-	if (!interfaces::Initialize(ismm, error, maxlen))
-	{
-		V_snprintf(error, maxlen, "Failed to initialize interfaces");
-		return false;
-	}
-
-	if (nullptr == (g_pGameConfig = g_pSurfUtils->GetGameConfig()))
-	{
-		V_snprintf(error, maxlen, "Failed to get game config");
-		return false;
-	}
-
-	if (!g_pModeManager->RegisterMode(g_PLID, MODE_NAME_SHORT, MODE_NAME, g_ModeFactory))
-	{
-		V_snprintf(error, maxlen, "Failed to register mode");
-		return false;
-	}
-
-	ConVar_Register();
-	return true;
-}
-
-bool Surf64tModePlugin::Unload(char *error, size_t maxlen)
-{
-	g_pModeManager->UnregisterMode(g_PLID);
-	return true;
-}
-
-bool Surf64tModePlugin::Pause(char *error, size_t maxlen)
-{
-	g_pModeManager->UnregisterMode(g_PLID);
-	return true;
-}
-
-bool Surf64tModePlugin::Unpause(char *error, size_t maxlen)
-{
-	if (!g_pModeManager->RegisterMode(g_PLID, MODE_NAME_SHORT, MODE_NAME, g_ModeFactory))
-	{
-		return false;
-	}
-	return true;
-}
-
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
 
 /*
 	Actual mode stuff.
@@ -316,7 +235,7 @@ void Surf64tModeService::UpdateAngleHistory()
 	u32 oldEntries = 0;
 	FOR_EACH_VEC(this->angleHistory, i)
 	{
-		if (this->angleHistory[i].when + PS_TURN_RATE_WINDOW < g_pSurfUtils->GetGlobals()->curtime)
+		if (this->angleHistory[i].when < g_pSurfUtils->GetGlobals()->curtime)
 		{
 			oldEntries++;
 			continue;

@@ -17,7 +17,7 @@
 static_global class SurfTimerServiceEventListener_HUD : public SurfTimerServiceEventListener
 {
 	virtual void OnTimerStopped(SurfPlayer *player, u32 courseGUID) override;
-	virtual void OnTimerEndPost(SurfPlayer *player, u32 courseGUID, f32 time, u32 teleportsUsed) override;
+	virtual void OnTimerEndPost(SurfPlayer *player, u32 courseGUID, f32 time) override;
 } timerEventListener;
 
 static_global class SurfOptionServiceEventListener_HUD : public SurfOptionServiceEventListener
@@ -186,7 +186,7 @@ void SurfTimerServiceEventListener_HUD::OnTimerStopped(SurfPlayer *player, u32 c
 	player->hudService->OnTimerStopped(player->timerService->GetTime());
 }
 
-void SurfTimerServiceEventListener_HUD::OnTimerEndPost(SurfPlayer *player, u32 courseGUID, f32 time, u32 teleportsUsed)
+void SurfTimerServiceEventListener_HUD::OnTimerEndPost(SurfPlayer *player, u32 courseGUID, f32 time)
 {
 	player->hudService->OnTimerStopped(time);
 }

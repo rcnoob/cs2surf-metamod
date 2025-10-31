@@ -165,7 +165,6 @@ void SurfPlayer::OnPhysicsSimulatePost()
 	{
 		SurfHUDService::DrawPanels(this, this);
 	}
-	this->measureService->OnPhysicsSimulatePost();
 	this->quietService->OnPhysicsSimulatePost();
 	this->profileService->OnPhysicsSimulatePost();
 }

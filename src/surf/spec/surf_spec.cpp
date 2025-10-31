@@ -239,7 +239,7 @@ SCMD(surf_spec, SCFL_SPEC)
 	return MRES_SUPERCEDE;
 }
 
-SCMD(kz_specs, SCFL_SPEC)
+SCMD(surf_specs, SCFL_SPEC)
 {
 	SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(controller);
 	SurfPlayer *targetPlayer = player->IsAlive() ? player : player->specService->GetSpectatedPlayer();

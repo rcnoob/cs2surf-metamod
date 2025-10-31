@@ -63,7 +63,7 @@ void SurfGlobalService::UpdateRecordCache()
 
 			PluginId modeID = Surf::mode::GetModeInfo(record.mode).id;
 
-			SurfTimerService::InsertRecordToCache(record.time, course, modeID, record.nubPoints != 0, true);
+			SurfTimerService::InsertRecordToCache(record.time, course, modeID, record.points != 0, true);
 		}
 	};
 
@@ -302,14 +302,9 @@ void SurfGlobalService::OnPlayerAuthorized()
 
 					PluginId modeID = Surf::mode::GetModeInfo(record.mode).id;
 
-					if (record.nubPoints != 0)
+					if (record.points != 0)
 					{
-						player->timerService->InsertPBToCache(record.time, course, modeID, true, true, "", record.nubPoints);
-					}
-
-					if (record.proPoints != 0)
-					{
-						player->timerService->InsertPBToCache(record.time, course, modeID, false, true, "", record.proPoints);
+						player->timerService->InsertPBToCache(record.time, course, modeID, true, true, "", record.points);
 					}
 				}
 			};

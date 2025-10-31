@@ -126,8 +126,7 @@ struct CourseTopRequest : public BaseRequest
 				{
 					while (result->FetchRow())
 					{
-						req->srData.overallData.AddToTail({(u64)result->GetInt64(0), result->GetString(2), (u64)result->GetInt64(4),
-														   result->GetFloat(3), (u64)result->GetInt64(1)});
+						req->srData.overallData.AddToTail({(u64)result->GetInt64(0), result->GetString(2), result->GetFloat(3), (u64)result->GetInt64(1)});
 					}
 				}
 			};
@@ -178,7 +177,7 @@ struct CourseTopRequest : public BaseRequest
 				for (const auto &record : ctops.overall)
 				{
 					req->wrData.overallData.AddToTail(
-						{record.id, record.player.name.c_str(), record.time, record.player.id, (u64)floor(record.nubPoints)});
+						{record.id, record.player.name.c_str(), record.time, record.player.id, (u64)floor(record.points)});
 				}
 			};
 			this->globalStatus = ResponseStatus::PENDING;

@@ -262,7 +262,6 @@ void RecordAnnounce::SubmitLocal()
 				rec->localResponse.overall.pbDiff = rec->time - pb;
 			}
 		}
-		// Get NUB Rank
 		result = queries[2]->GetResultSet();
 		result->FetchRow();
 		rec->localResponse.overall.rank = result->GetInt(0);
@@ -353,16 +352,16 @@ void RecordAnnounce::AnnounceGlobal()
 		}
 		bool hasOldPB = this->oldGPB.overall.time;
 
-		f64 nubPbDiff = this->time - this->oldGPB.overall.time;
+		f64 pbDiff = this->time - this->oldGPB.overall.time;
 		// Players can't lose points for being slower than PB.
-		f64 nubPointsDiff = MAX(this->globalResponse.overall.points - this->oldGPB.overall.points, 0.0f);
+		f64 pointsDiff = MAX(this->globalResponse.overall.points - this->oldGPB.overall.points, 0.0f);
 
 		char formattedDiffTime[32];
-		SurfTimerService::FormatDiffTime(nubPbDiff, formattedDiffTime, sizeof(formattedDiffTime));
+		SurfTimerService::FormatDiffTime(pbDiff, formattedDiffTime, sizeof(formattedDiffTime));
 
 		// clang-format off
         std::string diffText = hasOldPB
-            ? player->languageService->PrepareMessage("Personal Best Difference", nubPbDiff < 0 ? "{green}" : "{red}", formattedDiffTime)
+            ? player->languageService->PrepareMessage("Personal Best Difference", pbDiff < 0 ? "{green}" : "{red}", formattedDiffTime)
             : "";
 		// clang-format on
 

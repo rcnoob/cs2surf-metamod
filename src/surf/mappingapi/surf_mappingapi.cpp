@@ -350,8 +350,9 @@ static_function void Mapi_OnTriggerMultipleSpawn(const EntitySpawnInfo_t *info)
 					trigger.type = info->m_pEntity->NameMatches("map_start") ? SURFTRIGGER_ZONE_START : SURFTRIGGER_ZONE_END;
 				}
 
-				// STAGE HOOKS
-				if (info->m_pEntity->NameMatchesComplex("stage*") || info->m_pEntity->NameMatchesComplex("stage*"))
+				// STAGE HOOK
+				CUtlString triggerName = info->m_pEntity->m_name.String();
+				if (triggerName.MatchesPattern("stage*"))
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
 					trigger.type = SURFTRIGGER_ZONE_STAGE;

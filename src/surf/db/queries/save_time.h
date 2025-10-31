@@ -1,7 +1,7 @@
 // =====[ GENERAL ]=====
 
 constexpr char sql_getpb[] = R"(
-    SELECT Times.RunTime, Times.Teleports 
+    SELECT Times.RunTime
         FROM Times 
         WHERE Times.MapCourseID=%d
         AND Times.SteamID64=%llu

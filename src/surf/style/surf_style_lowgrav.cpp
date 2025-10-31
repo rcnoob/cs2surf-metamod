@@ -80,16 +80,17 @@ CGameEntitySystem *GameEntitySystem()
 
 void SurfLowGravStyleService::Init()
 {
-	this->SetGravityScale(0.5f);
+	this->player->SetGravityScale(0.5f);
 }
 
 const CVValue_t *SurfLowGravStyleService::GetTweakedConvarValue(const char *name)
 {
+	return nullptr;
 }
 
 void SurfLowGravStyleService::Cleanup()
 {
-	this->SetGravityScale(1f);
+	this->player->SetGravityScale(1.0f);
 }
 
 void SurfLowGravStyleService::OnProcessMovement()

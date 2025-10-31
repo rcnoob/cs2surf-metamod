@@ -74,7 +74,7 @@ SCMD(surf_beam, SCFL_MISC | SCFL_PREFERENCE)
 	player->optionService->SetPreferenceInt("desiredBeamType", player->beamService->desiredBeamType);
 	return MRES_HANDLED;
 }
-SCMD_LINK(surf_beam, surf_trail);
+SCMD_LINK(surf_trail, surf_beam);
 
 SCMD(surf_beamoffset, SCFL_MISC | SCFL_PREFERENCE)
 {

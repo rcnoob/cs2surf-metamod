@@ -1,5 +1,5 @@
 constexpr char sql_getcoursetop[] = R"(
-    SELECT t.ID, t.SteamID64, p.Alias, t.RunTime AS PBTime, t.Teleports 
+    SELECT t.ID, t.SteamID64, p.Alias, t.RunTime AS PBTime
         FROM Times t 
         INNER JOIN MapCourses mc ON mc.ID = t.MapCourseID 
         INNER JOIN Maps ON Maps.ID = mc.MapID

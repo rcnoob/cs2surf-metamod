@@ -6,7 +6,6 @@
 
 #include "queries/migrations.h"
 #include "queries/courses.h"
-#include "queries/jumpstats.h"
 #include "queries/maps.h"
 #include "queries/modes.h"
 #include "queries/players.h"

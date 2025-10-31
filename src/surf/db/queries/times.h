@@ -8,7 +8,6 @@ constexpr char sqlite_times_create[] = R"(
         ModeID INTEGER NOT NULL, 
         StyleIDFlags INTEGER NOT NULL, 
         RunTime REAL NOT NULL, 
-        Teleports INTEGER NOT NULL, 
         Metadata TEXT,
         Created INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP, 
         CONSTRAINT PK_Times PRIMARY KEY (ID), 
@@ -29,7 +28,6 @@ constexpr char mysql_times_create[] = R"(
         ModeID INTEGER UNSIGNED NOT NULL, 
         StyleIDFlags INTEGER UNSIGNED NOT NULL, 
         RunTime DOUBLE UNSIGNED NOT NULL, 
-        Teleports SMALLINT UNSIGNED NOT NULL, 
         Metadata TEXT,
         Created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
         CONSTRAINT PK_Times PRIMARY KEY (ID), 
@@ -42,8 +40,8 @@ constexpr char mysql_times_create[] = R"(
 )";
 
 constexpr char sql_times_insert[] = R"(
-    INSERT INTO Times (SteamID64, MapCourseID, ModeID, StyleIDFlags, RunTime, Teleports, Metadata) 
-        VALUES (%llu, %d, %d, %llu, %.7f, %llu, '%s')
+    INSERT INTO Times (SteamID64, MapCourseID, ModeID, StyleIDFlags, RunTime, Metadata) 
+        VALUES (%llu, %d, %d, %llu, %.7f, '%s')
 )";
 
 constexpr char sql_times_delete[] = R"(

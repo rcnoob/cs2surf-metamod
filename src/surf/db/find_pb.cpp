@@ -24,19 +24,6 @@ void SurfDatabaseService::QueryPB(u64 steamID64, CUtlString mapName, CUtlString 
 	V_snprintf(query, sizeof(query), sql_getlowestmaprank, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID);
 	txn.queries.push_back(query);
 
-	// Get PRO PB
-	V_snprintf(query, sizeof(query), sql_getpbpro, steamID64, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID, 0ull, 1);
-	txn.queries.push_back(query);
-
-	// Get PRO Rank
-	V_snprintf(query, sizeof(query), sql_getmaprankpro, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID, steamID64, cleanedMapName.c_str(),
-			   cleanedCourseName.c_str(), modeID);
-	txn.queries.push_back(query);
-
-	// Get Number of Players with Times
-	V_snprintf(query, sizeof(query), sql_getlowestmaprankpro, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID);
-	txn.queries.push_back(query);
-
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, onSuccess, onFailure);
 }
 
@@ -52,9 +39,6 @@ void SurfDatabaseService::QueryPBRankless(u64 steamID64, CUtlString mapName, CUt
 	// Get PB
 	V_snprintf(query, sizeof(query), sql_getpb, steamID64, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID, styleIDFlags, 1);
 	txn.queries.push_back(query);
-	// Get PRO PB
-	V_snprintf(query, sizeof(query), sql_getpbpro, steamID64, cleanedMapName.c_str(), cleanedCourseName.c_str(), modeID, styleIDFlags, 1);
-	txn.queries.push_back(query);
 
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, onSuccess, onFailure);
 }
@@ -69,9 +53,6 @@ void SurfDatabaseService::QueryAllPBs(u64 steamID64, CUtlString mapName, Transac
 	char query[1024];
 	// Get PB
 	V_snprintf(query, sizeof(query), sql_getpbs, steamID64, cleanedMapName.c_str());
-	txn.queries.push_back(query);
-	// Get PRO PB
-	V_snprintf(query, sizeof(query), sql_getpbspro, steamID64, cleanedMapName.c_str());
 	txn.queries.push_back(query);
 
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, onSuccess, onFailure);

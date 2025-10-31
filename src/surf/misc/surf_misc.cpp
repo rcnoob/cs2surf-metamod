@@ -348,7 +348,6 @@ void Surf::misc::JoinTeam(SurfPlayer *player, int newTeam, bool restorePos)
 		}
 		player->specService->ResetSavedPosition();
 	}
-	player->pistolService->OnPlayerJoinTeam();
 	player->tipService->OnPlayerJoinTeam(newTeam);
 }
 

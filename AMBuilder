@@ -243,7 +243,7 @@ style_nodes = builder.Add(lg_binary)
 
 # If we are generating a VS project, make sure to add the modes in, and the build folder for linter.
 if builder.options.generator == 'vs':
-  binary.sources += 64t_binary.sources
+  # binary.sources += 64t_binary.sources
   binary.sources += lg_binary.sources
   binary.compiler.cxxincludes += [os.path.join(builder.buildPath, MMSPlugin.plugin_name, f'{binary.compiler.target.platform}-{cxx.target.arch}')]
 
