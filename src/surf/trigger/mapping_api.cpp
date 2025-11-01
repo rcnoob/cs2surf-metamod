@@ -99,8 +99,8 @@ void SurfTriggerService::TouchModifierTrigger(TriggerTouchTracker tracker)
 void SurfTriggerService::TouchAntibhopTrigger(TriggerTouchTracker tracker)
 {
 	f32 timeOnGround = g_pSurfUtils->GetServerGlobals()->curtime - this->player->landingTimeServer;
-	if (tracker.surfTrigger->antibhop.time == 0                            // No jump trigger
-		|| timeOnGround <= tracker.surfTrigger->antibhop.time              // Haven't touched the trigger for long enough
+	if (tracker.surfTrigger->antibhop.time == 0                          // No jump trigger
+		|| timeOnGround <= tracker.surfTrigger->antibhop.time            // Haven't touched the trigger for long enough
 		|| (this->player->GetPlayerPawn()->m_fFlags & FL_ONGROUND) == 0) // Not on the ground (for prediction)
 	{
 		this->antiBhopActive = true;
@@ -152,7 +152,7 @@ bool SurfTriggerService::TouchTeleportTrigger(TriggerTouchTracker tracker)
 		{
 			shouldTeleport = true;
 		}
-		else if (tracker.surfTrigger->type ==SURFTRIGGER_SINGLE_BHOP)
+		else if (tracker.surfTrigger->type == SURFTRIGGER_SINGLE_BHOP)
 		{
 			shouldTeleport = this->lastTouchedSingleBhop == tracker.surfTrigger->entity;
 		}

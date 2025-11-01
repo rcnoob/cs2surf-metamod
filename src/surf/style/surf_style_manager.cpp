@@ -120,7 +120,7 @@ SurfStyleManager::StylePluginInfo Surf::style::GetStyleInfo(CUtlString styleName
 }
 
 bool SurfStyleManager::RegisterStyle(PluginId id, const char *shortName, const char *longName, StyleServiceFactory factory,
-								   const char **incompatibleStyles, u32 incompatibleStylesCount)
+									 const char **incompatibleStyles, u32 incompatibleStylesCount)
 {
 	if (!shortName || V_strlen(shortName) == 0 || !shortName || V_strlen(longName) == 0)
 	{

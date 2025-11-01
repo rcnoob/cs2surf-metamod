@@ -54,7 +54,7 @@ std::string SurfHUDService::GetSpeedText(const char *language)
 		return SurfLanguageService::PrepareMessageWithLang(language, "HUD - Speed Text", velocity.Length2D());
 	}
 	return SurfLanguageService::PrepareMessageWithLang(language, "HUD - Speed Text (Takeoff)", velocity.Length2D(),
-													 this->player->takeoffVelocity.Length2D());
+													   this->player->takeoffVelocity.Length2D());
 }
 
 std::string SurfHUDService::GetKeyText(const char *language)

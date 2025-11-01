@@ -328,7 +328,7 @@ void SurfTriggerService::OnMappingApiTriggerEndTouchPost(TriggerTouchTracker tra
 			this->modifiers.disablePausingCount -= modifier.disablePausing ? 1 : 0;
 			this->modifiers.disableCheckpointsCount -= modifier.disableCheckpoints ? 1 : 0;
 			this->modifiers.disableTeleportsCount -= modifier.disableTeleports ? 1 : 0;
-			
+
 			assert(this->modifiers.disablePausingCount >= 0);
 			assert(this->modifiers.disableCheckpointsCount >= 0);
 			assert(this->modifiers.disableTeleportsCount >= 0);

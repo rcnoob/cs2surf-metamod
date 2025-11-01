@@ -170,6 +170,8 @@ void SurfTriggerService::TouchTriggersAlongPath(const Vector &start, const Vecto
 
 void SurfTriggerService::UpdateTriggerTouchList()
 {
+	// TODO: get current style and only disable gravity resets for styles that affect gravity
+	/*
 	// reset gravity before all the Touch() calls
 	if (this->player->timerService->GetPaused())
 	{
@@ -180,6 +182,7 @@ void SurfTriggerService::UpdateTriggerTouchList()
 	{
 		this->player->GetPlayerPawn()->SetGravityScale(1);
 	}
+	*/
 
 	if (!this->player->IsAlive() || this->player->noclipService->IsNoclipping())
 	{

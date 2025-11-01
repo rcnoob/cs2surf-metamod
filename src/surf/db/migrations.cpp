@@ -124,8 +124,8 @@ void SurfDatabaseService::CheckMigrations(std::vector<ISQLQuery *> queries)
 		META_CONPRINTF("crc = %lu, currentCRC = %lu\n", crc, currentCRC);
 		if (currentCRC != crc)
 		{
-			META_CONPRINTF("[Surf::DB] Fatal error: Migration query %s with CRC %lu does not match the database's %lu!\n", migrationQuery.c_str(), crc,
-						   currentCRC);
+			META_CONPRINTF("[Surf::DB] Fatal error: Migration query %s with CRC %lu does not match the database's %lu!\n", migrationQuery.c_str(),
+						   crc, currentCRC);
 			META_CONPRINT("[Surf::DB] Database migration failed. LocalDB will not be available.");
 			databaseConnection->Destroy();
 			databaseConnection = nullptr;

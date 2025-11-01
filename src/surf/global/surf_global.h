@@ -414,7 +414,8 @@ private:
 	{
 		if (SurfGlobalService::state.load() != State::Connected)
 		{
-			META_CONPRINTF("[Surf::Global] WARN: called `SendMessage()` before connection was established (state=%i)\n", SurfGlobalService::state.load());
+			META_CONPRINTF("[Surf::Global] WARN: called `SendMessage()` before connection was established (state=%i)\n",
+						   SurfGlobalService::state.load());
 			return false;
 		}
 
@@ -429,7 +430,8 @@ private:
 	{
 		if (SurfGlobalService::state.load() != State::HandshakeCompleted)
 		{
-			META_CONPRINTF("[Surf::Global] WARN: called `SendMessage()` before handshake has completed (state=%i)\n", SurfGlobalService::state.load());
+			META_CONPRINTF("[Surf::Global] WARN: called `SendMessage()` before handshake has completed (state=%i)\n",
+						   SurfGlobalService::state.load());
 			return false;
 		}
 

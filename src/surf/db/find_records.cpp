@@ -17,7 +17,7 @@ void SurfDatabaseService::QueryAllRecords(CUtlString mapName, TransactionSuccess
 }
 
 void SurfDatabaseService::QueryRecords(CUtlString mapName, CUtlString courseName, u32 modeID, u32 count, u32 offset,
-									 TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
+									   TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
 {
 	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
 	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.Get());

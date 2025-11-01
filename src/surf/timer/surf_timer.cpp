@@ -179,7 +179,14 @@ bool SurfTimerService::TimerStart(const SurfCourseDescriptor *courseDesc, bool p
 
 	this->currentTime = 0.0f;
 	this->timerRunning = true;
-	this->currentStage = 0;
+	if (courseDesc->stageCount > 0)
+	{
+		this->currentStage = 1;
+	}
+	else
+	{
+		this->currentStage = 0;
+	}
 	this->reachedCheckpoints = 0;
 	this->lastCheckpoint = 0;
 	this->lastSplit = 0;
@@ -242,7 +249,7 @@ bool SurfTimerService::TimerEnd(const SurfCourseDescriptor *courseDesc)
 		return false;
 	}
 
-	if (this->currentStage != courseDesc->stageCount)
+	if (this->currentStage - 1 != courseDesc->stageCount)
 	{
 		this->PlayMissedZoneSound();
 		this->player->languageService->PrintChat(true, false, "Can't Finish Run (Missed Stage)", this->currentStage + 1);
@@ -1086,8 +1093,7 @@ const PBData *SurfTimerService::GetGlobalCachedPB(const SurfCourseDescriptor *co
 	return &this->globalPBCache[key];
 }
 
-void SurfTimerService::InsertPBToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, CUtlString metadata,
-									 f64 points)
+void SurfTimerService::InsertPBToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, CUtlString metadata, f64 points)
 {
 	PBData &pb = global ? this->globalPBCache[ToPBDataKey(modeID, course->guid)] : this->localPBCache[ToPBDataKey(modeID, course->guid)];
 
@@ -1318,7 +1324,7 @@ void SurfTimerService::ShowStageText()
 		}
 	}
 
-	this->player->languageService->PrintChat(true, false, "Course Stage Reached", this->currentStage + 1, time.Get(), pbDiff.c_str());
+	this->player->languageService->PrintChat(true, false, "Course Stage Reached", this->currentStage, time.Get(), pbDiff.c_str());
 }
 
 CUtlString SurfTimerService::GetCurrentRunMetadata()
@@ -1390,7 +1396,8 @@ void SurfTimerService::UpdateLocalPBCache()
 			}
 		}
 	};
-	SurfDatabaseService::QueryAllPBs(player->GetSteamId64(), g_pSurfUtils->GetCurrentMapName(), onQuerySuccess, SurfDatabaseService::OnGenericTxnFailure);
+	SurfDatabaseService::QueryAllPBs(player->GetSteamId64(), g_pSurfUtils->GetCurrentMapName(), onQuerySuccess,
+									 SurfDatabaseService::OnGenericTxnFailure);
 }
 
 void SurfTimerService::Init()

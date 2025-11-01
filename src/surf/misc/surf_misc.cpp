@@ -548,7 +548,7 @@ static_function void DrawClipMeshes(CPhysicsGameSystem *gs)
 					ray.Init(hull.m_Hull.m_Bounds.m_vMinBounds, hull.m_Hull.m_Bounds.m_vMaxBounds, hull.m_Hull.m_VertexPositions.Base(),
 							 hull.m_Hull.m_VertexPositions.Count());
 					g_pSurfUtils->DebugDrawMesh(transform, ray, surf_playerclip_color.Get().r(), surf_playerclip_color.Get().g(),
-											  surf_playerclip_color.Get().b(), surf_playerclip_color.Get().a(), true, false, -1.0f);
+												surf_playerclip_color.Get().b(), surf_playerclip_color.Get().a(), true, false, -1.0f);
 				}
 			}
 			FOR_EACH_VEC(part->m_rnShape.m_meshes, j)
@@ -563,9 +563,9 @@ static_function void DrawClipMeshes(CPhysicsGameSystem *gs)
 					{
 						const RnTriangle_t &triangle = mesh.m_Mesh.m_Triangles[k];
 						g_pSurfUtils->AddTriangleOverlay(mesh.m_Mesh.m_Vertices[triangle.m_nIndex[0]], mesh.m_Mesh.m_Vertices[triangle.m_nIndex[1]],
-													   mesh.m_Mesh.m_Vertices[triangle.m_nIndex[2]], surf_playerclip_color.Get().r(),
-													   surf_playerclip_color.Get().g(), surf_playerclip_color.Get().b(), surf_playerclip_color.Get().a(),
-													   false, -1.0f);
+														 mesh.m_Mesh.m_Vertices[triangle.m_nIndex[2]], surf_playerclip_color.Get().r(),
+														 surf_playerclip_color.Get().g(), surf_playerclip_color.Get().b(),
+														 surf_playerclip_color.Get().a(), false, -1.0f);
 					}
 				}
 			}
@@ -628,7 +628,7 @@ static_function void DrawTriggers()
 					ray.Init(hull.m_Hull.m_Bounds.m_vMinBounds, hull.m_Hull.m_Bounds.m_vMaxBounds, hull.m_Hull.m_VertexPositions.Base(),
 							 hull.m_Hull.m_Vertices.Count());
 					g_pSurfUtils->DebugDrawMesh(transform, ray, triggerColor.r(), triggerColor.g(), triggerColor.b(), triggerColor.a(), true, false,
-											  -1.0f);
+												-1.0f);
 				}
 				FOR_EACH_VEC(part->m_rnShape.m_meshes, j)
 				{
@@ -644,8 +644,8 @@ static_function void DrawTriggers()
 						Vector tri[3] = {utils::TransformPoint(transform, mesh.m_Mesh.m_Vertices[triangle.m_nIndex[0]]),
 										 utils::TransformPoint(transform, mesh.m_Mesh.m_Vertices[triangle.m_nIndex[1]]),
 										 utils::TransformPoint(transform, mesh.m_Mesh.m_Vertices[triangle.m_nIndex[2]])};
-						g_pSurfUtils->AddTriangleOverlay(tri[0], tri[1], tri[2], triggerColor.r(), triggerColor.g(), triggerColor.b(), triggerColor.a(),
-													   false, -1.0f);
+						g_pSurfUtils->AddTriangleOverlay(tri[0], tri[1], tri[2], triggerColor.r(), triggerColor.g(), triggerColor.b(),
+														 triggerColor.a(), false, -1.0f);
 					}
 				}
 			}

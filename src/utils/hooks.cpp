@@ -12,6 +12,7 @@
 #include "cs2surf.h"
 #include "ctimer.h"
 #include "surf/surf.h"
+#include "surf/beam/surf_beam.h"
 #include "surf/option/surf_option.h"
 #include "surf/quiet/surf_quiet.h"
 #include "surf/timer/surf_timer.h"
@@ -469,6 +470,7 @@ static_function void Hook_GameFrame(bool simulating, bool bFirstTick, bool bLast
 	RecordAnnounce::Check();
 	BaseRequest::CheckRequests();
 	SurfTelemetryService::ActiveCheck();
+	SurfBeamService::UpdateBeams();
 	SurfProfileService::OnGameFrame();
 	RETURN_META(MRES_IGNORED);
 }
@@ -693,7 +695,8 @@ static_function CServerSideClientBase *Hook_ConnectClientPost(const char *pszNam
 															  C2S_CONNECT_Message *pConnectMsg, const char *pszChallenge, const byte *pAuthTicket,
 															  int nAuthTicketLength, bool bIsLowViolence)
 {
-	g_pSurfPlayerManager->OnConnectClientPost(pszName, pAddr, steam_handle, pConnectMsg, pszChallenge, pAuthTicket, nAuthTicketLength, bIsLowViolence);
+	g_pSurfPlayerManager->OnConnectClientPost(pszName, pAddr, steam_handle, pConnectMsg, pszChallenge, pAuthTicket, nAuthTicketLength,
+											  bIsLowViolence);
 	RETURN_META_VALUE(MRES_IGNORED, 0);
 }
 

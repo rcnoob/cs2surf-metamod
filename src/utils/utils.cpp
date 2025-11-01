@@ -87,7 +87,7 @@ bool utils::Initialize(ISmmAPI *ismm, char *error, size_t maxlen)
 		return false;
 	}
 	g_pSurfUtils = new SurfUtils(TracePlayerBBox, GetLegacyGameEventListener, SnapViewAngles, EmitSound, SwitchTeam, SetPawn, CreateEntityByName,
-							 DispatchSpawn, RemoveEntity, DebugDrawMesh);
+								 DispatchSpawn, RemoveEntity, DebugDrawMesh);
 
 	utils::UnlockConVars();
 	utils::UnlockConCommands();

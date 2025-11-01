@@ -113,7 +113,7 @@ struct SurfCourseDescriptor
 
 {
 	SurfCourseDescriptor(i32 hammerId = -1, const char *targetName = "", bool disableCheckpoints = false, u32 guid = 0,
-					   i32 courseID = INVALID_COURSE_NUMBER, const char *courseName = "")
+						 i32 courseID = INVALID_COURSE_NUMBER, const char *courseName = "")
 		: hammerId(hammerId), disableCheckpoints(disableCheckpoints), guid(guid), id(courseID)
 	{
 		V_snprintf(entityTargetname, sizeof(entityTargetname), "%s", targetName);

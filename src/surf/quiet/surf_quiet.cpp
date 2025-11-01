@@ -60,7 +60,6 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 			pTransmitInfo->m_pTransmitEdict->Clear(particleSystem->GetEntityIndex().Get());
 		}
 
-
 		EntityInstanceByClassIter_t iter(NULL, "player");
 		// clang-format off
 		for (CCSPlayerPawn *pawn = static_cast<CCSPlayerPawn *>(iter.First());

@@ -1,5 +1,5 @@
 "Addons"
 {
 	//TODO: english radio menu addon
-	"en"		"3469155349"
+	//"en"		"3469155349"
 }

@@ -136,8 +136,8 @@ struct PBRequest : public BaseRequest
 			}
 		};
 		SurfGlobalService::QueryPB(this->targetSteamID64, std::string_view(this->targetPlayerName.Get(), this->targetPlayerName.Length()),
-								 std::string_view(this->mapName.Get(), this->mapName.Length()),
-								 std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->styleList, callback);
+								   std::string_view(this->mapName.Get(), this->mapName.Length()),
+								   std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->styleList, callback);
 	}
 
 	virtual void Reply()
@@ -195,8 +195,8 @@ struct PBRequest : public BaseRequest
 			if (this->gpbData.hasPB)
 			{
 				// Surf | Global: 12.34 [Overall / 10000 pts]
-				player->languageService->PrintChat(true, false, "PB Time - Overall (Global)", overallTime, this->gpbData.rank,
-												   this->gpbData.maxRank, this->gpbData.points);
+				player->languageService->PrintChat(true, false, "PB Time - Overall (Global)", overallTime, this->gpbData.rank, this->gpbData.maxRank,
+												   this->gpbData.points);
 			}
 		}
 		else
@@ -225,8 +225,7 @@ struct PBRequest : public BaseRequest
 			else
 			{
 				// Surf | Server: 12.34 [Overall]
-				player->languageService->PrintChat(true, false, "PB Time - Overall (Server)", overallTime, this->pbData.rank,
-												   this->pbData.maxRank);
+				player->languageService->PrintChat(true, false, "PB Time - Overall (Server)", overallTime, this->pbData.rank, this->pbData.maxRank);
 			}
 		}
 		else

@@ -3,7 +3,7 @@
 #include "queries/courses.h"
 
 void SurfDatabaseService::FindFirstCourseByMapName(CUtlString mapName, TransactionSuccessCallbackFunc onSuccess,
-												 TransactionFailureCallbackFunc onFailure)
+												   TransactionFailureCallbackFunc onFailure)
 {
 	auto cleanMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
 

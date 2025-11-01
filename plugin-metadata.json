@@ -3,8 +3,8 @@
     "alias": "cs2surf",
     "display_name": "CS2Surf",
     "description": "CS2 Surf Timer",
-    "author": "zer0.k, forked by rcnoob",
-    "url": "http://www.placeholder.com/",
+    "author": "zer0.k, adapted for surf by rcnoob",
+    "url": "",
     "log_tag": "CS2Surf",
     "license": "GPLv3",
     "version": "0.0.0-dev"

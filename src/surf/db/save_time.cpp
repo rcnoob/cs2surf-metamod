@@ -8,8 +8,8 @@
 
 using namespace Surf::Database;
 
-void SurfDatabaseService::SaveTime(u64 steamID, u32 courseID, i32 modeID, f64 time, u64 styleIDs, std::string_view metadata, 
-									TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
+void SurfDatabaseService::SaveTime(u64 steamID, u32 courseID, i32 modeID, f64 time, u64 styleIDs, std::string_view metadata,
+								   TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
 {
 	if (!SurfDatabaseService::IsReady())
 	{

@@ -168,6 +168,11 @@ void SurfCheckpointService::DoTeleport(i32 index)
 		this->player->PlayErrorSound();
 		return;
 	}
+	if (this->player->timerService->GetTimerRunning())
+	{
+		// TODO: implement TAS style where checkpoints can be used
+		return;
+	}
 	this->DoTeleport(this->checkpoints[this->currentCpIndex]);
 }
 

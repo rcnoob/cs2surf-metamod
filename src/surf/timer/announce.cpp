@@ -217,8 +217,7 @@ void RecordAnnounce::UpdateGlobalCache()
 
 			if (this->time < this->oldGPB.overall.time)
 			{
-				player->timerService->InsertPBToCache(this->time, course, mode.id, true, this->metadata.c_str(),
-													  this->globalResponse.overall.points);
+				player->timerService->InsertPBToCache(this->time, course, mode.id, true, this->metadata.c_str(), this->globalResponse.overall.points);
 			}
 		}
 	}
@@ -271,8 +270,8 @@ void RecordAnnounce::SubmitLocal()
 
 		rec->UpdateLocalCache();
 	};
-	SurfDatabaseService::SaveTime(this->player.steamid64, this->course.localID, this->mode.localID, this->time, this->styleIDs,
-								this->metadata, onSuccess, onFailure);
+	SurfDatabaseService::SaveTime(this->player.steamid64, this->course.localID, this->mode.localID, this->time, this->styleIDs, this->metadata,
+								  onSuccess, onFailure);
 }
 
 void RecordAnnounce::UpdateLocalCache()
@@ -328,7 +327,6 @@ void RecordAnnounce::AnnounceLocal()
 		char formattedDiffTime[32];
 		SurfTimerService::FormatDiffTime(this->localResponse.overall.pbDiff, formattedDiffTime, sizeof(formattedDiffTime));
 
-
 		// clang-format off
         std::string diffText = this->localResponse.overall.firstTime ? 
             "" : player->languageService->PrepareMessage("Personal Best Difference", this->localResponse.overall.pbDiff < 0 ? "{green}" : "{red}", formattedDiffTime);
@@ -336,7 +334,7 @@ void RecordAnnounce::AnnounceLocal()
 		// clang-format on
 
 		player->languageService->PrintChat(true, false, "Beat Course Info - Local", this->localResponse.overall.rank,
-											this->localResponse.overall.maxRank, diffText.c_str());
+										   this->localResponse.overall.maxRank, diffText.c_str());
 	}
 }
 
@@ -366,9 +364,9 @@ void RecordAnnounce::AnnounceGlobal()
 		// clang-format on
 
 		player->languageService->PrintChat(true, false, "Beat Course Info - Global", this->globalResponse.overall.rank,
-											this->globalResponse.overall.maxRank, diffText.c_str());
+										   this->globalResponse.overall.maxRank, diffText.c_str());
 
-		player->languageService->PrintChat(true, false, "Beat Course Info - Global Points", this->globalResponse.overall.points,
-											pointsDiff, this->globalResponse.playerRating);
+		player->languageService->PrintChat(true, false, "Beat Course Info - Global Points", this->globalResponse.overall.points, pointsDiff,
+										   this->globalResponse.playerRating);
 	}
 }

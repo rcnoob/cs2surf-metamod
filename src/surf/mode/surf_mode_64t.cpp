@@ -529,7 +529,7 @@ void Surf64tModeService::OnTryPlayerMove(Vector *pFirstDest, trace_t *pFirstTrac
 							for (ratio = 0.25f; ratio <= 1.0f; ratio += 0.25f)
 							{
 								g_pSurfUtils->TracePlayerBBox(start + offsetDirection * RAMP_PIERCE_DISTANCE * ratio,
-															end + offsetDirection * RAMP_PIERCE_DISTANCE * ratio, bounds, &filter, pierce);
+															  end + offsetDirection * RAMP_PIERCE_DISTANCE * ratio, bounds, &filter, pierce);
 								if (!IsValidMovementTrace(pierce, bounds, &filter))
 								{
 									continue;

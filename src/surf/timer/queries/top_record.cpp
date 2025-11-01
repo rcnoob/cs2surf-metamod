@@ -69,7 +69,7 @@ struct TopRecordRequest : public BaseRequest
 			};
 			this->globalStatus = ResponseStatus::PENDING;
 			SurfGlobalService::QueryWorldRecords(std::string_view(this->mapName.Get(), this->mapName.Length()),
-											   std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, callback);
+												 std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, callback);
 		}
 	}
 

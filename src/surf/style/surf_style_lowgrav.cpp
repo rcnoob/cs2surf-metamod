@@ -12,6 +12,8 @@ SurfStyleManager *g_pStyleManager = NULL;
 StyleServiceFactory g_StyleFactory = [](SurfPlayer *player) -> SurfStyleService * { return new SurfLowGravStyleService(player); };
 PLUGIN_EXPOSE(SurfLowGravStylePlugin, g_SurfLowGravStylePlugin);
 
+CConVarRef<bool> sv_gravity("sv_gravity");
+
 bool SurfLowGravStylePlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
 	PLUGIN_SAVEVARS();
@@ -80,7 +82,7 @@ CGameEntitySystem *GameEntitySystem()
 
 void SurfLowGravStyleService::Init()
 {
-	this->player->SetGravityScale(0.5f);
+	// called too early to set gravity scale here
 }
 
 const CVValue_t *SurfLowGravStyleService::GetTweakedConvarValue(const char *name)
@@ -90,9 +92,18 @@ const CVValue_t *SurfLowGravStyleService::GetTweakedConvarValue(const char *name
 
 void SurfLowGravStyleService::Cleanup()
 {
-	this->player->SetGravityScale(1.0f);
+	CCSPlayerPawn *pawn = this->player->GetPlayerPawn();
+	if (pawn)
+	{
+		pawn->SetGravityScale(1.0f);
+	}
 }
 
 void SurfLowGravStyleService::OnProcessMovement()
 {
+	CCSPlayerPawn *pawn = this->player->GetPlayerPawn();
+	if (pawn && pawn->m_flActualGravityScale != 0.5f)
+	{
+		pawn->SetGravityScale(0.5f);
+	}
 }

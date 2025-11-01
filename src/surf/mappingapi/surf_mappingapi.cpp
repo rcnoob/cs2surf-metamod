@@ -343,19 +343,42 @@ static_function void Mapi_OnTriggerMultipleSpawn(const EntitySpawnInfo_t *info)
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
 					trigger.type = info->m_pEntity->NameMatches("timer_startzone") ? SURFTRIGGER_ZONE_START : SURFTRIGGER_ZONE_END;
+					META_CONPRINTF("DEBUG: Found %s", info->m_pEntity->m_name.String());
 				}
 				else if (info->m_pEntity->NameMatches("map_start") || info->m_pEntity->NameMatches("map_end"))
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
 					trigger.type = info->m_pEntity->NameMatches("map_start") ? SURFTRIGGER_ZONE_START : SURFTRIGGER_ZONE_END;
+					META_CONPRINTF("DEBUG: Found %s", info->m_pEntity->m_name.String());
 				}
 
 				// STAGE HOOK
 				CUtlString triggerName = info->m_pEntity->m_name.String();
-				if (triggerName.MatchesPattern("stage*"))
+				const char *nameStr = triggerName.Get();
+				int stageNum = 0;
+
+				int matched = sscanf(nameStr, "stage%d_start", &stageNum);
+				if (matched != 1)
+				{
+					matched = sscanf(nameStr, "s%d_start", &stageNum);
+				}
+
+				if (matched == 1)
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
-					trigger.type = SURFTRIGGER_ZONE_STAGE;
+
+					if (stageNum == 1)
+					{
+						trigger.type = SURFTRIGGER_ZONE_START;
+						trigger.zone.number = 0;
+						META_CONPRINTF("DEBUG: Setting %s as SURFTRIGGER_ZONE_START\n", nameStr);
+					}
+					else
+					{
+						trigger.type = SURFTRIGGER_ZONE_STAGE;
+						trigger.zone.number = stageNum;
+						META_CONPRINTF("DEBUG: Setting %s as SURFTRIGGER_ZONE_STAGE (zone.number=%d)\n", nameStr, trigger.zone.number);
+					}
 				}
 			}
 			break;
@@ -673,6 +696,9 @@ void Surf::mapapi::OnRoundStart()
 				continue;
 			}
 
+			META_CONPRINTF("ROUNDSTART: %d type=%d number=%d descriptor=%s\n", trigger->hammerId, trigger->type, trigger->zone.number,
+						   trigger->zone.courseDescriptor);
+
 			switch (trigger->type)
 			{
 				case SURFTRIGGER_ZONE_SPLIT:
@@ -697,12 +723,6 @@ void Surf::mapapi::OnRoundStart()
 		if (cpXor != 0)
 		{
 			Mapi_Error("Course \"%s\" Checkpoint zones aren't consecutive or don't start at 1!", courseDescriptor->name);
-			invalid = true;
-		}
-
-		if (stageXor != 0)
-		{
-			Mapi_Error("Course \"%s\" Stage zones aren't consecutive or don't start at 1!", courseDescriptor->name);
 			invalid = true;
 		}
 

@@ -73,8 +73,8 @@ class SurfUtils
 {
 public:
 	SurfUtils(TracePlayerBBox_t *TracePlayerBBox, GetLegacyGameEventListener_t *GetLegacyGameEventListener, SnapViewAngles_t *SnapViewAngles,
-			EmitSoundFunc_t *EmitSound, SwitchTeam_t *SwitchTeam, SetPawn_t *SetPawn, CreateEntityByName_t *CreateEntityByName,
-			DispatchSpawn_t *DispatchSpawn, RemoveEntity_t *RemoveEntity, DebugDrawMesh_t *DebugDrawMesh)
+			  EmitSoundFunc_t *EmitSound, SwitchTeam_t *SwitchTeam, SetPawn_t *SetPawn, CreateEntityByName_t *CreateEntityByName,
+			  DispatchSpawn_t *DispatchSpawn, RemoveEntity_t *RemoveEntity, DebugDrawMesh_t *DebugDrawMesh)
 		: TracePlayerBBox(TracePlayerBBox), GetLegacyGameEventListener(GetLegacyGameEventListener), SnapViewAngles(SnapViewAngles),
 		  EmitSound(EmitSound), SwitchTeam(SwitchTeam), SetPawn(SetPawn), CreateEntityByName(CreateEntityByName), DispatchSpawn(DispatchSpawn),
 		  RemoveEntity(RemoveEntity), DebugDrawMesh(DebugDrawMesh)

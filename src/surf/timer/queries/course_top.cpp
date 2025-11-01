@@ -126,7 +126,8 @@ struct CourseTopRequest : public BaseRequest
 				{
 					while (result->FetchRow())
 					{
-						req->srData.overallData.AddToTail({(u64)result->GetInt64(0), result->GetString(2), result->GetFloat(3), (u64)result->GetInt64(1)});
+						req->srData.overallData.AddToTail(
+							{(u64)result->GetInt64(0), result->GetString(2), result->GetFloat(3), (u64)result->GetInt64(1)});
 					}
 				}
 			};
@@ -141,7 +142,7 @@ struct CourseTopRequest : public BaseRequest
 			};
 
 			SurfDatabaseService::QueryRecords(this->mapName, this->courseName, this->localModeID, this->limit, this->offset, onQuerySuccess,
-											onQueryFailure);
+											  onQueryFailure);
 		}
 	}
 
@@ -182,8 +183,8 @@ struct CourseTopRequest : public BaseRequest
 			};
 			this->globalStatus = ResponseStatus::PENDING;
 			SurfGlobalService::QueryCourseTop(std::string_view(this->mapName.Get(), this->mapName.Length()),
-											std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->limit,
-											this->offset, callback);
+											  std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->limit,
+											  this->offset, callback);
 		}
 	}
 
@@ -229,8 +230,7 @@ struct CourseTopRequest : public BaseRequest
 		{
 			rank.Format("%llu", this->offset + i + 1);
 			RunStats stats = wrData.overallData[i];
-			table.SetRow(i, rank, stats.GetName(), stats.GetTime(), stats.GetSteamID64(), stats.GetPoints(),
-						 stats.GetRunID());
+			table.SetRow(i, rank, stats.GetName(), stats.GetTime(), stats.GetSteamID64(), stats.GetPoints(), stats.GetRunID());
 		}
 		player->PrintConsole(false, false, table.GetSeparator("="));
 		player->PrintConsole(false, false, table.GetTitle());

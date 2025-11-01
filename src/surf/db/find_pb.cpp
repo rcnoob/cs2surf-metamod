@@ -3,7 +3,7 @@
 #include "queries/personal_best.h"
 
 void SurfDatabaseService::QueryPB(u64 steamID64, CUtlString mapName, CUtlString courseName, u32 modeID, TransactionSuccessCallbackFunc onSuccess,
-								TransactionFailureCallbackFunc onFailure)
+								  TransactionFailureCallbackFunc onFailure)
 {
 	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
 	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.Get());
@@ -28,7 +28,7 @@ void SurfDatabaseService::QueryPB(u64 steamID64, CUtlString mapName, CUtlString 
 }
 
 void SurfDatabaseService::QueryPBRankless(u64 steamID64, CUtlString mapName, CUtlString courseName, u32 modeID, u64 styleIDFlags,
-										TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
+										  TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
 {
 	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
 
@@ -44,7 +44,7 @@ void SurfDatabaseService::QueryPBRankless(u64 steamID64, CUtlString mapName, CUt
 }
 
 void SurfDatabaseService::QueryAllPBs(u64 steamID64, CUtlString mapName, TransactionSuccessCallbackFunc onSuccess,
-									TransactionFailureCallbackFunc onFailure)
+									  TransactionFailureCallbackFunc onFailure)
 {
 	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
 	Transaction txn;

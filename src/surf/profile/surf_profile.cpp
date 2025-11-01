@@ -45,7 +45,8 @@ static_global const char *rankColors[NUM_RANKS] = {"{default}", "{grey}", "{grey
 
 #define RATING_REFRESH_PERIOD 120.0f // seconds
 
-CConVar<bool> surf_profile_rating_badge_enabled("surf_profile_rating_badge_enabled", FCVAR_NONE, "Whether to show competitive rank in scoreboard.", true);
+CConVar<bool> surf_profile_rating_badge_enabled("surf_profile_rating_badge_enabled", FCVAR_NONE, "Whether to show competitive rank in scoreboard.",
+												true);
 
 void SurfProfileService::OnGameFrame()
 {
@@ -94,7 +95,7 @@ void SurfProfileService::RequestRating()
 		return;
 	}
 	this->timeToNextRatingRefresh = g_pSurfUtils->GetServerGlobals()->realtime + RATING_REFRESH_PERIOD + RandomFloat(-30.0f, 30.0f);
-	std::string url = std::string(SurfOptionService::GetOptionStr("apiUrl", "https://api.cs2kz.org")) + "/players/" + std::to_string(steamID64)
+	std::string url = std::string(SurfOptionService::GetOptionStr("apiUrl", "https://")) + "/players/" + std::to_string(steamID64)
 					  + "/profile?mode=" + std::to_string(static_cast<u8>(mode));
 	HTTP::Request request(HTTP::Method::GET, url);
 	auto callback = [steamID64, mode](HTTP::Response response)
