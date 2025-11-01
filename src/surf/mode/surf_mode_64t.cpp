@@ -69,38 +69,9 @@ const CVValue_t *Surf64tModeService::GetModeConVarValues()
 
 void Surf64tModeService::OnStopTouchGround()
 {
-	// TODO: figure out takeoff velocity
-	/*Vector velocity;
+	Vector velocity;
 	this->player->GetVelocity(&velocity);
-	f32 speed = velocity.Length2D();
-
-	f32 timeOnGround = this->player->takeoffTime - this->player->landingTime;
-	// Perf
-	if (timeOnGround <= BH_PERF_WINDOW)
-	{
-		this->player->inPerf = true;
-		// Perf speed
-		Vector2D landingVelocity2D(this->player->landingVelocity.x, this->player->landingVelocity.y);
-		landingVelocity2D.NormalizeInPlace();
-		float newSpeed = MAX(this->player->landingVelocity.Length2D(), this->player->takeoffVelocity.Length2D());
-		if (newSpeed > SPEED_NORMAL + this->GetPrestrafeGain())
-		{
-			newSpeed = MIN(newSpeed, (BH_BASE_MULTIPLIER - timeOnGround * BH_LANDING_DECREMENT_MULTIPLIER) * log(newSpeed) - BH_NORMALIZE_FACTOR);
-			// Make sure it doesn't go lower than the ground speed.
-			newSpeed = MAX(newSpeed, SPEED_NORMAL + this->GetPrestrafeGain());
-		}
-		velocity.x = newSpeed * landingVelocity2D.x;
-		velocity.y = newSpeed * landingVelocity2D.y;
-		this->player->SetVelocity(velocity);
-		this->player->takeoffVelocity = velocity;
-
-		// Perf height
-		Vector origin;
-		this->player->GetOrigin(&origin);
-		origin.z = this->player->GetGroundPosition();
-		this->player->SetOrigin(origin);
-		this->player->takeoffOrigin = origin;
-	}*/
+	this->player->takeoffVelocity = velocity;
 }
 
 void Surf64tModeService::OnStartTouchGround()

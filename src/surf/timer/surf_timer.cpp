@@ -249,7 +249,7 @@ bool SurfTimerService::TimerEnd(const SurfCourseDescriptor *courseDesc)
 		return false;
 	}
 
-	if (this->currentStage - 1 != courseDesc->stageCount)
+	if (courseDesc->stageCount > 0 && (this->currentStage - 1 != courseDesc->stageCount))
 	{
 		this->PlayMissedZoneSound();
 		this->player->languageService->PrintChat(true, false, "Can't Finish Run (Missed Stage)", this->currentStage + 1);
