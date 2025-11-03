@@ -173,6 +173,8 @@ struct SurfTrigger
 	SurfTriggerType type;
 	CEntityHandle entity;
 	i32 hammerId;
+	Vector mins;
+	Vector maxs;
 
 	union
 	{

@@ -5,6 +5,7 @@
 #include "surf/surf.h"
 #include "surf/mode/surf_mode.h"
 #include "surf/trigger/surf_trigger.h"
+#include "surf/beam/surf_zone_beam.h"
 #include "movement/movement.h"
 #include "surf_mappingapi.h"
 #include "entity2/entitykeyvalues.h"
@@ -343,13 +344,11 @@ static_function void Mapi_OnTriggerMultipleSpawn(const EntitySpawnInfo_t *info)
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
 					trigger.type = info->m_pEntity->NameMatches("timer_startzone") ? SURFTRIGGER_ZONE_START : SURFTRIGGER_ZONE_END;
-					META_CONPRINTF("DEBUG: Found %s", info->m_pEntity->m_name.String());
 				}
 				else if (info->m_pEntity->NameMatches("map_start") || info->m_pEntity->NameMatches("map_end"))
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
 					trigger.type = info->m_pEntity->NameMatches("map_start") ? SURFTRIGGER_ZONE_START : SURFTRIGGER_ZONE_END;
-					META_CONPRINTF("DEBUG: Found %s", info->m_pEntity->m_name.String());
 				}
 
 				// STAGE HOOK
@@ -371,13 +370,11 @@ static_function void Mapi_OnTriggerMultipleSpawn(const EntitySpawnInfo_t *info)
 					{
 						trigger.type = SURFTRIGGER_ZONE_START;
 						trigger.zone.number = 0;
-						META_CONPRINTF("DEBUG: Setting %s as SURFTRIGGER_ZONE_START\n", nameStr);
 					}
 					else
 					{
 						trigger.type = SURFTRIGGER_ZONE_STAGE;
 						trigger.zone.number = stageNum;
-						META_CONPRINTF("DEBUG: Setting %s as SURFTRIGGER_ZONE_STAGE (zone.number=%d)\n", nameStr, trigger.zone.number);
 					}
 				}
 			}
@@ -696,11 +693,23 @@ void Surf::mapapi::OnRoundStart()
 				continue;
 			}
 
-			META_CONPRINTF("ROUNDSTART: %d type=%d number=%d descriptor=%s\n", trigger->hammerId, trigger->type, trigger->zone.number,
-						   trigger->zone.courseDescriptor);
-
 			switch (trigger->type)
 			{
+				case SURFTRIGGER_ZONE_START:
+				case SURFTRIGGER_ZONE_END:
+				{
+					CBaseEntity *pEntity = reinterpret_cast<CBaseEntity *>(trigger->entity.Get());
+					Vector absOrigin = pEntity->m_CBodyComponent()->m_pSceneNode()->m_vecAbsOrigin();
+					Vector mins = pEntity->m_pCollision()->m_vecMins();
+					Vector maxs = pEntity->m_pCollision()->m_vecMaxs();
+					trigger->mins = mins + absOrigin;
+					trigger->maxs = maxs + absOrigin;
+					if (g_pSurfZoneBeamService)
+					{
+						g_pSurfZoneBeamService->AddZone(trigger);
+					}
+					break;
+				}
 				case SURFTRIGGER_ZONE_SPLIT:
 					splitXor ^= (++splitCount) ^ trigger->zone.number;
 					break;

@@ -11,4 +11,13 @@ public:
 	SCHEMA_FIELD(CCollisionProperty, m_Collision)
 	SCHEMA_FIELD(Color, m_clrRender)
 	SCHEMA_FIELD(uint8, m_nRenderMode)
+	SCHEMA_FIELD(float, m_fadeMinDist);
+};
+
+class CBeam : public CBaseModelEntity {
+public:
+	DECLARE_SCHEMA_CLASS(CBeam);
+
+	SCHEMA_FIELD(float, m_fWidth);
+	SCHEMA_FIELD(Vector, m_vecEndPos);
 };

@@ -29,6 +29,7 @@
 class SurfPlayer;
 class SurfAnticheatService;
 class SurfBeamService;
+class SurfZoneBeamService;
 class SurfCheckpointService;
 class SurfDatabaseService;
 class SurfGlobalService;
@@ -138,6 +139,7 @@ private:
 public:
 	SurfAnticheatService *anticheatService {};
 	SurfBeamService *beamService {};
+	SurfZoneBeamService *zoneBeamService {};
 	SurfCheckpointService *checkpointService {};
 	SurfDatabaseService *databaseService {};
 	SurfGlobalService *globalService {};

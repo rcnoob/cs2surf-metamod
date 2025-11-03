@@ -83,6 +83,7 @@ def configure_main(sdk_target, sdk, cxx):
 
     os.path.join(builder.sourcePath, 'src', 'surf', 'anticheat', 'surf_anticheat.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'beam', 'surf_beam.cpp'),
+		 os.path.join(builder.sourcePath, 'src', 'surf', 'beam', 'surf_zone_beam.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'checkpoint', 'surf_checkpoint.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'checkpoint', 'commands.cpp'),
     

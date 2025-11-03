@@ -23,6 +23,7 @@
 #include "surf/mappingapi/surf_mappingapi.h"
 #include "surf/global/surf_global.h"
 #include "surf/beam/surf_beam.h"
+#include "surf/beam/surf_zone_beam.h"
 
 #include <vendor/MultiAddonManager/public/imultiaddonmanager.h>
 #include <vendor/ClientCvarValue/public/iclientcvarvalue.h>
@@ -55,6 +56,7 @@ bool SurfPlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bo
 	SurfHUDService::Init();
 	SurfLanguageService::Init();
 	SurfBeamService::Init();
+	SurfZoneBeamService::Init();
 	Surf::misc::Init();
 	SurfQuietService::Init();
 	if (!Surf::mode::CheckModeCvars())

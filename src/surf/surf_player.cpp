@@ -3,6 +3,7 @@
 #include "utils/ctimer.h"
 #include "anticheat/surf_anticheat.h"
 #include "beam/surf_beam.h"
+#include "beam/surf_zone_beam.h"
 #include "checkpoint/surf_checkpoint.h"
 #include "db/surf_db.h"
 #include "hud/surf_hud.h"
@@ -37,6 +38,7 @@ void SurfPlayer::Init()
 	// TODO: initialize every service.
 	delete this->anticheatService;
 	delete this->beamService;
+	delete this->zoneBeamService;
 	delete this->checkpointService;
 	delete this->languageService;
 	delete this->databaseService;
@@ -54,6 +56,7 @@ void SurfPlayer::Init()
 
 	this->anticheatService = new SurfAnticheatService(this);
 	this->beamService = new SurfBeamService(this);
+	this->zoneBeamService = new SurfZoneBeamService(this);
 	this->checkpointService = new SurfCheckpointService(this);
 	this->databaseService = new SurfDatabaseService(this);
 	this->languageService = new SurfLanguageService(this);
