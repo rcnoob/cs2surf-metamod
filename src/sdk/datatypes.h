@@ -233,14 +233,16 @@ public:
 
 	CMoveData(const CMoveData &source)
 		: CMoveDataBase(source), m_outWishVel {source.m_outWishVel}, m_vecOldAngles {source.m_vecOldAngles},
-		  m_vecAccelPerSecond {source.m_vecAccelPerSecond}, m_vecInputRotated {source.m_vecInputRotated}, m_flMaxSpeed {source.m_flMaxSpeed}
+		  m_vecInputRotated {source.m_vecInputRotated}, m_vecContinousAcceleration {source.m_vecContinousAcceleration},
+		  m_vecFrameVelocityDelta {source.m_vecFrameVelocityDelta}, m_flMaxSpeed {source.m_flMaxSpeed}
 	{
 	}
 
 	Vector m_outWishVel;
 	QAngle m_vecOldAngles;
-	Vector m_vecAccelPerSecond; // related to accel and friction
 	Vector m_vecInputRotated;
+	Vector m_vecContinousAcceleration;
+	Vector m_vecFrameVelocityDelta;
 	float m_flMaxSpeed;
 	float m_flClientMaxSpeed;
 	float m_flFrictionDecel;
@@ -248,7 +250,11 @@ public:
 	bool m_bGameCodeMovedPlayer; // true if usercmd cmd number == (m_nGameCodeHasMovedPlayerAfterCommand + 1)
 };
 
-static_assert(sizeof(CMoveData) == 296, "Class didn't match expected size");
+#ifdef _WIN32
+static_assert(sizeof(CMoveData) == 312, "Class didn't match expected size");
+#else
+static_assert(sizeof(CMoveData) == 304, "Class didn't match expected size");
+#endif
 
 // Custom data types goes here.
 

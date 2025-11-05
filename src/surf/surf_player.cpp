@@ -523,6 +523,26 @@ void SurfPlayer::OnAirMovePost()
 	}
 }
 
+void SurfPlayer::OnAirAccelerate(Vector &wishdir, f32 &wishspeed, f32 &accel)
+{
+	VPROF_BUDGET(__func__, "CS2Surf");
+	this->modeService->OnAirAccelerate(wishdir, wishspeed, accel);
+	FOR_EACH_VEC(this->styleServices, i)
+	{
+		this->styleServices[i]->OnAirAccelerate(wishdir, wishspeed, accel);
+	}
+}
+
+void SurfPlayer::OnAirAcceleratePost(Vector wishdir, f32 wishspeed, f32 accel)
+{
+	VPROF_BUDGET(__func__, "CS2Surf");
+	this->modeService->OnAirAcceleratePost(wishdir, wishspeed, accel);
+	FOR_EACH_VEC(this->styleServices, i)
+	{
+		this->styleServices[i]->OnAirAcceleratePost(wishdir, wishspeed, accel);
+	}
+}
+
 void SurfPlayer::OnFriction()
 {
 	VPROF_BUDGET(__func__, "CS2Surf");

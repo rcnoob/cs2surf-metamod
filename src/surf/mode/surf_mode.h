@@ -189,6 +189,10 @@ public:
 
 	void OnAirMovePost();
 
+	virtual void OnAirAccelerate(Vector &wishdir, f32 &wishspeed, f32 &accel) {}
+
+	virtual void OnAirAcceleratePost(Vector wishdir, f32 wishspeed, f32 accel) {}
+
 	void OnFriction() {}
 
 	void OnFrictionPost() {}
