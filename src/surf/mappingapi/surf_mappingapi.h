@@ -105,6 +105,7 @@ struct SurfMapPush
 		SURF_PUSH_ATTACK = 32,
 		SURF_PUSH_ATTACK2 = 64,
 		SURF_PUSH_USE = 128,
+		SURF_PUSH_LEGACY = 256,
 	};
 
 	u32 pushConditions;
@@ -112,6 +113,7 @@ struct SurfMapPush
 	bool cancelOnTeleport;
 	f32 cooldown;
 	f32 delay;
+	int speed;
 };
 
 struct SurfCourseDescriptor

@@ -553,6 +553,40 @@ static_function void Mapi_OnInfoTeleportDestinationSpawn(const EntitySpawnInfo_t
 	g_mappingApi.triggers.AddToTail(trigger);
 };
 
+static_function void Mapi_OnTriggerPushSpawn(const EntitySpawnInfo_t *info)
+{
+	const CEntityKeyValues *ekv = info->m_pKeyValues;
+	i32 hammerId = ekv->GetInt("hammerUniqueId", -1);
+	QAngle pushDir = ekv->GetQAngle("pushdir", QAngle(0, 0, 0));
+	int speed = ekv->GetInt("speed", 0);
+
+	SurfTrigger trigger = {};
+	trigger.type = SURFTRIGGER_PUSH;
+	trigger.hammerId = hammerId;
+	trigger.rotation = pushDir;
+
+	trigger.push.pushConditions |= SurfMapPush::SURF_PUSH_START_TOUCH;
+	trigger.push.pushConditions |= SurfMapPush::SURF_PUSH_LEGACY;
+	trigger.push.impulse[0] = 0.0f;
+	trigger.push.impulse[1] = 0.0f;
+	trigger.push.impulse[2] = 0.0f;
+	trigger.push.speed = speed;
+
+	trigger.push.setSpeed[0] = true;
+	trigger.push.setSpeed[1] = true;
+	trigger.push.setSpeed[2] = true;
+
+	trigger.push.cancelOnTeleport = false;
+	trigger.push.cooldown = 0.1f;
+	trigger.push.delay = 0.0f;
+
+	trigger.entity = info->m_pEntity->GetRefEHandle();
+
+	snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), SURF_NO_MAPAPI_COURSE_DESCRIPTOR);
+
+	g_mappingApi.triggers.AddToTail(trigger);
+};
+
 void Surf::mapapi::Init()
 {
 	g_mappingApi = {};
@@ -676,6 +710,23 @@ void Surf::mapapi::OnSpawn(int count, const EntitySpawnInfo_t *info)
 		if (SURF_STREQI(classname, "info_teleport_destination"))
 		{
 			Mapi_OnInfoTeleportDestinationSpawn(&info[i]);
+		}
+	}
+
+	// Third pass for trigger_push
+
+	for (i32 i = 0; i < count; i++)
+	{
+		auto ekv = info[i].m_pKeyValues;
+
+		if (!info[i].m_pEntity || !ekv || !info[i].m_pEntity->GetClassname())
+		{
+			continue;
+		}
+		const char *classname = info[i].m_pEntity->GetClassname();
+		if (SURF_STREQI(classname, "trigger_push"))
+		{
+			Mapi_OnTriggerPushSpawn(&info[i]);
 		}
 	}
 

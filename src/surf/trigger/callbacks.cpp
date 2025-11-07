@@ -125,7 +125,19 @@ void SurfTriggerService::ApplyPushes()
 			continue;
 		}
 		this->pushEvents[i].applied = true;
-		auto &push = this->pushEvents[i].source->push;
+		auto &push = const_cast<SurfMapPush &>(this->pushEvents[i].source->push);
+		if (push.pushConditions & SurfMapPush::SURF_PUSH_LEGACY)
+		{
+			Vector forward;
+			QAngle rotation = this->pushEvents[i].source->rotation;
+			AngleVectors(rotation, &forward);
+			VectorNormalize(forward);
+			Vector pushImpulse = forward * push.speed;
+
+			push.impulse[0] = pushImpulse.x;
+			push.impulse[1] = pushImpulse.y;
+			push.impulse[2] = pushImpulse.z;
+		}
 		for (u32 i = 0; i < 3; i++)
 		{
 			Vector vel;

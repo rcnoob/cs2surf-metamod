@@ -305,6 +305,9 @@ bool SurfTimerService::TimerEnd(const SurfCourseDescriptor *courseDesc)
 		eventListeners[i]->OnTimerEndPost(this->player, this->currentCourseGUID, time);
 	}
 
+	// Reset current stage immediately to remove HUD element
+	this->currentStage = 0;
+
 	return true;
 }
 
