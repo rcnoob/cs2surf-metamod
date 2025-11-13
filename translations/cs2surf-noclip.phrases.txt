@@ -14,6 +14,7 @@
 		"de"		"{grey}Noclip aktiviert."
 		"ko"		"{grey}노클립 모드가 활성화되었습니다."
 		"lv"		"{grey}Noclip ieslēgts."
+		"pt"		"{grey}Noclip habilitado."
 	}
 	"Noclip - Disable"
 	{
@@ -29,5 +30,6 @@
 		"de"		"{grey}Noclip deaktiviert."
 		"ko"		"{grey}노클립 모드가 비활성화되었습니다."
 		"lv"		"{grey}Noclip atslēgts."
+		"pt"		"{grey}Noclip desabilitado."
 	}
 }

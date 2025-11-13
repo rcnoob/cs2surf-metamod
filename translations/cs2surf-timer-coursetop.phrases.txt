@@ -9,6 +9,7 @@
 		"sv"		"{map_name} ({course_name}) {mode_name} Allmän Server Top"
 		"fi"		"{map_name} ({course_name}) {mode_name} Palvelimen Top"
 		"lv"		"{map_name} ({course_name}) {mode_name} Servera Kopvērtējums"
+		"pt"		"{map_name} ({course_name}) {mode_name} Geral top do servidor"
 	}
 	"Course Top - Table Name (Global Overall)"
 	{
@@ -19,6 +20,7 @@
 		"sv"		"{map_name} ({course_name}) {mode_name} Allmän Global Top"
 		"fi"		"{map_name} ({course_name}) {mode_name} Kaikkien aikojen Global Top"
 		"lv"		"{map_name} ({course_name}) {mode_name} Globālais Kopvērtējums"
+		"pt"		"{map_name} ({course_name}) {mode_name} Geral top do global"
 	}
 	"Course Top Header - Player Alias"
 	{
@@ -34,6 +36,7 @@
 		"ko"		"별명"
 		"fi"		"Alias"
 		"lv"		"Alias"
+		"pt"		"Alias"
 	}
 	"Course Top Header - Time"
 	{
@@ -49,6 +52,7 @@
 		"ko"		"시간"
 		"fi"		"Aika"
 		"lv"		"Laiks"
+		"pt"		"Tempo"
 	}
 	"Course Top Header - SteamID64"
 	{
@@ -64,6 +68,7 @@
 		"ko"		"SteamID64"
 		"fi"		"SteamID64"
 		"lv"		"SteamID64"
+		"pt"		"SteamID64"
 	}
 	"Course Top Header - Run ID"
 	{
@@ -79,6 +84,7 @@
 		"ko"		"Run ID"
 		"fi"		"Run ID"
 		"lv"		"Run ID"
+		"pt"		"ID da Run"
 	}
 	"Course Top Header - Points"
 	{
@@ -87,6 +93,7 @@
 		"sv"		"Poäng"
 		"fi"		"Pisteet"
 		"lv"		"Punkti"
+		"pt"		"Pontos"
 	}
 	"Course Top Request - Failed (Generic)"
 	{
@@ -102,6 +109,7 @@
 		"ko"		"{darkred}코스 최고 기록 정보를 가져오지 못했습니다."
 		"fi"		"{darkred}Huipputuloksien haku epäonnistui."
 		"lv"		"{darkred}Neizdevās iegūt trases top informāciju."
+		"pt"		"{darkred}Falha ao verificar informações sobre o topo do curso."
 	}
 	"Course Top Request - Invalid Course Name"
 	{
@@ -117,6 +125,7 @@
 		"ko"		"{darkred}코스 최고 기록 정보를 가져오지 못했습니다. {grey}(잘못된 코스 이름 {default}{course_name}{grey})"
 		"fi"		"{darkred}Huipputuloksien haku epäonnistui. {grey} Virheellinen kartan nimi {default}{course_name}{grey})"
 		"lv"		"{darkred}Neizdevās iegūt trases top informāciju. {grey}(Nederīgs trases nosaukums {default}{course_name}{grey})"
+		"pt"		"{darkred}Falha ao verificar informações sobre o topo do curso. {grey}(Nome do curso inválido {default}{course_name}{grey})"
 	}
 	"Course Top - Check Console"
 	{
@@ -132,6 +141,7 @@
 		"ko"		"{grey}코스 최고 기록 데이터를 가져왔습니다. 자세한 내용은 콘솔을 확인하세요!"
 		"fi"		"{grey}Huipputulokset haettu. Katso konsolista tarkemmat tulokset!"
 		"lv"		"{grey}Trases top dati iegūti. Skaties konsolē, lai uzzinātu vairāk!"
+		"pt"		"{grey}Dados do topo do curso recebidos. Verifique a consola para mais detalhes!"
 	}
 	"Course Top Command Usage"
 	{
@@ -147,6 +157,7 @@
 		"ko"		"{grey}사용법: {default}surf_maptop {purple}<c/course/map/mode/l/limit/o/offset=...>{grey}. 자세한 내용은 콘솔을 확인하세요!"
 		"fi"		"{grey}Käyttö: {default}surf_maptop {purple}<c/course/map/mode/l/limit/o/offset=...>{grey}. Katso konsolista tarkemmat tulokset!"
 		"lv"		"{grey}Pielietojums: {default}surf_maptop {purple}<c/course/map/mode/l/limit/o/offset=...>{grey}. Detalizēta informācija konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_maptop {purple}<c/course/map/mode/l/limit/o/offset=...>{grey}. Verifique o console para obter detalhes!"
 	}
 	"Course Top Command Usage - Console"
 	{
@@ -162,5 +173,6 @@
 		"ko"		"사용법: surf_maptop <c/course/map/mode=...>\n예시: \"surf_maptop map=surf_map c=Main o=10 l=20\". 'g' 또는 's'를 'top' 접미사 앞에 추가하여 글로벌/서버만 지정할 수 있습니다 (예: surf_gmaptop)."
 		"fi"		"Käyttö: surf_maptop <c/course/map/mode=...>\nEsimerkki: \"surf_maptop map=surf_map c=Main o=10 l=20\". Lisää 'g' tai 's' alkuun ennen 'top'-päätettä  määrittääksesi globaalin/palvelimen tulokset (esim. surf_gmaptop)."
 		"lv"		"Pielietojums: surf_maptop <c/course/map/mode=...>\nPiemērs: \"surf_maptop map=surf_map c=Main o=10 l=20\". Pievieno 'g' vai 's' pirms 'top' sufiksa, lai norādītu tikai globālo/servera (piem., surf_gmaptop)."
+		"pt"		"Utilização: surf_maptop <c/course/map/mode=...>\nExemplo: \"surf_maptop map=surf_map c=Main o=10 l=20\". Adicione 'g' ou 's' no início antes do sufixo 'top' para especificar apenas global/servidor (por exemplo, surf_gmaptop)."
 	}
 }

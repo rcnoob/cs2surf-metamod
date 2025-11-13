@@ -16,6 +16,7 @@
 		"pl"		"{lime}{player_name}{grey} na {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_style_text}{grey}]"
 		"ko"		"{lime}{player_name}{grey}님이 {default}{map_name}{grey} ({default}{course_name}{grey})에서 [{purple}{mode_style_text}{grey}]로 진행 중입니다."
 		"lv"  		"{lime}{player_name}{grey} kartē {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_style_text}{grey}]"
+		"pt"		"{lime}{player_name}{grey} em {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_style_text}{grey}]"
 	}
 	"PB Time - No Times"
 	{
@@ -31,6 +32,7 @@
 		"pl"		"{grey}Nie ustawiłeś czasu... jeszcze."
 		"ko"		"{grey}아직 기록이 없습니다."
 		"lv"  		"{grey}Tu vēl neesi iestatījis laiku..."
+		"pt"		"{grey}Você ainda não definiu um tempo..."
 	}
 	"PB Time - Overall (Server)"
 	{
@@ -48,6 +50,7 @@
 		"pl"		"{grey}Serwer: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Ogółem{grey}]"
 		"ko"		"{grey}서버: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}전체{grey}]"
 		"lv"  		"{grey}Serveris: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Kopējais{grey}]"
+		"pt"		"{grey}Servidor: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Overall{grey}]"
 	}
 	"PB Time - Overall Rankless (Server)"
 	{
@@ -65,6 +68,7 @@
 		"pl"		"{grey}Serwer: {default}{time}{grey} [{yellow}Ogółem{grey}]"
 		"ko"		"{grey}서버: {default}{time}{grey} [{yellow}전체{grey}]"
 		"lv"  		"{grey}Serveris: {default}{time}{grey} [{yellow}Kopējais{grey}]"
+		"pt"		"{grey}Servidor: {default}{time}{grey} [{yellow}Overall{grey}]"
 	}
 	"PB Time - Overall (Global)"
 	{
@@ -75,6 +79,7 @@
 		"ua"		"{grey}Глобально: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Загальний{grey} / {purple}{points}{grey} очок]"
 		"sv"		"{grey}Global: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Allmän{grey} / {purple}{points}{grey} pts]"
 		"lv"  		"{grey}Globālais: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Kopējais{grey} / {purple}{points}{grey} punkti]"
+		"pt"		"{grey}Global: {default}{time}{grey} [#{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Overall{grey} / {purple}{points}{grey} pts]"
 	}
 	"PB Time - Overall Rankless (Global)"
 	{
@@ -85,8 +90,9 @@
 		"ua"		"{grey}Глобально: {default}{time}{grey} [{yellow}Загальний{grey}]"
 		"sv"		"{grey}Global: {default}{time}{grey} [{yellow}Allmän{grey}]"
 		"lv"  		"{grey}Globālais: {default}{time}{grey} [{yellow}Kopējais{grey}]"
+		"pt"		"{grey}Global: {default}{time}{grey} [{yellow}Overall{grey}]"
 	}
-	"PB Request - Failed (Generic)" 
+	"PB Request - Failed (Generic)"
 	{
 		"en"		"{darkred}Failed to retrieve personal best stats."
 		"chi"		"{darkred}查询个人最佳数据失败."
@@ -100,6 +106,7 @@
 		"pl"		"{darkred}Fallo al recuperar las mejores estadísticas personales."
 		"ko"		"{darkred}개인 최고 기록을을 가져오지 못했습니다."
 		"lv"  		"{darkred}Neizdevās iegūt personīgo rekordu statistiku."
+		"pt"		"{darkred}Falha ao recuperar as melhores estatísticas pessoais."
 	}
 	"PB Request - Invalid Course Name"
 	{
@@ -116,6 +123,7 @@
 		"pl"		"{darkred}Fallo al recuperar las mejores estadísticas personales. {grey}(Nombre de curso no válido {default}{course_name}{grey})"
 		"ko"		"{darkred}개인 최고 기록 통계를 가져오지 못했습니다. {grey}(잘못된 코스 이름 {default}{course_name}{grey})"
 		"lv"		"{darkred}Neizdevās iegūt personīgos rekorda datus. {grey}(Nederīgs trases nosaukums {default}{course_name}{grey})"
+		"pt"		"{darkred}Falha ao recuperar as melhores estatísticas pessoais. {grey}(Nome do curso inválido {default}{course_name}{grey})"
 	}
 	"PB Command Usage"
 	{
@@ -131,6 +139,7 @@
 		"pl"		"{grey}Użycie: {default}surf_pb {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Sprawdź konsolę, aby uzyskać szczegóły!"
 		"ko"		"{grey}사용법: {default}surf_pb {purple}<c/course/map/mode/p/player/s/style=...>{grey}. 자세한 내용은 콘솔을 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_pb {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Detalizēta informācija konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_pb {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Verifique a consola para obter detalhes!"
 	}
 	"PB Command Usage - Console"
 	{
@@ -146,5 +155,6 @@
 		"pl"		"Użycie: surf_pb <c/course/map/mode/p/player/s/style=...>\nPrzykład: \"surf_pb map=surf_map p=Gracz c=Main style=HSW\"\nAby nie podawać stylu, użyj \"style=none\"."
 		"ko"		"사용법: surf_pb <c/course/map/mode/p/player/s/style=...>\n예시: \"surf_pb map=surf_map p=Player c=Main style=HSW\"\n스타일을 지정하지 않으려면 \"style=none\"을 사용하세요."
 		"lv"		"Pielietojums: surf_pb <c/course/map/mode/p/player/s/style=...>\nPiemērs: \"surf_pb map=surf_map p=Player c=Main style=HSW\"\nLai nenorādītu stilu, izmanto \"style=none\"."
+		"pt"		"Utilização: surf_pb <c/course/map/mode/p/player/s/style=...>\nExemplo: \"surf_pb map=surf_map p=Player c=Main style=HSW\"\nPara especificar um estilo, use \"style=none\"."
 	}
 }

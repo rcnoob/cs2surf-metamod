@@ -14,21 +14,23 @@
 		"de"		"{grey}Schau in deine Konsole um die Befehl liste zu sehen!"
 		"ko"		"{grey}콘솔에서 명령어 목록을 확인해 보세요!"
 		"lv"		"{grey}Skaties konsolē, lai redzētu komandu sarakstu!"
+		"pt"		"{grey}Olhe o seu console para a lista de comandos!"
 	}
 	"Command Help Response (Console)"
 	{
-		"en"		"To use these commands, you can type \"bind <key> kz_<command name>\" in your console, or type !<command name> or /<command name> in the chat.\nFor example: \"bind 1 kz_cp\" or \"!cp\" or \"/cp\""
-		"chi"		"使用这些命令, 你可以在控制台中输入 \"bind <按键> kz_<命令名字>\", 或者在聊天栏中输入 !<命令名字> 或 /<命令名字>.\n例如: \"bind 1 kz_cp\" 或 \"!cp\" 或 \"/cp\""
-		"pl"		"Aby użyć tych komend, wpisz w konsoli \"bind <klawisz> kz_<nazwa komendy>\", albo wpisz !<nazwa komendy> lub /<nazwa komendy> na czacie.\nnp.: \"bind 1 kz_cp\" lub \"!cp\" lub \"/cp\""
-		"fi"		"Käyttääksesi näitä komentoja, voit kirjoittaa \"bind <key> kz_<komennon nimi>\" konsoliisi, tai kirjoittaa !<komento> tai /<komento> chattiin.\nEsimerkiksi: \"bind 1 kz_cp\" tai \"!cp\" tai \"/cp\""
-		"sv"		"För att använda dessa kommandon, kan du skriva \"bind <knapp> kz_<kommandos namn>\" i din konsol, eller skriv !<kommandos namn> eller /<kommandos namn> i chatten.\nTill exempel: \"bind 1 kz_cp\" eller \"!cp\" eller \"/cp\""
-		"ua"		"Щоб використати ці команди напишіть \"bind <key> kz_<назва команди>\" у вашій консолі, або напишіть !<назва команди> чи /<назва команди> в чаті.\nНаприклад: \"bind 1 kz_cp\" або \"!cp\" чи \"/cp\""
-		"tr"		"Bu komutları kullanmak için konsola \"bind <tuş> kz_<komut ismi>\"veya konuşma satırına !<komut ismi> ya da /<komut ismi> yazabilirsin. Örnek olarak: \"bind 1 kz_cp\" veya \"!cp\" or \"/cp\""
-		"it"		"Per usare questi comandi scrivi \"bind <tasto> kz_<nome comando>\" nella console, oppure !<nome comando> o /<nome comando> in chat.\nEsempio: \"bind 1 kz_cp\" o \"!cp\" o \"/cp\""
-		"es"		"Para usar estos comandos, puedes escribir \"bind <key> kz_<command name>\" en tu consola, o escribir !<command name> o /<command name> en el chat.\nPor ejemplo: \"bind 1 kz_cp\" or \"!cp\" or \"/cp\""
-		"de"		"Um diese Befehle zu verwenden, kannst du \"bind <Taste> kz_<Befehlsname>\" in Deiner Konsole eingeben, oder !<Befehlsname> oder /<Befehlsname> im Chat eingeben.\nZum Beispiel: \„bind 1 kz_cp\" oder \„!cp\" oder \„/cp\""
-		"ko"		"이 명령어를 사용하려면 콘솔에 \"bind <key> kz_<명령어 이름>\"을 입력하거나, 채팅창에 !<명령어 이름> 또는 /<명령어 이름>을 입력하세요. 예시: \"bind 1 kz_cp\" 또는 \"!cp\" 또는 \"/cp\""
-		"lv"		"Lai pielietotu šīs komandas, tu vari ierakstīt \"bind <taustiņš> kz_<komandas nosaukums>\" konsolē, vai ierakstīt !<komandas nosaukums> vai /<komandas nosaukums> čatā.\nPiemēram: \"bind 1 kz_cp\" vai \"!cp\" vai \"/cp\""
+		"en"		"To use these commands, you can type \"bind <key> surf_<command name>\" in your console, or type !<command name> or /<command name> in the chat.\nFor example: \"bind 1 surf_cp\" or \"!cp\" or \"/cp\""
+		"chi"		"使用这些命令, 你可以在控制台中输入 \"bind <按键> surf_<命令名字>\", 或者在聊天栏中输入 !<命令名字> 或 /<命令名字>.\n例如: \"bind 1 surf_cp\" 或 \"!cp\" 或 \"/cp\""
+		"pl"		"Aby użyć tych komend, wpisz w konsoli \"bind <klawisz> surf_<nazwa komendy>\", albo wpisz !<nazwa komendy> lub /<nazwa komendy> na czacie.\nnp.: \"bind 1 surf_cp\" lub \"!cp\" lub \"/cp\""
+		"fi"		"Käyttääksesi näitä komentoja, voit kirjoittaa \"bind <key> surf_<komennon nimi>\" konsoliisi, tai kirjoittaa !<komento> tai /<komento> chattiin.\nEsimerkiksi: \"bind 1 surf_cp\" tai \"!cp\" tai \"/cp\""
+		"sv"		"För att använda dessa kommandon, kan du skriva \"bind <knapp> surf_<kommandos namn>\" i din konsol, eller skriv !<kommandos namn> eller /<kommandos namn> i chatten.\nTill exempel: \"bind 1 surf_cp\" eller \"!cp\" eller \"/cp\""
+		"ua"		"Щоб використати ці команди напишіть \"bind <key> surf_<назва команди>\" у вашій консолі, або напишіть !<назва команди> чи /<назва команди> в чаті.\nНаприклад: \"bind 1 surf_cp\" або \"!cp\" чи \"/cp\""
+		"tr"		"Bu komutları kullanmak için konsola \"bind <tuş> surf_<komut ismi>\"veya konuşma satırına !<komut ismi> ya da /<komut ismi> yazabilirsin. Örnek olarak: \"bind 1 surf_cp\" veya \"!cp\" or \"/cp\""
+		"it"		"Per usare questi comandi scrivi \"bind <tasto> surf_<nome comando>\" nella console, oppure !<nome comando> o /<nome comando> in chat.\nEsempio: \"bind 1 surf_cp\" o \"!cp\" o \"/cp\""
+		"es"		"Para usar estos comandos, puedes escribir \"bind <key> surf_<command name>\" en tu consola, o escribir !<command name> o /<command name> en el chat.\nPor ejemplo: \"bind 1 surf_cp\" or \"!cp\" or \"/cp\""
+		"de"		"Um diese Befehle zu verwenden, kannst du \"bind <Taste> surf_<Befehlsname>\" in Deiner Konsole eingeben, oder !<Befehlsname> oder /<Befehlsname> im Chat eingeben.\nZum Beispiel: \„bind 1 surf_cp\" oder \„!cp\" oder \„/cp\""
+		"ko"		"이 명령어를 사용하려면 콘솔에 \"bind <key> surf_<명령어 이름>\"을 입력하거나, 채팅창에 !<명령어 이름> 또는 /<명령어 이름>을 입력하세요. 예시: \"bind 1 surf_cp\" 또는 \"!cp\" 또는 \"/cp\""
+		"lv"		"Lai pielietotu šīs komandas, tu vari ierakstīt \"bind <taustiņš> surf_<komandas nosaukums>\" konsolē, vai ierakstīt !<komandas nosaukums> vai /<komandas nosaukums> čatā.\nPiemēram: \"bind 1 surf_cp\" vai \"!cp\" vai \"/cp\""
+		"pt"		"Para usar estes comandos, você pode digitar \"bind <key> surf_<command name>\" no seu console, ou digitar !<command name> ou /<command name> no chat.\nExemplo: \"bind 1 surf_cp\" or \"!cp\" or \"/cp\""
 	}
 	"Command Help Response Category Hint (Console)"
 	{
@@ -37,6 +39,7 @@
 		"sv"		"Du kan använda \"surf_help <kategori>\" för att lista kommandon relaterade till en specifik kategori (t.ex. surf_help saveloc misc).\nLista över tillgängliga kategorier: record, modestyle, preference, replay, saveloc, spec, status, timer, player, global, misc, map"
 		"ua"		"Ви можете використати \"surf_help <категорія>\", щоб отримати список команд, пов'язаних з певною категорією (наприклад, surf_help saveloc misc).\nСписок доступних категорій: record, modestyle, preference, replay, saveloc, spec, status, timer, player, global, misc, map"
 		"lv"		"Tu vari pielietot \"surf_help <kategorija>\", lai iegūtu komandu sarakstu, kas saistītas ar konkrētu kategoriju (piem. surf_help saveloc misc).\nPieejamo kategoriju saraksts: record, modestyle, preference, replay, saveloc, spec, status, timer, player, global, misc, map"
+		"pt"		"Você pode utilizar \"surf_help <category>\" para uma lista de comandos de uma categoria específica (eg. surf_help saveloc misc).\nLista de categorias disponíveis: record, modestyle, preference, replay, saveloc, spec, status, timer, player, global, misc, map"
 	}
 	
 	// Categories
@@ -47,6 +50,7 @@
 		"sv"		"Namn"
 		"ua"		"Назва"
 		"lv"		"Nosaukums"
+		"pt"		"Nome"
 	}
 	"Command List Header - Description"
 	{
@@ -55,6 +59,7 @@
 		"sv"		"Beskrivning"
 		"ua"		"Опис"
 		"lv"		"Apraksts"
+		"pt"		"Descrição"
 	}
 	"Command List - Record"
 	{
@@ -63,6 +68,7 @@
 		"sv"		"Rekordkommandon:"
 		"ua"		"Команди Рекордів:"
 		"lv"		"Record Komandas:"
+		"pt"		"Comandos de recordes:"
 	}
 	"Command List - ModeStyle"
 	{
@@ -71,6 +77,7 @@
 		"sv"		"Mode/Stilkommandon:"
 		"ua"		"Команди Режиму/Стилю:"
 		"lv"		"Režīma/Stila Komandas:"
+		"pt"		"Comandos de modos/estilos:"
 	}
 	"Command List - Preference"
 	{
@@ -79,6 +86,7 @@
 		"sv"		"Preferenskommandon:"
 		"ua"		"Команди Налаштувань:"
 		"lv"		"Preferenču Komandas:"
+		"pt"		"Comandos de preferências:"
 	}
 	"Command List - Replay"
 	{
@@ -87,6 +95,7 @@
 		"sv"		"Repriskommandon:"
 		"ua"		"Команди Повтору:"
 		"lv"		"Replay Komandas:"
+		"pt"		"Comandos de replay:"
 	}
 	"Command List - Saveloc"
 	{
@@ -95,6 +104,7 @@
 		"sv"		"Saveloc kommandon:"
 		"ua"		"Команди Saveloc:"
 		"lv"		"Saveloc Komandas:"
+		"pt"		"Comandos de saveloc:"
 	}
 	"Command List - Spec"
 	{
@@ -103,6 +113,7 @@
 		"sv"		"Åskådningskommandon:"
 		"ua"		"Команди Спостерігання:"
 		"lv"		"Skatītāja Komandas:"
+		"pt"		"Comandos de espectador:"
 	}
 	"Command List - Status"
 	{
@@ -111,6 +122,7 @@
 		"sv"		"Statuskommandon:"
 		"ua"		"Команди Статусу:"
 		"lv"		"Statusa Komandas:"
+		"pt"		"Comandos de status:"
 	}
 	"Command List - Timer"
 	{
@@ -119,6 +131,7 @@
 		"sv"		"Timerkommandon:"
 		"ua"		"Команди Таймера:"
 		"lv"		"Taimera Komandas:"
+		"pt"		"Comandos do timer:"
 	}
 	"Command List - Player"
 	{
@@ -127,6 +140,7 @@
 		"sv"		"Spelarkommandon:"
 		"ua"		"Команди Гравця:"
 		"lv"		"Spēlētāja Komandas:"
+		"pt"		"Comandos de jogador:"
 	}
 	"Command List - Global"
 	{
@@ -135,6 +149,7 @@
 		"sv"		"Globala Kommandon:"
 		"ua"		"Глобальні Команди:"
 		"lv"		"Globālās Komandas:"
+		"pt"		"Comandos do global:"
 	}
 	"Command List - Misc"
 	{
@@ -143,6 +158,7 @@
 		"sv"		"Blandade Kommandon:"
 		"ua"		"Інші Команди:"
 		"lv"		"Miscellaneous Komandas:"
+		"pt"		"Comandos diversos:"
 	}
 	"Command List - Map"
 	{
@@ -151,6 +167,7 @@
 		"sv"		"Kartkommandon:"
 		"ua"		"Команди Мапи:"
 		"lv"		"Kartes Kmandas:"
+		"pt"		"Comandos de mapa:"
 	}
 	"Command List - HUD"
 	{
@@ -159,6 +176,7 @@
 		"sv"		"HUD Kommandon:"
 		"ua"		"Команди HUD:"
 		"lv"		"HUD Komandas:"
+		"pt"		"Comandos da HUD:"
 	}
 	// Commands
 	"Command Description - surf_saveloc"
@@ -175,6 +193,7 @@
 		"de"		"Setze ein Checkpoint auf dem Boden oder Leiter."
 		"ko"		"지면이나 사다리 위에서 체크포인트를 설정합니다."
 		"lv"		"Iestatīt kontrolpunktu uz zemes vai uz kāpnēm."
+		"pt"		"Definir um checkpoint no chão ou em uma escada."
 	}
 	"Command Description - surf_checkpoint"
 	{
@@ -190,6 +209,7 @@
 		"de"		"Setze ein Checkpoint auf dem Boden oder Leiter."
 		"ko"		"지면이나 사다리 위에서 체크포인트를 설정합니다."
 		"lv"		"Iestatīt kontrolpunktu uz zemes vai uz kāpnēm."
+		"pt"		"Definir um checkpoint no chão ou em uma escada."
 	}
 	"Command Description - surf_cp"
 	{
@@ -205,6 +225,7 @@
 		"de"		"Setze ein Checkpoint auf dem Boden oder Leiter."
 		"ko"		"지면이나 사다리 위에서 체크포인트를 설정합니다."
 		"lv"		"Iestatīt kontrolpunktu uz zemes vai uz kāpnēm."
+		"pt"		"Definir um checkpoint no chão ou em uma escada."
 	}
 	"Command Description - surf_loadloc"
 	{
@@ -220,6 +241,7 @@
 		"de"		"Zum aktuellen Checkpoint teleportieren."
 		"ko"		"현재 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pašreizējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint atual."
 	}
 	"Command Description - surf_teleport"
 	{
@@ -235,6 +257,7 @@
 		"de"		"Zum aktuellen Checkpoint teleportieren."
 		"ko"		"현재 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pašreizējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint atual."
 	}
 	"Command Description - surf_tp"
 	{
@@ -250,6 +273,7 @@
 		"de"		"Zum aktuellen Checkpoint teleportieren."
 		"ko"		"현재 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pašreizējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint atual."
 	}
 	"Command Description - surf_prevloc"
 	{
@@ -265,6 +289,7 @@
 		"de"		"Zum letzten Checkpoint teleportieren."
 		"ko"		"마지막 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pēdējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint anterior."
 	}
 	"Command Description - surf_prevcp"
 	{
@@ -280,6 +305,7 @@
 		"de"		"Zum letzten Checkpoint teleportieren."
 		"ko"		"마지막 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pēdējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint anterior."
 	}
 	"Command Description - surf_pcp"
 	{
@@ -295,6 +321,7 @@
 		"de"		"Zum letzten Checkpoint teleportieren."
 		"ko"		"마지막 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz pēdējo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint anterior."
 	}
 	"Command Description - surf_nextloc"
 	{
@@ -309,6 +336,7 @@
 		"es"		"Teleportar al próximo checkpoint."
 		"de"		"Zum nächsten Checkpoint teleportieren."
 		"lv"		"Teleportēt uz nākamo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint posterior."
 	}
 	"Command Description - surf_nextcp"
 	{
@@ -323,6 +351,7 @@
 		"es"		"Teleportar al próximo checkpoint."
 		"de"		"Zum nächsten Checkpoint teleportieren."
 		"lv"		"Teleportēt uz nākamo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint posterior."
 	}
 	"Command Description - surf_ncp"
 	{
@@ -338,6 +367,7 @@
 		"de"		"Zum nächsten Checkpoint teleportieren."
 		"ko"		"다음 체크포인트로 텔레포트합니다."
 		"lv"		"Teleportēt uz nākamo kontrolpunktu."
+		"pt"		"Teleportar para o checkpoint posterior."
 	}
 	"Command Description - surf_setstartpos"
 	{
@@ -353,6 +383,7 @@
 		"de"		"Setze deine benutzerdefinierte Startposition auf deiner aktuellen Position."
 		"ko"		"다음 체크포인트로 텔레포트합니다."
 		"lv"		"Iestatīt savu pielāgoto starta pozīciju uz pašreizējo pozīciju."
+		"pt"		"Definir uma posição atual como de ínicio customizada."
 	}
 	"Command Description - surf_ssp"
 	{
@@ -368,6 +399,7 @@
 		"de"		"Setze deine benutzerdefinierte Startposition auf deiner aktuellen Position."
 		"ko"		"현재 위치를 사용자 지정 시작 위치로 설정합니다."
 		"lv"		"Iestatīt savu pielāgoto starta pozīciju uz pašreizējo pozīciju."
+		"pt"		"Definir uma posição atual como de ínicio customizada."
 	}
 	"Command Description - surf_clearstartpos"
 	{
@@ -383,6 +415,7 @@
 		"de"		"Lösche deine benutzerdefinierte Startposition."
 		"ko"		"사용자 지정 시작 위치를 초기화합니다."
 		"lv"		"Notīrīt savu pielāgoto starta pozīciju."
+		"pt"		"Resetar a posição de ínicio customizada."
 	}
 	"Command Description - surf_csp"
 	{
@@ -398,6 +431,7 @@
 		"de"		"Lösche deine benutzerdefinierte Startposition."
 		"ko"		"사용자 지정 시작 위치를 초기화합니다."
 		"lv"		"Notīrīt savu pielāgoto starta pozīciju."
+		"pt"		"Resetar a posição de ínicio customizada."
 	}
 	"Command Description - surf_panel"
 	{
@@ -413,6 +447,7 @@
 		"de"		"Anzeigen des mittleren Penels umschalten."
 		"ko"		"중앙 패널 표시를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt centrālā paneļa attēlošanu."
+		"pt"		"Ativar/desativar o painel central."
 	}
 	"Command Description - surf_mode"
 	{
@@ -428,6 +463,7 @@
 		"de"		"Modi ändern oder auflisten."
 		"ko"		"모드를 표시하거나 변경합니다."
 		"lv"		"Uzskaitīt vai mainīt režīmu."
+		"pt"		"Listar ou mudar o modo de surf."
 	}
 	"Command Description - surf_noclip"
 	{
@@ -443,6 +479,7 @@
 		"de"		"Noclip umschalten."
 		"ko"		"노클립 모드를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt noclip režīmu."
+		"pt"		"Ativar noclip."
 	}
 	"Command Description - surf_nc"
 	{
@@ -458,6 +495,7 @@
 		"de"		"Noclip umschalten."
 		"ko"		"노클립 모드를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt noclip režīmu."
+		"pt"		"Ativar/Desativar noclip."
 	}
 	"Command Description - noclip"
 	{
@@ -473,6 +511,7 @@
 		"de"		"Noclip umschalten."
 		"ko"		"노클립 모드를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt noclip režīmu."
+		"pt"		"Ativar/Desativar noclip."
 	}
 	"Command Description - surf_spec"
 	{
@@ -488,12 +527,14 @@
 		"de"		"Ein Spieler Spectaten."
 		"ko"		"플레이어를 관전합니다."
 		"lv"		"Specot spēlētāju."
+		"pt"		"Espectar um jogador."
 	}
 	"Command Description - surf_specs"
 	{
 		"en"		"List currently spectating players in chat."
 		"ua"		"Показати в чаті список спостерігачів."
 		"sv"		"Lista närvarande åskådare i chatten."
+		"pt"		"Listar os seus espectadores no chat."
 	}
 	"Command Description - surf_goto"
 	{
@@ -510,6 +551,7 @@
 		"de"		"Zum Spieler gehen."
 		"ko"		"플레이어에게 이동합니다."
 		"lv"		"Doties pie spēlētāja."
+		"pt"		"Ir para um jogador."
 	}
 	"Command Description - surf_style"
 	{
@@ -526,6 +568,7 @@
 		"de"		"Stil Auflisten, hinzufügen, entfernen oder umschalten."
 		"ko"		"스타일을 표시, 추가, 제거하거나 전환합니다."
 		"lv"		"Uzskaitīt, pievienot, noņemt vai ieslēgt/izslēgt stilu."
+		"pt"		"Listar, adicionar, remover, ou alterar o estilo."
 	}
 	"Command Description - surf_addstyle"
 	{
@@ -542,6 +585,7 @@
 		"de"		"Stil hinzufügen."
 		"ko"		"스타일을 표시하거나 추가합니다."
 		"lv"		"Uzskaitīt vai pievienot stilu."
+		"pt"		"Listar ou adicionar um estilo."
 	}
 	"Command Description - surf_removestyle"
 	{
@@ -558,6 +602,7 @@
 		"de"		"Stil entfernen."
 		"ko"		"활성화 된 스타일을 표시하거나 스타일을 제거합니다."
 		"lv"		"Uzskaitīt aktīvos stilus vai noņemt stilu."
+		"pt"		"Listar os estilos ativos ou remover um estilo."
 	}
 	"Command Description - surf_togglestyle"
 	{
@@ -574,6 +619,7 @@
 		"de"		"Stil auflisten oder umschalten."
 		"ko"		"스타일을 표시하거나 전환합니다."
 		"lv"		"Uzskaitīt vai ieslēgt/izslēgt stilu."
+		"pt"		"Listar ou ativar/desativar um estilo."
 	}
 	"Command Description - surf_clearstyles"
 	{
@@ -590,6 +636,7 @@
 		"de"		"Alle Stile löschen."
 		"ko"		"모든 스타일을 초기화합니다."
 		"lv"		"Notīrīt visus stilus."
+		"pt"		"Limapr todos os estilos."
 	}
 	"Command Description - surf_stop"
 	{
@@ -605,6 +652,7 @@
 		"de"		"Timer stoppen."
 		"ko"		"타이머를 중지합니다."
 		"lv"		"Apturēt taimeri."
+		"pt"		"Parar o timer."
 	}
 	"Command Description - surf_pause"
 	{
@@ -620,6 +668,7 @@
 		"de"		"Timer pausieren"
 		"ko"		"타이머 일시 정지를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt taimera pauzēšanu."
+		"pt"		"Pausar o timer."
 	}
 	"Command Description - surf_tips"
 	{
@@ -635,6 +684,7 @@
 		"de"		"Tipps umschalten."
 		"ko"		"도움말 표시를 전환합니다."
 		"lv"		"Ieslēgt/izslēgt padomus."
+		"pt"		"Habilitar/Desabilitar dicas."
 	}
 	"Command Description - surf_hidelegs"
 	{
@@ -650,6 +700,7 @@
 		"de"		"Verstecke deine Beine in der First-person Perspektive."
 		"ko"		"1인칭 시점에서 다리를 숨깁니다."
 		"lv"		"Slēpt savas kājas pirmajā personā."
+		"pt"		"Habilitar/Desabilitar as pernas."
 	}
 	"Command Description - surf_hide"
 	{
@@ -665,6 +716,7 @@
 		"de"		"Andere Spieler verstecken."
 		"ko"		"다른 플레이어를 숨깁니다."
 		"lv"		"Paslēpt citus spēlētājus."
+		"pt"		"Habilitar/Desabilitar outros players."
 	}
 	"Command Description - surf_restart"
 	{
@@ -680,6 +732,7 @@
 		"de"		"Neustart."
 		"ko"		"재시작합니다."
 		"lv"		"Restartēt."
+		"pt"		"Reiniciar."
 	}
 	"Command Description - surf_r"
 	{
@@ -695,6 +748,7 @@
 		"de"		"Neustart."
 		"ko"		"재시작합니다."
 		"lv"		"Restartēt."
+		"pt"		"Reiniciar."
 	}
 	"Command Description - surf_end"
 	{
@@ -705,6 +759,7 @@
 		"ko"		"종료 지점으로 텔레포트합니다."
 		"es"		"Teleportar al final."
 		"lv"		"Teleportēt līdz beigām."
+		"pt"		"Teleportar para o final."
 	}
 	"Command Description - surf_hideweapon"
 	{
@@ -720,6 +775,7 @@
 		"de"		"Deine Waffe verstecken."
 		"ko"		"무기 모델을 숨깁니다."
 		"lv"		"Slēpt ieroča modeļa skatu."
+		"pt"		"Habilitar/Desabilitar a arma."
 	}
 	"Command Description - surf_help"
 	{
@@ -735,6 +791,7 @@
 		"de"		"Diese Nachricht anzeigen."
 		"ko"		"도움말 메시지를 표시합니다."
 		"lv"		"Parādīt šo palīdzības ziņojumu."
+		"pt"		"Mostra essa mensagem de ajuda."
 	}
 	"Command Description - surf_language"
 	{
@@ -750,10 +807,12 @@
 		"de"		"Deine Sprache ändern."
 		"ko"		"현재 언어를 변경합니다."
 		"lv"		"Mainīt pašreizējo valodu."
+		"pt"		"Altera o idioma atual."
 	}
 	"Command Description - surf_64t"
 	{
 		"en"		"Switch to 64tick mode."
+		"pt"		"Alterar para o modo 64tick."
 	}
 	"Command Description - surf_pb"
 	{
@@ -770,6 +829,7 @@
 		"de"		"Persönliche Bestleistungen abrufen."
 		"ko"		"개인 최고 기록 통계를 확인합니다."
 		"lv"		"Saņemt personīgos labākos rezultātus."
+		"pt"		"Mostrar as estatísticas do seu recorde pessoal"
 	}
 	"Command Description - surf_wr"
 	{
@@ -786,6 +846,7 @@
 		"de"		"Server- und Weltrekorde abrufen."
 		"ko"		"서버 및 세계 기록을 확인합니다."
 		"lv"		"Saņemt servera un pasaules rekordus."
+		"pt"		"Retorna o recorde do servidor e mundial."
 	}
 	"Command Description - surf_sr"
 	{
@@ -802,6 +863,7 @@
 		"de"		"Serverrekorde abrufen."
 		"ko"		"서버 기록을 확인합니다."
 		"lv"		"Saņemt servera rekordus."
+		"pt"		"Retorna o recorde do servidor."
 	}
 	"Command Description - surf_maptop"
 	{
@@ -816,6 +878,7 @@
 		"de"		"Top-Zeiten der Strecken einer Map abrufen."
 		"ko"		"맵의 상위 코스 기록을 확인합니다."
 		"lv"		"Saņemt labākos trases laikus kartē."
+		"pt"		"Retorna o melhor tempo do mapa."
 	}
 	"Command Description - surf_gmaptop"
 	{
@@ -830,6 +893,7 @@
 		"de"		"Globale Top-Zeiten der Strecken einer Map abrufen."
 		"ko"		"맵의 글로벌 상위 코스 기록을 확인합니다."
 		"lv"		"Saņemt globālos labākos trases laikus kartē."
+		"pt"		"Retorna o melhor tempo global do mapa."
 	}
 	"Command Description - surf_smaptop"
 	{
@@ -844,6 +908,7 @@
 		"de"		"Top-Zeiten der Strecken eines Servers für eine Map abrufen."
 		"ko"		"맵의 서버 상위 코스 기록을 확인합니다."
 		"lv"		"Saņemt servera labākos trases laikus kartē."
+		"pt"		"retorna o melhor tempo do servidor do mapa."
 	}
 	"Command Description - surf_playercheck"
 	{
@@ -855,6 +920,7 @@
 		"ko"		"지정된 플레이어의 상태를 확인합니다. (기본값: 본인)"
 		"es"		"Comprobar el estado del jugador especificado (por defecto es uno mismo)."
 		"lv"		"Pārbaudīt norādītā spēlētāja statusu (pēc noklusējuma – sevi)."
+		"pt"		"Verifica o status de um jogador."
 	}
 	"Command Description - surf_pc"
 	{
@@ -866,6 +932,7 @@
 		"ko"		"지정된 플레이어의 상태를 확인합니다. (기본값: 본인)"
 		"es"		"Comprobar el estado del jugador especificado (por defecto es uno mismo)."
 		"lv"		"Pārbaudīt norādītā spēlētāja statusu (pēc noklusējuma – sevi)."
+		"pt"		"Verifica o status de um jogador."
 	}
 	"Command Description - surf_course"
 	{
@@ -877,6 +944,7 @@
 		"ko"		"현재 코스와 맵에 있는 모든 코스 목록을 표시합니다."
 		"es"		"Mostrar el recorrido actual y la lista de todos los recorridos en el mapa."
 		"lv"		"Parādīt pašreizējo trasi un visu karšu trašu sarakstu."
+		"pt"		"Retorna o curso atual, e uma lista de todos os cursos."
 	}
 	"Command Description - surf_spb"
 	{
@@ -885,6 +953,7 @@
 		"ua"		"Показати персональний найкращий час на сервері."
 		"sv"		"Hämta personlig bästa statistik på servern."
 		"lv"		"Saņemt servera personīgos labākos rezultātus."
+		"pt"		"Retorna suas estatísticas do tempo no servidor."
 	}
 	"Command Description - surf_gpb"
 	{
@@ -893,6 +962,7 @@
 		"ua"		"Показати глобальний персональний найкращий час."
 		"sv"		"Hämta personlig bästa statistik globalt."
 		"lv"		"Saņemt globālos personīgos labākos rezultātus."
+		"pt"		"Retorna suas estatísticas do rank global."
 	}
 	"Command Description - surf_globalcheck"
 	{
@@ -901,6 +971,7 @@
 		"ua"		"Показати статус GlobalAPI."
 		"sv"		"Visa statusen av GlobalAPI."
 		"lv"		"Parādīt GlobalAPI statusu."
+		"pt"		"Status da API do rank global"
 	}
 	"Command Description - surf_gc"
 	{
@@ -909,17 +980,20 @@
 		"ua"		"Показати статус GlobalAPI."
 		"sv"		"Visa statusen av GlobalAPI."
 		"lv"		"Parādīt GlobalAPI statusu."
+		"pt"		"Status da API do rank global."
 	}
 	"Command Description - surf_timerstopsound"
 	{
 		"en"		"Toggle the timer stop sound."
 		"chi"		"切换计时器停止音效."
 		"ua"		"Увімк./вимк. звук зупинки таймера."
+		"pt"		"Habilitar/Desabilitar o som de parar do timer."
 	}
 	"Command Description - surf_autohideweapon"
 	{
 		"en"		"Toggle the automatic hiding of weapon viewmodel."
 		"chi"		"切换武器视图模型的自动隐藏."
 		"ua"		"Увімк./вимк. автоматичне приховування зброї."
+		"pt"		"Habilitar/Desabilitar esconder a arma automaticamente."
 	}
 }

@@ -14,6 +14,7 @@
 		"de"		"{grey}Die Beine deines Spielers sind jetzt sichtbar."
 		"ko"		"{grey}플레이어의 다리가 이제 표시됩니다."
 		"lv"		"{grey}Tava spēlētāja kājas tagad ir redzamas."
+		"pt"		"{grey}As pernas do seu boneco agora estão visíveis."
 	}
 	"Quiet Option - Show Player Legs - Disable"
 	{
@@ -29,6 +30,7 @@
 		"de"		"{grey}Die Beine deines Spielers sind jetzt versteckt."
 		"ko"		"{grey}플레이어의 다리가 이제 숨겨졌습니다."
 		"lv"		"{grey}Tava spēlētāja kājas tagad ir paslēptas."
+		"pt"		"{grey}As pernas do seu boneco agora estão escondidas."
 	}
 	"Quiet Option - Show Players - Enable"
 	{
@@ -45,6 +47,7 @@
 		"de"		"{grey}Du zeigst jetzt andere Spieler."
 		"ko"		"{grey}이제 다른 플레이어가 표시됩니다."
 		"lv"		"{grey}Tagad tu redzi citus spēlētājus."
+		"pt"		"{grey}Você está agora vendo outros jogadores."
 	}
 	"Quiet Option - Show Players - Disable"
 	{
@@ -61,6 +64,7 @@
 		"de"		"{grey}Du versteckst jetzt andere Spieler."
 		"ko"		"{grey}이제 다른 플레이어가 숨겨졌습니다."
 		"lv"		"{grey}Tagad tu neredzi citus spēlētājus."
+		"pt"		"{grey}Você agora está escondendo os outros jogadores."
 	}
 	"Quiet Option - Show Weapon - Enable"
 	{
@@ -77,6 +81,7 @@
 		"de"		"{grey}Du zeigst jetzt deine Waffe."
 		"ko"		"{grey}이제 무기가 표시됩니다."
 		"lv"		"{grey}Tagad tu redzi savu ieroci."
+		"pt"		"{grey}Você ativou as armas."
 	}
 	"Quiet Option - Show Weapon - Disable"
 	{
@@ -93,17 +98,20 @@
 		"de"		"{grey}Du versteckst jetzt deine Waffe."
 		"ko"		"{grey}이제 무기가 숨겨졌습니다."
 		"lv"		"{grey}Tagad tu neredzi savu ieroci."
+		"pt"		"{grey}Você está escondendo as armas agora."
 	}
 	"Quiet Option - Auto Hide Weapon - Enable"
 	{
 		"en"		"{grey}You will now automatically hide your weapon upon spawning."
 		"chi"		"{grey}你现在会在重生时自动隐藏武器."
 		"ua"		"{grey}Тепер зброю буде автоматично приховано після відродження."
+		"pt"		"{grey}Você vai esconder automaticamente as armas quando spawnar."
 	}
 	"Quiet Option - Auto Hide Weapon - Disable"
 	{
 		"en"		"{grey}You will no longer automatically hide your weapon upon spawning."
 		"chi"		"{grey}你将不再在重生时自动隐藏武器."
 		"ua"		"{grey}Зброю більше не буде автоматично приховано після відродження."
+		"pt"		"{grey}Você não vai esconder automaticamente as armas quando spawnar."
 	}
 }

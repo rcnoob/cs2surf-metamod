@@ -15,6 +15,7 @@
 		"de"		"{darkred}Stoppe deinen Timer, bevor du versuchst dich zu teleportieren."
 		"ko"		"{darkred}텔레포트하기 전에 타이머를 중지하세요."
 		"lv"		"{darkred}Pirms teleportēšanās apstādini taimeri."
+		"pt"		"{darkred}Pare o seu timer antes de tentar teleportar."
 	}
 	"Goto - Error Message (Player In Spec)"
 	{
@@ -32,6 +33,7 @@
 		"de"		"{darkred}Du kannst dich nicht teleportieren. {player} ist ein Zuschauer."
 		"ko"		"{darkred}텔레포트할 수 없습니다. {player}님은 관전 중입니다."
 	 	"lv"		"{darkred}Nevar teleportēties. {player} ir skatītājs."
+		"pt"		"{darkred}Não foi possível teleportar. {player} é um espectador."
 	}
 	"Goto - Teleported"
 	{
@@ -49,6 +51,7 @@
 		"de"		"{grey}Zu {player} teleportiert."
 		"ko"		"{grey}{player}님에게 텔레포트되었습니다."
 		"lv"		"{grey}Teleportēts pie {player}."
+		"pt"		"{grey}Teleportado para {player}."
 	}
 	"Goto - Command Usage"
 	{
@@ -65,5 +68,6 @@
 		"de"		"{grey}Verwendung: {default}surf_goto <Spielername>"
 		"ko"		"{grey}사용법: {default}surf_goto <플레이어 이름>"
 		"lv"		"{grey}Lietojums: {default}surf_goto <spēlētāja vārds>"
+		"pt"		"{grey}Utilização: {default}surf_goto <nome do jogador>"
 	}
 }
