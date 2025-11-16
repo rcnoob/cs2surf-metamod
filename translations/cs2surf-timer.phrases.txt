@@ -14,6 +14,7 @@
 		"de"		"{yellow}1{grey} TP"
 		"ko"		"{yellow}1{grey} TP"
 		"lv"		"{yellow}1{grey} TP"
+		"pt"		"{yellow}1{grey} TP"
 	}
 	"2+ Teleports Text"
 	{
@@ -30,6 +31,7 @@
 		"de"		"{yellow}{tp_count}{grey} TPs"
 		"ko"		"{yellow}{tp_count}{grey} TPs"
 		"lv"		"{yellow}{tp_count}{grey} TPs"
+		"pt"		"{yellow}{tp_count}{grey} TPs"
 	}
 	"Personal Best Difference"
 	{
@@ -48,6 +50,7 @@
 		"de"		" ({color}{diff_text}{grey})"
 		"ko"		" ({color}{diff_text}{grey})"
 		"lv"		" ({color}{diff_text}{grey})"
+		"pt"		" ({color}{diff_text}{grey})"
 	}
 	"Beat Course Info - Basic"
 	{
@@ -65,6 +68,7 @@
 		"de"		"{lime}{player_name} {grey}hat {default}{course_name}{grey} in {default}{time}{grey} beendet | {mode_style_text}"
 		"ko"		"{lime}{player_name} {grey}님이 {default}{course_name}{grey} 코스를 {default}{time}{grey} 동안 완료했습니다 | {mode_style_text}"
 		"lv"		"{lime}{player_name} {grey}pabeidza {default}{course_name}{grey} {default}{time}{grey} laikā | {mode_style_text}"
+		"pt"		"{lime}{player_name} {grey}finalizou {default}{course_name}{grey} em {default}{time}{grey} | {mode_style_text}"
 	}
 	"Beat Course Info - Local"
 	{
@@ -82,6 +86,7 @@
 		"de"		"{grey}Server: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Insgesamt{grey}{pb_diff_text}"
 		"ko"		"{grey}서버 순위: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}전체{grey}{pb_diff_text}"
 		"lv"		"{grey}Serveris: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Kopvērtējums{grey}{pb_diff_text}"
+		"pt"		"{grey}Servidor: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Total{grey}{pb_diff_text}"
 	}
 	"Beat Course Info - Global"
 	{
@@ -98,6 +103,7 @@
 		"de"		"{grey}Global: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Insgesamt{grey}{pb_diff_text}"
 		"ko"		"{grey}글로벌 순위: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}전체{grey}{pb_diff_text}"
 		"lv"		"{grey}Globāli: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Kopvērtējums{grey}{pb_diff_text}"
+		"pt"		"{grey}Global: #{default}{rank}{grey}/{default}{max_rank}{grey} {yellow}Total{grey}{pb_diff_text}"
 	}
 	"Beat Course Info - Global Points"
 	{
@@ -108,8 +114,9 @@
 		"ua"		"{grey}Очки за курс: {purple}{points}{grey} {yellow}Загалом{grey} (+{purple}{points_gained}{grey}) | Рейтинг гравця: {purple}{player_rating}{grey}"
 		"sv"		"{grey}Ban Poäng: {purple}{points}{grey} {yellow}Allmän{grey} (+{purple}{points_gained}{grey}) | Spelar Gradering: {purple}{player_rating}{grey}"
 		"lv"		"{grey}Trases punkti: {purple}{points}{grey} {yellow}Kopvērtējums{grey} (+{purple}{points_gained}{grey}) | Spēlētāja reitings: {purple}{player_rating}{grey}"
+		"pt"		"{grey}Pontos de curso: {purple}{points}{grey} {yellow}Total{grey} (+{purple}{points_gained}{grey}) | Player Rating: {purple}{player_rating}{grey}"
 	}
-	
+
 	"Can't Pause (Generic)"
 	{
 		"en"		"{darkred}You can't pause right now."
@@ -124,6 +131,7 @@
 		"de"		"{darkred}Du kannst jetzt nicht pausieren."
 		"ko"		"{darkred}지금은 일시 정지를 할 수 없습니다."
 		"lv"		"{darkred}Tu šobrīd nevari pauzēt."
+		"pt"		"{darkred}Você não pode pausar agora."
 	}
 	"Can't Pause (Just Resumed)"
 	{
@@ -140,6 +148,7 @@
 		"de"		"{darkred}Du kannst nicht pausieren, weil du gerade fortgesetzt hast."
 		"ko"		"{darkred}방금 재개했기 때문에 일시 정지를 할 수 없습니다."
 		"lv"		"{darkred}Tu nevari pauzēt, jo tikko atsāki."
+		"pt"		"{darkred}Você não pode pausar agora pois você voltou o timer recentemente."
 	}
 	"Can't Pause (Midair)"
 	{
@@ -156,11 +165,12 @@
 		"de"		"{darkred}Du kannst in der Luft nicht pausieren."
 		"ko"		"{darkred}공중에서는 일시 정지를 할 수 없습니다."
 		"lv"		"{darkred}Tu nevari pauzēt, atrodoties gaisā."
+		"pt"		"{darkred}Você não pode pausar agora no meio do ar."
 	}
 	"Can't Pause (Just Landed)"
 	{
 		"en"		"{darkred}You can't pause because you just landed."
-		"chi"		"{darkred}你不能暂停, 因为你还没有站稳."	
+		"chi"		"{darkred}你不能暂停, 因为你还没有站稳."
 		"ru"		"{darkred}Вы не можете поставить паузу после приземления."
 		"pl"		"{darkred}Nie możesz zapauzować, ponieważ dopiero wylądowałeś."
 		"fi"		"{darkred}Et voi keskeyttää ajastinta, sillä laskeuduit juuri."
@@ -172,6 +182,7 @@
 		"de"		"{darkred}Du kannst nicht pausieren, weil du gerade gelandet bist."
 		"ko"		"{darkred}방금 착지했기 때문에 일시 정지를 할 수 없습니다."
 		"lv"		"{darkred}Tu nevari pauzēt, jo tikko nolaidies."
+		"pt"		"{darkred}Você não pode pausar pois você acabou de chegar ao chão."
 	}
 	"Can't Pause (Anti Pause Area)"
 	{
@@ -187,6 +198,7 @@
 		"de"		"{darkred}Du kannst nicht pausieren, weil das Pausieren in diesem Bereich deaktiviert ist."
 		"ko"		"{darkred}이 구역에서는 일시 정지가 비활성화되어 있어 일시 정지를 할 수 없습니다."
 		"lv"		"{darkred}Tu nevari pauzēt, jo šajā vietā pauzēšana ir atspējota."
+		"pt"		"{darkred}Você não pode pausar pois o pause está desativado nessa área."
 	}
 	"Can't Resume (Generic)"
 	{
@@ -202,6 +214,7 @@
 		"de"		"{darkred}Du kannst jetzt nicht fortfahren."
 		"ko"		"{darkred}지금은 재개할 수 없습니다."
 		"lv"		"{darkred}Tu šobrīd nevari atsākt."
+		"pt"		"{darkred}Você não pode resumir agora."
 	}
 	"Can't Resume (Just Paused)"
 	{
@@ -218,6 +231,7 @@
 		"de"		"{darkred}Du kannst nicht fortfahren, weil du gerade pausiert hast."
 		"ko"		"{darkred}방금 일시 정지했기 때문에 재개할 수 없습니다."
 		"lv"		"{darkred}Tu nevari atsākt, jo tikko nopauzēji."
+		"pt"		"{darkred}Você não pode resumir porque acabou de pausar."
 	}
 	"Can't Finish Run (Missed a Checkpoint Zone)"
 	{
@@ -229,6 +243,7 @@
 		"ko"		"{darkred}체크포인트 구역을 놓쳤기 때문에 주행을 완료할 수 없습니다."
 		"es"		"{darkred}No puedes terminar tu carrera porque te salteaste una zona de checkpoint."
 		"lv"		"{darkred}Tu nevari pabeigt skrējienu, jo esi izlaidis kontrolpunktu zonu."
+		"pt"		"{darkred}Você não pode terminar sua corrida porque perdeu uma zona de checkpoint."
 	}
 	"Can't Finish Run (Missed Checkpoint Zones)"
 	{
@@ -241,6 +256,7 @@
 		"ko"		"{darkred}{missed_count}개의 체크포인트 구역을 놓쳤기 때문에 주행을 완료할 수 없습니다."
 		"es"		"{darkred}No puedes terminar tu carrera porque te salteaste {missed_count} zonas de checkpoint."
 	   	"lv"		"{darkred}Tu nevari pabeigt skrējienu, jo esi izlaidis {missed_count} kontrolpunktu zonas."
+		"pt"		"{darkred}Você não pode terminar sua corrida porque perdeu {missed_count} zonas de checkpoint."
 	}
 	"Can't Finish Run (Missed Stage)"
 	{
@@ -253,6 +269,7 @@
 		"ko"		"{darkred}스테이지 구역 {stage_number}를 놓쳤기 때문에 주행을 완료할 수 없습니다."
 		"es"		"{darkred}No puede finalizar su carrera, porque te salteaste la zona de etapa {stage_number}."
 		"lv"		"{darkred}Tu nevari pabeigt skrējienu, jo esi izlaidis posma zonu {stage_number}."
+		"pt"		"{darkred}Você não pode terminar sua corrida porque perdeu o estágio {stage_number}."
 	}
 	"Touched too high stage number (Missed stage)"
 	{
@@ -265,6 +282,7 @@
 		"ko"		"{darkred}스테이지 구역 {stage_number}를 놓쳤습니다!"
 		"es"		"{darkred}¡Te salteaste la zona de etapa {stage_number}!"
 		"lv"		"{darkred}Tu esi izlaidis posma zonu {stage_number}!"
+		"pt"		"{darkred}Você perdeu o estágio {stage_number}!"
 	}
 	"No Start Position For Course"
 	{
@@ -277,8 +295,9 @@
 		"ko"		"{darkred}{default}{course_name}{darkred} 코스의 시작 위치를 찾을 수 없습니다!"
 		"es"		"{darkred}No se encuentra una posición de inicio para el recorrido {default}{course_name}{darkred}!"
 		"lv"		"{darkred}Starta pozīcija netika atrasta trasei {default}{course_name}{darkred}!"
+		"pt"		"{darkred}Posição de início não encontrada para o curso {default}{course_name}{darkred}!"
 	}
-	
+
 	// Split #1: 12:34.56 (+12.34) | SPB +12.12 | PRO SPB +23.45
 	"Course Split Reached"
 	{
@@ -291,6 +310,7 @@
 		"ko"		"{grey}분할 {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"es"		"{grey}Parte {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"lv"		"{grey}Sadalījums {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
+		"pt"		"{grey}Split {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 	}
 	"Course Checkpoint Reached"
 	{
@@ -302,6 +322,7 @@
 		"ko"		"{grey}체크포인트 {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"es"		"{grey}CP {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"lv"		"{grey}KP {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
+		"pt"		"{grey}CP {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 	}
 	"Course Stage Reached"
 	{
@@ -314,8 +335,9 @@
 		"ko"		"{grey}스테이지 {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"es"		"{grey}Etapa {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 		"lv"		"{grey}Posms {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
+		"pt"		"{grey}Estágio {default}#{number}{grey}: {lime}{time_text}{grey}{diff_text}"
 	}
-	
+
 	// The spaces are intentional.
 	"Server PB Diff (Overall)"
 	{
@@ -326,6 +348,7 @@
 		"ua"		" | SPB {diff_time}"
 		"es"		" | SPB {diff_time}"
 		"lv"		" | SPB {diff_time}"
+		"pt"		" | SPB {diff_time}"
 	}
 	"Global PB Diff (Overall)"
 	{
@@ -336,6 +359,7 @@
 		"ua"		" | GPB {diff_time}"
 		"es"		" | GPB {diff_time}"
 		"lv"		" | GPB {diff_time}"
+		"pt"		" | GPB {diff_time}"
 	}
 	"SR Diff (Overall)"
 	{
@@ -346,6 +370,7 @@
 		"ua"		" | SR {diff_time}"
 		"es"		" | SR {diff_time}"
 		"lv"		" | SR {diff_time}"
+		"pt"		" | SR {diff_time}"
 	}
 	"WR Diff (Overall)"
 	{
@@ -356,8 +381,9 @@
 		"ua"		" | WR {diff_time}"
 		"es"		" | WR {diff_time}"
 		"lv"		" | WR {diff_time}"
+		"pt"		" | WR {diff_time}"
 	}
-	
+
 	// You missed your best Overall time (01:23.45)
 	"Missed Server PB (Overall)"
 	{
@@ -370,6 +396,7 @@
 		"ko"		"{grey}최고 기록인 {yellow}전체{grey} 시간을 놓쳤습니다 ({lightred}{time}{grey})."
 		"es"		"{grey}Has fallado tu mejor tiempo {yellow}General{grey} ({lightred}{time}{grey})."
 		"lv"		"{grey}Tu nepārspēji labāko servera {yellow}Kopvērtējuma{grey} laiku ({lightred}{time}{grey})."
+		"pt"		"{grey}Você perdeu o seu melhor tempo do servidor ({lightred}{time}{grey})."
 	}
 	"Missed Global PB (Overall)"
 	{
@@ -382,6 +409,7 @@
 		"ko"		"{grey}글로벌 최고 기록인 {yellow}전체{grey} 시간을 놓쳤습니다 ({lightred}{time}{grey})."
 		"es"		"{grey}Has fallado tu mejor tiempo {yellow}General{grey} ({lightred}{time}{grey})."
 		"lv"		"{grey}Tu nepārspēji labāko globālo {yellow}Kopvērtējuma{grey} laiku ({lightred}{time}{grey})."
+		"pt"		"{grey}Você pedeu o seu melhor tempo global ({lightred}{time}{grey})."
 	}
 	"Missed SR (Overall)"
 	{
@@ -393,7 +421,8 @@
 		"tr"		"{grey}Süreyi kaçırdın {yellow}Tümünde{grey} sunucu rekoru ({lightred}{time}{grey})."
 		"ko"		"{grey}서버 최고 기록인 {yellow}전체{grey} 시간을 놓쳤습니다 ({lightred}{time}{grey})."
 		"es"		"{grey}Has fallado el tiempo récord del servidor {yellow}General{grey} ({lightred}{time}{grey})."
-	        "lv"		"{grey}Tu nepārspēji {yellow}Kopvērtējuma{grey} servera rekorda laiku ({lightred}{time}{grey})."
+		"lv"		"{grey}Tu nepārspēji {yellow}Kopvērtējuma{grey} servera rekorda laiku ({lightred}{time}{grey})."
+		"pt"		"{grey}Você perdeu o seu melhor tempo do servidor ({lightred}{time}{grey})."
 	}
 	"Missed WR (Overall)"
 	{
@@ -406,8 +435,9 @@
 		"ko"		"{grey}글로벌 최고 기록인 {yellow}전체{grey} 시간을 놓쳤습니다 ({lightred}{time}{grey})."
 		"es"		"{grey}Has fallado el tiempo récord global {yellow}General{grey} ({lightred}{time}{grey})."
 		"lv"		"{grey}Tu nepārspēji {yellow}Kopvērtējuma{grey} globālo rekorda laiku ({lightred}{time}{grey})."
+		"pt"		"{grey}Você perdeu o seu melhor tempo global ({lightred}{time}{grey})."
 	}
-	
+
 	"Compare Command Usage"
 	{
 		"en"		"{grey}Usage: {default}surf_comparelevel <none/off/spb/pb/gpb/sr/wr>{grey}."
@@ -418,6 +448,7 @@
 		"ko"		"{grey}사용법: {default}surf_comparelevel <none/off/spb/pb/gpb/sr/wr>{grey}."
 		"es"		"{grey}Usa: {default}surf_comparelevel <none/off/spb/pb/gpb/sr/wr>{grey}."
 		"lv"		"{grey}Pielietojums: {default}surf_comparelevel <none/off/spb/pb/gpb/sr/wr>{grey}."
+		"pt"		"{grey}Utilização: {default}surf_comparelevel <none/off/spb/pb/gpb/sr/wr>{grey}."
 	}
 	"Compare Disabled"
 	{
@@ -429,6 +460,7 @@
 		"ko"		"{grey}주행 비교가 비활성화되었습니다."
 		"es"		"{grey}Comparación de carreras desactivada."
 		"lv"		"{grey}Skrējiena salīdzināšana ir atspējota."
+		"pt"		"{grey}Comparação de corridas desativada."
 	}
 	"Compare Server PB"
 	{
@@ -440,6 +472,7 @@
 		"ko"		"{grey}이제 주행 기록이 서버 개인 최고 기록과 비교됩니다."
 		"es"		"{grey}Ahora compararás tu carrera con tu mejor marca personal del servidor."
 		"lv"		"{grey}Tagad tavs skrējiens tiks salīdzināts ar tavu servera personīgo rekordu."
+		"pt"		"{grey}Você agora comparará sua corrida com seu melhor tempo pessoal do servidor."
 	}
 	"Compare Global PB"
 	{
@@ -451,6 +484,7 @@
 		"ko"		"{grey}이제 주행 기록이 글로벌 개인 최고 기록과 최대 비교됩니다."
 		"es"		"{grey}Ahora compararás tu carrera con tu mejor marca personal global."
 		"lv"		"{grey}Tagad tavs skrējiens tiks salīdzināts ar tavu globālo personīgo rekordu."
+		"pt"		"{grey}Você agora comparará sua corrida com seu melhor tempo pessoal global."
 	}
 	"Compare Server Record"
 	{
@@ -462,6 +496,7 @@
 		"ko"		"{grey}이제 주행 기록이 서버 최고 기록과 최대 비교됩니다."
 		"es"		"{grey}Ahora compararás tu carrera con el récord del servidor."
 		"lv"		"{grey}Tagad tavs skrējiens tiks salīdzināts ar servera rekordu."
+		"pt"		"{grey}Você agora comparará sua corrida com o recorde do servidor."
 	}
 	"Compare World Record"
 	{
@@ -473,8 +508,9 @@
 		"ko"		"{grey}이제 주행 기록이 세계 최고 기록과 최대 비교됩니다."
 		"es"		"{grey}Ahora compararás tu carrera con el récord mundial."
 		"lv"		"{grey}Tagad tavs skrējiens tiks salīdzināts ar pasaules rekordu."
+		"pt"		"{grey}Você agora comparará sua corrida com o recorde do mundo."
 	}
-	
+
   	"Request - Failed (Invalid Map)"
 	{
 		"en"		"{darkred}Failed to process current request. (Invalid map)"
@@ -483,6 +519,7 @@
 		"sv"		"{darkred}Det gick inte att behandla begäran. (Ogiltig map)"
 		"es"		"{darkred}Fallo al procesar la solicitud actual. (Mapa no válido)"
 		"lv"		"{darkred}Neizdevās apstrādāt pieprasījumu. (Nederīga karte)"
+		"pt"		"{darkred}Falha para processar a requisição atual. (Mapa inválida)"
 	}
   	"Request - Failed (Generic)"
 	{
@@ -492,6 +529,7 @@
 		"sv"		"{darkred}Det gick inte att behandla begäran."
 		"es"		"{darkred}Fallo al procesar la solicitud actual."
 		"lv"		"{darkred}Neizdevās apstrādāt pašreizējo pieprasījumu."
+		"pt"		"{darkred}Falha para processar a requisição atual."
 	}
   	"Request - Failed (No Course in Current Map)"
 	{
@@ -502,6 +540,7 @@
 		"sv"		"{darkred}Det gick inte att behandla begäran. (Ingen bana finns på kartan {map_name})"
 		"es"		"{darkred}Fallo al procesar la solicitud actual. (No hay recorridos en el mapa {map_name})"
 		"lv"		"{darkred}Neizdevās apstrādāt pašreizējo pieprasījumu. (Kartē {map_name} nav neviena trases)"
+		"pt"		"{darkred}Falha para processar a requisição atual. (Nenhum curso existe no mapa {map_name})"
 	}
 
 	"Timer Stop Sound Enabled"
@@ -509,17 +548,20 @@
 		"en"		"{grey}You have enabled the timer stop sound."
 		"chi"		"{grey}你已启用计时器停止音效."
 		"ua"		"{grey}Ви увімкнули звук зупинки таймера."
+		"pt"		"{grey}Você ativou o som de fim do timer."
 	}
 	"Timer Stop Sound Disabled"
 	{
 		"en"		"{grey}You have disabled the timer stop sound."
 		"chi"		"{grey}你已禁用计时器停止音效."
 		"ua"		"{grey}Ви вимкнули звук зупинки таймера."
+		"pt"		"{grey}Você desativou o som de fim do timer."
 	}
 
 	"Start Speed"
 	{
 		"#format"	"start_speed:.0f"
 		"en"		"{grey}Start speed: {lime}{start_speed}{grey}"
+		"pt"		"{grey}Velocidade inicial: {lime}{start_speed}{grey}"
 	}
 }

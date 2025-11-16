@@ -14,6 +14,7 @@
 		"de"		"{grey}Verwendung: {default}surf_mode <mode>.{grey} Siehe Konsole für mögliche Modi!"
 		"ko"		"{grey}사용법: {default}surf_mode <mode>{grey}. 가능한 모드는 콘솔에서 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_mode <režīms>.{grey} Pārbaudi konsoli, lai redzētu pieejamos režīmus!"
+		"pt"		"{grey}Utilização: {default}surf_mode <modo>.{grey} Verifique o console para a lista de modos!"
 	}
 	"Possible & Current Modes"
 	{
@@ -30,6 +31,7 @@
 		"de"		"Verfügbare Modi: (Der aktuelle Modus ist {mode})"
 		"ko"		"가능한 모드: (현재 모드: {mode})"
 		"lv"		"Iespējamie režīmi: (Pašreizējais režīms ir {mode})"
+		"pt"		"Modos disponíveis: (O modo atual é {mode})"
 	}
 	"Mode Not Available"
 	{
@@ -48,6 +50,7 @@
 		"de"		"{grey}Der {purple}{mode} {grey}Modus ist derzeit nicht verfügbar."
 		"ko"		"{grey}{purple}{mode}{grey} 모드는 현재 사용 불가능합니다."
 		"lv"		"{grey}{purple}{mode} {grey}režīms pašlaik nav pieejams."
+		"pt"		"{grey}O modo {purple}{mode} {grey}não está disponível."
 	}
 	"Switched Mode"
 	{
@@ -66,5 +69,6 @@
 		"de"		"{grey}Du hast den Modus auf {purple}{mode} {grey}wechseln."
 		"ko"		"{grey}이제 {purple}{mode}{grey} 모드로 전환되었습니다."
 		"lv"		"{grey}Tu pārslēdzies uz {purple}{mode} {grey}režīmu."
+		"pt"		"{grey}Você alterou para o modo {purple}{mode}{grey}."
 	}
 }

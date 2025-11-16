@@ -17,6 +17,7 @@
 		"de"		"{grey}Du hast ein Checkpoint gesetzt (#{default}{checkpoint_count}{grey})."
 		"ko"		"{grey}체크포인트를 만들었습니다 (#{default}{checkpoint_count}{grey})."
 		"lv"		"{grey}Tu esi izveidojis kontrolpunktu (#{default}{checkpoint_count}{grey})."
+		"pt"		"{grey}Você fez o checkpoint (#{default}{checkpoint_count}{grey})."
 	}
 	"Can't Teleport (No Checkpoints)"
 	{
@@ -33,6 +34,7 @@
 		"de"		"{darkred}Du kannst dich nicht teleportieren, da Du keinen Checkpoint festgelegt hast."
 		"ko"		"{darkred}체크포인트를 설정하지 않았기 때문에 텔레포트할 수 없습니다."
 		"lv"		"{darkred}Tu nevari teleportēties, jo neesi iestatījis kontrolpunktu."
+		"pt"		"{darkred}Você não pode teleportar pois não possuí nenhum checkpoint."
 	}
 	"Can't Teleport (Not TAS)"
 	{
@@ -53,6 +55,7 @@
 		"de"		"{darkred}Du kannst dich in diesem Bereich nicht zu Deinem Checkpoint teleportieren."
 		"ko"		"{darkred}이 구역에서는 체크포인트로 텔레포트할 수 없습니다."
 		"lv"		"{darkred}Tu nevari teleportēties uz saviem kontrolpunktiem šajā zonā."
+		"pt"		"{darkred}Você não pode teleportar para os seus checkpoints no local atual."
 	}
 	"Can't Prev CP (No Checkpoints)"
 	{
@@ -69,6 +72,7 @@
 		"de"		"{darkred}Du hast keine Checkpoints, zu denen Du zurückkehren kannst."
 		"ko"		"{darkred}돌아갈 체크포인트가 없습니다."
 		"lv"		"{darkred}Tev nav neviena kontrolpunkta, uz kuru atgriezties."
+		"pt"		"{darkred}Você não possuí checkpoints para voltar."
 	}
 	"Can't Next CP (No Checkpoints)"
 	{
@@ -85,6 +89,7 @@
 		"de"		"{darkred}Es gibt keine Checkpoints, zu denen Du weitergehen kannst."
 		"ko"		"{darkred}앞으로 갈 체크포인트가 없습니다."
 		"lv"		"{darkred}Tev nav neviena kontrolpunkta, uz kuru doties uz priekšu."
+		"pt"		"{darkred}Você não possuí nenhum checkpoints avançados."
 	}
 	"Checkpoints Cleared By Map"
 	{
@@ -96,5 +101,6 @@
 		"ko"		"{darkred}맵에서 체크포인트를 초기화했습니다."
 		"es"		"{darkred}El mapa ha limpiado tus checkpoints."
 		"lv"		"{darkred}Karte ir notīrījusi tavus kontrolpunktus."
+		"pt"		"{darkred}O mapa resetou os seus checkpoints."
 	}
 }

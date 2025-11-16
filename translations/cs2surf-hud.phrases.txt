@@ -14,6 +14,7 @@
 		"de"	"Geschwindigkeit"
 		"ko"	"속도"
 		"lv"	"Ātrums"
+		"pt"	"Velocidade"
 	}
 	"HUD - Stopped Text"
 	{
@@ -30,6 +31,7 @@
 		"de"		" (GESTOPPT)"
 		"ko"		" (중지됨)"
 		"lv"		" (APTURĒTS)"
+		"pt"		" (PARADO)"
 	}
 	"HUD - Paused Text"
 	{
@@ -46,6 +48,7 @@
 		"de"		" (PAUSIERT)"
 		"ko"		" (일시정지됨)"
 		"lv"		" (NOPAUZĒTS)"
+		"pt"		" (PAUSADO)"
 	}
 	"HUD - Speed Text"
 	{
@@ -63,6 +66,7 @@
 		"de"		"Geschwindigkeit: {speed}"
 		"ko"		"속도: {speed}"
 		"lv"		"Ātrums: {speed}"
+		"pt"		"Velocidade: {speed}"
 	}
 	"HUD - Speed Text (Takeoff)"
 	{
@@ -80,6 +84,7 @@
 		"de"		"Geschwindigkeit: {speed} ({takeoff_speed})"
 		"ko"		"속도: {speed} ({takeoff_speed})"
 		"lv"		"Ātrums: {speed} ({takeoff_speed})"
+		"pt"		"Velocidade: {speed} ({takeoff_speed})"
 	}
 	"HUD - Key Text"
 	{
@@ -97,6 +102,7 @@
 		"de"		"Tasten: {left} {forward} {back} {right} {duck} {jump}"
 		"ko"		"키 입력: {left} {forward} {back} {right} {duck} {jump}"
 		"lv"		"Taustiņi: {left} {forward} {back} {right} {duck} {jump}"
+		"pt"		"Teclas: {left} {forward} {back} {right} {duck} {jump}"
 	}
 	"HUD - Timer Text"
 	{
@@ -114,6 +120,7 @@
 		"de"		"{time}{stop_text}{pause_text}"
 		"ko"		"{time}{stop_text}{pause_text}"
 		"lv"		"{time}{stop_text}{pause_text}"
+		"pt"		"{time}{stop_text}{pause_text}"
 	}
 	"HUD - Stage Text"
 	{
@@ -131,6 +138,7 @@
 		"de"		"{stage}"
 		"ko"		"{stage}"
 		"lv"		"{stage}"
+		"pt"		"Estágio {stage}"
 	}
 	"HUD - Center Text"
 	{
@@ -149,6 +157,7 @@
 		"de"		"{stage_text}\n{timer_text}"
 		"ko"		"{stage_text}\n{timer_text}"
 		"lv"		"{stage_text}\n{timer_text}"
+		"pt"		"{stage_text}\n{timer_text}"
 	}
 	// This text is actually "more" center.
 	"HUD - Alert Text"
@@ -167,6 +176,7 @@
 		"de"		""
 		"ko"		""
 		"lv"		""
+		"pt"		""
 	}
 	"HUD - HTML Center Text"
 	{
@@ -185,6 +195,7 @@
 		"de"		"{speed_text}<br>{key_text}"
 		"ko"		"{speed_text}<br>{key_text}"
 		"lv"		"{speed_text}<br>{key_text}"
+		"pt"		"{speed_text}<br>{key_text}"
 	}
 	
 	"HUD - HTML Panel Disabled"
@@ -202,6 +213,7 @@
 		"de"		"Panel deaktiviert"
 		"ko"		"패널이 비활성화되었습니다."
 		"lv"		"Panelis atslēgts."
+		"pt"		"Painel desativado."
 	}
 
 	"HUD Option - Info Panel - Enable"
@@ -219,6 +231,7 @@
 		"de"		"{grey}Dein zentrales Informationspanel wurde aktiviert."
 		"ko"		"{grey}중앙 정보 패널이 활성화되었습니다."
 		"lv"		"{grey}Jūsu centrālais informācijas panelis ir aktivizēts."
+		"pt"		"{grey}O painel central de informações foi habilitado."
 	}
 	"HUD Option - Info Panel - Disable"
 	{
@@ -235,5 +248,6 @@
 		"de"		"{grey}Dein zentrales Informationspanel wurde deaktiviert."
 		"ko"		"{grey}중앙 정보 패널이 비활성화되었습니다."
 		"lv"		"{grey}Jūsu centrālais informācijas panelis ir deaktivizēts."
+		"pt"		"{grey}O painel central de informações foi desativado."
 	}
 }

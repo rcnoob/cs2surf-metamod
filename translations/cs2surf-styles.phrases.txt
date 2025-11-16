@@ -14,6 +14,7 @@
 		"de"		"{grey}Verwendung: {default}surf_style <style>/+<style>/-<style>{grey}. Überprüfe die Konsole auf mögliche Stile!"
 		"ko"		"{grey}사용법: {default}surf_style <style>/+<style>/-<style>{grey}. 가능한 스타일은 콘솔에서 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_style <style>/+<style>/-<style>{grey}. Iespējamos stilus skaties konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_style <estilo>/+<estilo>/-<estilo>{grey}. Veja o console para uma lista de estilos!"
 	}
 	"Add Style Command Usage"
 	{
@@ -29,6 +30,7 @@
 		"de"		"{grey}Verwendung: {default}surf_addstyle <style>{grey}. Überprüfe die Konsole auf mögliche Stile!"
 		"ko"		"{grey}사용법: {default}surf_addstyle <style>{grey}. 가능한 스타일은 콘솔에서 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_addstyle <style>{grey}. Iespējamos stilus skaties konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_addstyle <estilo>{grey}. Veja o console para uma lista de estilos!"
 	}
 	"Remove Style Command Usage"
 	{
@@ -44,6 +46,7 @@
 		"de"		"{grey}Verwendung: {default}surf_removestyle <style>{grey}. Überprüfe die Konsole auf mögliche Stile!"
 		"ko"		"{grey}사용법: {default}surf_removestyle <style>{grey}. 가능한 스타일은 콘솔에서 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_removestyle <style>{grey}. Iespējamos stilus skaties konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_removestyle <estilo>{grey}. Veja o console para uma lista de estilos!"
 	}
 	"Toggle Style Command Usage"
 	{
@@ -59,6 +62,7 @@
 		"de"		"{grey}Verwendung: {default}surf_removestyle <style>{grey}. Überprüfe die Konsole auf mögliche Stile!"
 		"ko"		"{grey}사용법: {default}surf_removestyle <style>{grey}. 가능한 스타일은 콘솔에서 확인하세요!"
 		"lv"		"{grey}Pielietojums: {default}surf_removestyle <style>{grey}. Iespējamos stilus skaties konsolē!"
+		"pt"		"{grey}Utilização: {default}surf_removestyle <estilo>{grey}. Veja o console para uma lista de estilos!"
 	}
 	"Current Styles"
 	{
@@ -74,6 +78,7 @@
 		"de"		"Aktivierte Stile:"
 		"ko"		"현재 활성화된 스타일:"
 		"lv"		"Pašreiz aktīvie stili:"
+		"pt"		"Estilos ativos:"
 	}
 	"Possible Styles"
 	{
@@ -89,6 +94,7 @@
 		"de"		"Mögliche Stile:"
 		"ko"		"가능한 스타일:"
 		"lv"		"Iespējamie stili:"
+		"pt"		"Estilos possíveis:"
 	}
 	"Style Not Available"
 	{
@@ -106,6 +112,7 @@
 		"de"		"{grey}Der Stil {purple}{style} {grey}ist derzeit nicht verfügbar."
 		"ko"		"{grey}{purple}{style} {grey}스타일은 현재 사용 불가능합니다."
 		"lv"		"{grey}Stils {purple}{style} {grey}šobrīd nav pieejams."
+		"pt"		"{grey}O estilo {purple}{style} {grey}não está disponível no momento."
 	}
 	"Styles Cleared"
 	{
@@ -121,6 +128,7 @@
 		"de"		"{grey}Du hast deine Stile gelöscht."
 		"ko"		"{grey}스타일을 초기화했습니다."
 		"lv"		"{grey}Tu esi notīrījis savus stilus."
+		"pt"		"{grey}Você limpou seus estilos."
 	}
 	"Style Removed"
 	{
@@ -137,6 +145,7 @@
 		"de"		"{grey}Du hast den Stil {purple}{style}{grey} entfernt."
 		"ko"		"{grey}{purple}{style}{grey} 스타일을 제거했습니다."
 		"lv"		"{grey}Tu noņēmi stilu {purple}{style}{grey}."
+		"pt"		"{grey}Você removeu o estilo {purple}{style}{grey}."
 	}
 	"Style Added"
 	{
@@ -153,6 +162,7 @@
 		"de"		"{grey}Du hast den Stil {purple}{style}{grey} hinzugefügt."
 		"ko"		"{grey}{purple}{style}{grey} 스타일을 추가했습니다."
 		"lv"		"{grey}Tu pievienoji stilu {purple}{style}{grey}."
+		"pt"		"{grey}Você adicionou o estilo {purple}{style}{grey}."
 	}
 	"Style Already Active"
 	{
@@ -169,6 +179,7 @@
 		"de"		"{darkred}Der Stil {purple}{style}{darkred} ist bereits aktiv."
 		"ko"		"{darkred}{purple}{style}{darkred} 스타일은 이미 활성화되어 있습니다."
 		"lv"		"{darkred}Stils {purple}{style}{darkred} jau ir aktīvs."
+		"pt"		"{darkred}O estilo {purple}{style}{darkred} já está ativo."
 	}
 	"Style Not Active"
 	{
@@ -186,6 +197,7 @@
 		"de"		"{darkred}Der Stil {purple}{style}{darkred} ist nicht aktiv."
 		"ko"		"{darkred}{purple}{style}{darkred} 스타일은 활성화되지 않았습니다."
 		"lv"		"{darkred}Stils {purple}{style}{darkred} nav aktīvs."
+		"pt"		"{darkred}O estilo {purple}{style}{darkred} não está ativo."
 	}
 	"Style Conflict"
 	{
@@ -202,5 +214,6 @@
 		"de"		"{darkred}Stil {purple}{style}{darkred} kann nicht hinzugefügt werden, da der Konfliktstil {purple}{conflict_style}{darkred} aktiv ist."
 		"ko"		"{darkred}{purple}{style}{darkred} 스타일을 추가할 수 없습니다. {purple}{conflict_style}{darkred} 스타일이 활성화되어 있어 충돌이 발생합니다."
 		"lv"		"{darkred}Nevar pievienot stilu {purple}{style}{darkred}, jo ir aktīvs konflikējošais stils {purple}{conflict_style}{darkred}."
+		"pt"		"{darkred}Impossível adicionar estilo {purple}{style}{darkred} já que o estilo conflitante {purple}{conflict_style}{darkred} está ativo."
 	}
 }

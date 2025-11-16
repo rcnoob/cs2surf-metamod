@@ -14,6 +14,7 @@
 		"de"		"{grey}Deine custom Startposition konnte nicht festgelegt werden!"
 		"ko"		"{grey}사용자 지정 시작 위치를 설정하지 못했습니다!"
 		"lv"		"{grey}Neizdevās iestatīt tavu pielāgoto starta pozīciju!"
+		"pt"		"{grey}Falha ao definir uma posição customizada!"
 	}
 	"Set Custom Start Position"
 	{
@@ -30,6 +31,7 @@
 		"de"		"{grey}Du hast deine custom Startposition festgelegt."
 		"ko"		"{grey}사용자 지정 시작 위치를 설정했습니다."
 		"lv"		"{grey}Tu esi iestatījis savu pielāgoto starta pozīciju."
+		"pt"		"{grey}Você definiu uma posição customizada de início."
 	}
 	"Cleared Custom Start Position"
 	{
@@ -46,5 +48,6 @@
 		"de"		"{grey}Du hast deine Startposition gelöscht."
 		"ko"		"{grey}사용자 지정 시작 위치를 지웠습니다."
 		"lv"		"{grey}Tu esi notīrījis savu pielāgoto starta pozīciju."
+		"en"		"{grey}Você redefiniu a posição customizada de início."
 	}
 }

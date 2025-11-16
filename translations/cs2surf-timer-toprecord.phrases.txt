@@ -17,6 +17,7 @@
 		"de"		"{grey}Serverrekorde auf {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 		"ko"		"{grey}서버 기록: {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 		"lv"  		"{grey}Servera rekordi kartē {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
+		"pt"		"{grey}Records do Servidor em {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 	}
 	"WR Header"
 	{
@@ -27,6 +28,7 @@
 		"ua"		"{grey}Світові рекорди на мапі {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 		"sv"		"{grey}Globala Rekord på {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 		"lv"  		"{grey}Globālie rekordi kartē {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
+		"pt"		"{grey}Recordes globais em {default}{map_name}{grey} ({default}{course_name}{grey}) [{purple}{mode_name}{grey}]"
 	}
 	"No Times"
 	{
@@ -43,6 +45,7 @@
 		"de"		"{grey}Es wurden keine Zeiten gefunden!"
 		"ko"		"{grey}기록이 없습니다!"
 		"lv"  		"{grey}Nav atrasti nekādi laiki!"
+		"pt"		"{grey}Nenhum tempo foi encontrado!"
 	}
 	"Top Record - Overall"
 	{
@@ -61,8 +64,9 @@
 		"de"		"{yellow}Gesamt{grey}: {default}{time}{grey} von {lime}{player_name}{grey}"
 		"ko"		"{yellow}전체{grey}: {default}{time}{grey} {lime}{player_name}{grey}님"
 		"lv"  		"{yellow}Kopējais{grey}: {default}{time}{grey} no {lime}{player_name}{grey}"
+		"pt"		"{yellow}Overall{grey}: {default}{time}{grey} por {lime}{player_name}{grey}"
 	}
-	"Top Record Request - Failed (Generic)" 
+	"Top Record Request - Failed (Generic)"
 	{
 		"en"		"{darkred}Failed to retrieve record information."
 		"chi"		"{darkred}无法找到地图记录信息."
@@ -77,6 +81,7 @@
 		"de"		"{darkred}Fehler beim Abrufen der Rekordinformationen."
 		"ko"		"{darkred}기록 정보를 가져오지 못했습니다."
 		"lv"  		"{darkred}Neizdevās iegūt rekorda informāciju."
+		"pt"		"{darkred}Falha ao recuperar informações sobre o recorde."
 	}
 	"Top Record Request - Invalid Course Name"
 	{
@@ -94,6 +99,7 @@
 		"de"		"{darkred}Abruf von Rekordinformationen fehlgeschlagen. {grey}(Ungültiger Kursname {default}{course_name}{grey})"
 		"ko"		"{darkred}기록 정보를 가져오지 못했습니다. {grey}(잘못된 코스 이름 {default}{course_name}{grey})"
 		"lv"  		"{darkred}Neizdevās iegūt rekorda informāciju. {grey}(Nederīgs kursa nosaukums {default}{course_name}{grey})"
+		"pt"		"{darkred}Falha ao recuperar informações sobre o recorde. {grey}(Nome do curso inválido {default}{course_name}{grey})"
 	}
 	"WR/SR Command Usage"
 	{
@@ -109,6 +115,7 @@
 		"de"		"{grey}Verwendung: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Siehe Konsole für Details!"
 		"ko"		"{grey}사용법: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. 자세한 내용은 콘솔을 확인하세요!"
 		"lv"  		"{grey}Pielietojums: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Pārbaudi konsoli, lai iegūtu detalizētu informāciju!"
+		"pt"		"{grey}Utilização: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Verifique o console para mais informações!"
 	}
 	"WR/SR Command Usage - Console"
 	{
@@ -124,5 +131,6 @@
 		"de"		"Verwendung: surf_wr/surf_sr <c/course/map/mode=...>\nBeispiel: \"surf_wr map=surf_map c=Main\"."
 		"ko"		"사용법: surf_wr/surf_sr <c/course/map/mode=...>\n예시: \"surf_wr map=surf_map c=Main\"."
 		"lv"  		"Pielietojums: surf_wr/surf_sr <c/course/map/mode=...>\nPiemērs: \"surf_wr map=surf_map c=Main\"."
+		"pt"		"Utilização: surf_wr/surf_sr <c/course/map/mode=...>\nExemplo: \"surf_wr map=surf_map c=Main\"."
 	}
 }
