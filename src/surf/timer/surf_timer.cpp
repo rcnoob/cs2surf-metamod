@@ -130,7 +130,7 @@ void SurfTimerService::StageZoneStartTouch(const SurfCourseDescriptor *course, i
 	// next stage
 	if (stageNumber == this->currentStage + 1)
 	{
-		this->stageZoneTimes[this->currentStage] = this->GetTime() - this->stageEndTouchTimes[this->currentStage];
+		this->stageZoneTimes[this->currentStage - 1] = this->GetTime() - this->stageEndTouchTimes[this->currentStage - 1];
 
 		this->PlayReachedStageSound();
 		this->ShowStageText();
@@ -147,7 +147,7 @@ void SurfTimerService::StageZoneEndTouch(const SurfCourseDescriptor *course, i32
 
 	assert(stageNumber > INVALID_STAGE_NUMBER && stageNumber < SURF_MAX_STAGE_ZONES);
 
-	this->stageEndTouchTimes[stageNumber] = this->GetTime();
+	this->stageEndTouchTimes[this->currentStage - 1] = this->GetTime();
 }
 
 bool SurfTimerService::TimerStart(const SurfCourseDescriptor *courseDesc, bool playSound)
@@ -201,7 +201,7 @@ bool SurfTimerService::TimerStart(const SurfCourseDescriptor *courseDesc, bool p
 	{
 		this->currentStage = 1;
 		// initialize stage 1 end touch time
-		this->stageEndTouchTimes[1] = this->GetTime();
+		this->stageEndTouchTimes[0] = this->GetTime();
 	}
 	else
 	{
@@ -988,6 +988,14 @@ void SurfTimerService::ClearRecordCache()
 {
 	SurfTimerService::srCache.clear();
 	SurfTimerService::wrCache.clear();
+	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	{
+		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
+		if (player && player->timerService)
+		{
+			player->timerService->ClearPBCache();
+		}
+	}
 }
 
 void SurfTimerService::UpdateLocalRecordCache()
@@ -1227,14 +1235,7 @@ void SurfTimerService::ShowStageText()
 	CUtlString time;
 	std::string pbDiff = "";
 
-	time = SurfTimerService::FormatTime(this->stageZoneTimes[this->currentStage]);
-	if (this->currentStage > 0)
-	{
-		f64 diff = this->stageZoneTimes[this->currentStage] - this->stageZoneTimes[this->currentStage - 1];
-		CUtlString splitTime = SurfTimerService::FormatDiffTime(diff);
-		splitTime.Format(" {grey}({default}%s{grey})", splitTime.Get());
-		time.Append(splitTime.Get());
-	}
+	time = SurfTimerService::FormatTime(this->stageZoneTimes[this->currentStage - 1]);
 
 	auto modeInfo = Surf::mode::GetModeInfo(this->player->modeService->GetModeName());
 	PBDataKey key = ToPBDataKey(modeInfo.id, course->guid);
@@ -1243,9 +1244,9 @@ void SurfTimerService::ShowStageText()
 	const PBData *pb = this->GetCompareTarget(key);
 	if (pb)
 	{
-		if (pb->overall.pbStageZoneTimes[this->currentStage] > 0)
+		if (pb->overall.pbStageZoneTimes[this->currentStage - 1] > 0)
 		{
-			f64 diff = this->stageZoneTimes[this->currentStage] - pb->overall.pbStageZoneTimes[this->currentStage];
+			f64 diff = this->stageZoneTimes[this->currentStage - 1] - pb->overall.pbStageZoneTimes[this->currentStage - 1];
 			CUtlString diffText = SurfTimerService::FormatDiffTime(diff);
 			diffText.Format("{grey}%s%s{grey}", diff < 0 ? "{green}" : "{lightred}", diffText.Get());
 			pbDiff = this->player->languageService->PrepareMessage(diffTextKeys[this->currentCompareType], diffText.Get());
