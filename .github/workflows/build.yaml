@@ -28,8 +28,7 @@ jobs:
 
       - name: Build and run Docker image
         run: |
-          docker build . --file Dockerfile --tag cs2surf-linux-builder
-          docker run -v ./build:/app/build -v ./.git:/app/.git cs2surf-linux-builder
+          docker compose up
 
       - name: Archive build
         uses: actions/upload-artifact@v4

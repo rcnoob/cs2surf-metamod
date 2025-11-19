@@ -1,0 +1,8 @@
+services:
+  cs2surf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/ambuild
