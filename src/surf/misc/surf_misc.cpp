@@ -33,7 +33,7 @@ static_global class SurfOptionServiceEventListener_Misc : public SurfOptionServi
 {
 	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
 	{
-		bool hideLegs = player->optionService->GetPreferenceBool("hideLegs", false);
+		bool hideLegs = player->optionService->GetPreferenceBool("hideLegs", true);
 		if (player->HidingLegs() != hideLegs)
 		{
 			player->ToggleHideLegs();
@@ -55,6 +55,8 @@ SCMD(surf_hidelegs, SCFL_PLAYER | SCFL_PREFERENCE)
 	}
 	return MRES_SUPERCEDE;
 }
+
+SCMD_LINK(surf_legs, surf_hidelegs);
 
 SCMD(surf_hide, SCFL_PLAYER | SCFL_PREFERENCE)
 {
