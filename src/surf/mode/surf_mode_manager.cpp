@@ -59,7 +59,7 @@ static_function void OnMaxVelocityOverrideChanged(CConVar<f32> *ref, CSplitScree
 
 	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
 	{
-		SendModeCvarValue(g_pSurfPlayerManager->ToPlayer(i), Surf::mode::MODECVAR_SV_MAXVELOCITY);
+		SendModeCvarValue(g_pSurfPlayerManager->ToPlayer(i), MODECVAR_SV_MAXVELOCITY);
 	}
 }
 
