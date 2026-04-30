@@ -26,7 +26,8 @@ SurfModeManager *g_pSurfModeManager = &modeManager;
 CUtlVector<SurfModeManager::ModePluginInfo> modeInfos;
 
 CConVar<f32> surf_sv_maxvelocity_override("surf_sv_maxvelocity_override", FCVAR_NONE,
-	"Override the mode sv_maxvelocity. Values less than or equal to 0 use the mode default.", 0.0f, OnMaxVelocityOverrideChanged);
+											"Override the mode sv_maxvelocity. Values less than or equal to 0 use the mode default.", 0.0f,
+											OnMaxVelocityOverrideChanged);
 
 static_global class SurfDatabaseServiceEventListener_Modes : public SurfDatabaseServiceEventListener
 {
