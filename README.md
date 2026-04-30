@@ -14,6 +14,13 @@ WIP, not ready for release
 
 - Download the latest version in the release section and extract them to your server's `csgo/` directory.
 
+# Configuration
+
+- `surf_sv_maxvelocity_override` lets you override the mode-defined `sv_maxvelocity` at runtime.
+- Set `surf_sv_maxvelocity_override 5000` to force `sv_maxvelocity` to `5000` for all mode applications and client sync.
+- Set `surf_sv_maxvelocity_override 0` to disable the override and fall back to the active mode's built-in value.
+- To keep the override across restarts, put the command in a server cfg that runs after the plugin loads.
+
 # Compilation
 - Remember to *recursively* clone the plugin, and symlink needs to be enabled as well! ([this isn't the default on windows](https://stackoverflow.com/a/59761201))
    ```

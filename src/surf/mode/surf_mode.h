@@ -390,6 +390,8 @@ namespace Surf::mode
 	static_assert(SURF_ARRAYSIZE(modeCvarNames) == MODECVAR_COUNT, "Array modeCvarRefs length is not the same as MODECVAR_COUNT!");
 
 	void ApplyModeSettings(SurfPlayer *player);
+	const CVValue_t *GetModeConVarValue(SurfPlayer *player, u32 index);
+	void SendModeCvarValues(SurfPlayer *player);
 	void DisableReplicatedModeCvars();
 	void EnableReplicatedModeCvars();
 

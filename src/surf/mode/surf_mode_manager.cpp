@@ -17,11 +17,16 @@
 #include "utils/plat.h"
 
 static_function SCMD_CALLBACK(Command_SurfModeShort);
+static_function void SendModeCvarValue(SurfPlayer *player, u32 index);
+static_function void OnMaxVelocityOverrideChanged(CConVar<f32> *ref, CSplitScreenSlot nSlot, const f32 *pNewValue, const f32 *pOldValue);
 
 static_global SurfModeManager modeManager;
 SurfModeManager *g_pSurfModeManager = &modeManager;
 
 CUtlVector<SurfModeManager::ModePluginInfo> modeInfos;
+
+CConVar<f32> surf_sv_maxvelocity_override("surf_sv_maxvelocity_override", FCVAR_NONE,
+	"Override the mode sv_maxvelocity. Values less than or equal to 0 use the mode default.", 0.0f, OnMaxVelocityOverrideChanged);
 
 static_global class SurfDatabaseServiceEventListener_Modes : public SurfDatabaseServiceEventListener
 {
@@ -33,6 +38,29 @@ static_global class SurfOptionServiceEventListener_Modes : public SurfOptionServ
 {
 	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player) override;
 } optionEventListener;
+
+static_function void SendModeCvarValue(SurfPlayer *player, u32 index)
+{
+	if (!player || !player->IsInGame() || !player->modeService)
+	{
+		return;
+	}
+
+	utils::SendConVarValue(player->GetPlayerSlot(), *Surf::mode::modeCvarRefs[index], Surf::mode::GetModeConVarValue(player, index));
+}
+
+static_function void OnMaxVelocityOverrideChanged(CConVar<f32> *ref, CSplitScreenSlot nSlot, const f32 *pNewValue, const f32 *pOldValue)
+{
+	(void)ref;
+	(void)nSlot;
+	(void)pNewValue;
+	(void)pOldValue;
+
+	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+	{
+		SendModeCvarValue(g_pSurfPlayerManager->ToPlayer(i), Surf::mode::MODECVAR_SV_MAXVELOCITY);
+	}
+}
 
 bool Surf::mode::CheckModeCvars()
 {
@@ -140,12 +168,44 @@ void Surf::mode::ApplyModeSettings(SurfPlayer *player)
 {
 	for (u32 i = 0; i < MODECVAR_COUNT; i++)
 	{
-		auto &value = player->modeService->GetModeConVarValues()[i];
 		auto original = modeCvarRefs[i]->GetConVarData()->Value(-1);
 		auto traits = modeCvarRefs[i]->TypeTraits();
-		traits->Copy(original, value);
+		traits->Copy(original, *GetModeConVarValue(player, i));
 	}
 	player->enableWaterFix = player->modeService->EnableWaterFix();
+}
+
+const CVValue_t *Surf::mode::GetModeConVarValue(SurfPlayer *player, u32 index)
+{
+	assert(player && player->modeService);
+	assert(index < MODECVAR_COUNT);
+
+	if (index == MODECVAR_SV_MAXVELOCITY)
+	{
+		static_global CVValue_t overrideValue;
+		f32 override = surf_sv_maxvelocity_override.Get();
+		if (override > 0.0f)
+		{
+			overrideValue.m_fl32Value = override;
+			return &overrideValue;
+		}
+	}
+
+	return &player->modeService->GetModeConVarValues()[index];
+}
+
+void Surf::mode::SendModeCvarValues(SurfPlayer *player)
+{
+	CBufferString valueStrings[MODECVAR_COUNT];
+	const char *values[MODECVAR_COUNT];
+
+	for (u32 i = 0; i < MODECVAR_COUNT; i++)
+	{
+		modeCvarRefs[i]->TypeTraits()->ValueToString(GetModeConVarValue(player, i), valueStrings[i]);
+		values[i] = valueStrings[i].Get();
+	}
+
+	utils::SendMultipleConVarValues(player->GetPlayerSlot(), Surf::mode::modeCvarRefs, values, MODECVAR_COUNT);
 }
 
 bool SurfModeManager::RegisterMode(PluginId id, const char *shortModeName, const char *longModeName, ModeServiceFactory factory)
@@ -296,7 +356,7 @@ bool SurfModeManager::SwitchToMode(SurfPlayer *player, const char *modeName, boo
 		player->languageService->PrintChat(true, false, "Switched Mode", player->modeService->GetModeName());
 	}
 
-	utils::SendMultipleConVarValues(player->GetPlayerSlot(), Surf::mode::modeCvarRefs, player->modeService->GetModeConVarValues(), MODECVAR_COUNT);
+	Surf::mode::SendModeCvarValues(player);
 
 	player->SetVelocity({0, 0, 0});
 
