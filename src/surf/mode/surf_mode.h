@@ -392,6 +392,7 @@ namespace Surf::mode
 	void ApplyModeSettings(SurfPlayer *player);
 	const CVValue_t *GetModeConVarValue(SurfPlayer *player, u32 index);
 	void SendModeCvarValues(SurfPlayer *player);
+	void LoadModeCvarOverrides();
 	void DisableReplicatedModeCvars();
 	void EnableReplicatedModeCvars();
 

@@ -75,6 +75,7 @@ bool SurfPlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bo
 	Surf::mode::DisableReplicatedModeCvars();
 
 	SurfOptionService::InitOptions();
+	Surf::mode::LoadModeCvarOverrides();
 	SurfTipService::Init();
 	if (late)
 	{

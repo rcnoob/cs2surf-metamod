@@ -80,6 +80,11 @@ bool Surf::mode::CheckModeCvars()
 	return true;
 }
 
+void Surf::mode::LoadModeCvarOverrides()
+{
+	surf_sv_maxvelocity_override.Set((f32)SurfOptionService::GetOptionFloat("surf_sv_maxvelocity_override", 0.0f));
+}
+
 void Surf::mode::InitModeManager()
 {
 	static_persist bool initialized = false;

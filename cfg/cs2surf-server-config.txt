@@ -42,6 +42,9 @@
 	// Number of minutes to keep archived replays before deletion (minimum 24 hours, default 48 hours).
 	"archiveRetentionMinutes"			"2880"
 
+	// Override mode sv_maxvelocity. Set to 0 to use the mode default.
+	"surf_sv_maxvelocity_override"		"0.0"
+
 	// Local database configurations.
 	"db"
 	{
