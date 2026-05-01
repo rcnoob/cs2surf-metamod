@@ -1128,6 +1128,7 @@ void Surf::misc::OnPhysicsGameSystemFrameBoundary(void *pThis)
 
 void Surf::misc::OnActivateServer()
 {
+	Surf::mode::ApplyDefaultMaxVelocity();
 	Surf::misc::EnforceTimeLimit();
 	g_pSurfUtils->UpdateCurrentMapMD5();
 

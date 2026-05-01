@@ -14,6 +14,9 @@
 	
 	// Interval between tips.
 	"tipInterval"						"75"
+
+	// Default sv_maxvelocity to apply on map load before map cfg overrides.
+	"defaultSvMaxVelocity"				"4096.0"
 	
 	// Enable this to automatically record a one minute long demo of players when someone is flagged for cheating.
 	"autoDemoRecording"					"false"
@@ -41,9 +44,6 @@
 
 	// Number of minutes to keep archived replays before deletion (minimum 24 hours, default 48 hours).
 	"archiveRetentionMinutes"			"2880"
-
-	// Override mode sv_maxvelocity. Set to 0 to use the mode default.
-	"surf_sv_maxvelocity_override"		"0.0"
 
 	// Local database configurations.
 	"db"

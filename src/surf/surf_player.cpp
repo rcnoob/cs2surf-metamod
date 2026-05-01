@@ -863,11 +863,7 @@ const CVValue_t *SurfPlayer::GetCvarValueFromModeStyles(const char *name)
 		}
 		if (!V_stricmp(Surf::mode::modeCvarRefs[i]->GetName(), name))
 		{
-			if (i == MODECVAR_SV_MAXVELOCITY)
-			{
-				return Surf::mode::GetModeConVarValue(this, i);
-			}
-			return &this->modeService->GetModeConVarValues()[i];
+			return Surf::mode::GetModeConVarValue(this, i);
 		}
 	}
 

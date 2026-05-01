@@ -17,17 +17,12 @@
 #include "utils/plat.h"
 
 static_function SCMD_CALLBACK(Command_SurfModeShort);
-static_function void SendModeCvarValue(SurfPlayer *player, u32 index);
-static_function void OnMaxVelocityOverrideChanged(CConVar<f32> *ref, CSplitScreenSlot nSlot, const f32 *pNewValue, const f32 *pOldValue);
 
 static_global SurfModeManager modeManager;
 SurfModeManager *g_pSurfModeManager = &modeManager;
+static_global CConVarRef<f32> sv_maxvelocity("sv_maxvelocity");
 
 CUtlVector<SurfModeManager::ModePluginInfo> modeInfos;
-
-CConVar<f32> surf_sv_maxvelocity_override("surf_sv_maxvelocity_override", FCVAR_NONE,
-										  "Override the mode sv_maxvelocity. Values less than or equal to 0 use the mode default.", 0.0f,
-										  OnMaxVelocityOverrideChanged);
 
 static_global class SurfDatabaseServiceEventListener_Modes : public SurfDatabaseServiceEventListener
 {
@@ -39,29 +34,6 @@ static_global class SurfOptionServiceEventListener_Modes : public SurfOptionServ
 {
 	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player) override;
 } optionEventListener;
-
-static_function void SendModeCvarValue(SurfPlayer *player, u32 index)
-{
-	if (!player || !player->IsInGame() || !player->modeService)
-	{
-		return;
-	}
-
-	utils::SendConVarValue(player->GetPlayerSlot(), *Surf::mode::modeCvarRefs[index], Surf::mode::GetModeConVarValue(player, index));
-}
-
-static_function void OnMaxVelocityOverrideChanged(CConVar<f32> *ref, CSplitScreenSlot nSlot, const f32 *pNewValue, const f32 *pOldValue)
-{
-	(void)ref;
-	(void)nSlot;
-	(void)pNewValue;
-	(void)pOldValue;
-
-	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
-	{
-		SendModeCvarValue(g_pSurfPlayerManager->ToPlayer(i), MODECVAR_SV_MAXVELOCITY);
-	}
-}
 
 bool Surf::mode::CheckModeCvars()
 {
@@ -78,11 +50,6 @@ bool Surf::mode::CheckModeCvars()
 		}
 	}
 	return true;
-}
-
-void Surf::mode::LoadModeCvarOverrides()
-{
-	surf_sv_maxvelocity_override.Set((f32)SurfOptionService::GetOptionFloat("surf_sv_maxvelocity_override", 0.0f));
 }
 
 void Surf::mode::InitModeManager()
@@ -156,6 +123,10 @@ void Surf::mode::DisableReplicatedModeCvars()
 {
 	for (u32 i = 0; i < MODECVAR_COUNT; i++)
 	{
+		if (i == MODECVAR_SV_MAXVELOCITY)
+		{
+			continue;
+		}
 		assert(modeCvarRefs[i]->IsValidRef() && modeCvarRefs[i]->IsConVarDataAvailable());
 		modeCvarRefs[i]->GetConVarData()->RemoveFlags(FCVAR_REPLICATED);
 	}
@@ -165,6 +136,10 @@ void Surf::mode::EnableReplicatedModeCvars()
 {
 	for (u32 i = 0; i < MODECVAR_COUNT; i++)
 	{
+		if (i == MODECVAR_SV_MAXVELOCITY)
+		{
+			continue;
+		}
 		assert(modeCvarRefs[i]->IsValidRef() && modeCvarRefs[i]->IsConVarDataAvailable());
 		modeCvarRefs[i]->GetConVarData()->AddFlags(FCVAR_REPLICATED);
 	}
@@ -188,16 +163,21 @@ const CVValue_t *Surf::mode::GetModeConVarValue(SurfPlayer *player, u32 index)
 
 	if (index == MODECVAR_SV_MAXVELOCITY)
 	{
-		static_global CVValue_t overrideValue;
-		f32 override = surf_sv_maxvelocity_override.Get();
-		if (override > 0.0f)
-		{
-			overrideValue.m_fl32Value = override;
-			return &overrideValue;
-		}
+		assert(modeCvarRefs[index]->IsValidRef() && modeCvarRefs[index]->IsConVarDataAvailable());
+		return modeCvarRefs[index]->GetConVarData()->Value(-1);
 	}
 
 	return &player->modeService->GetModeConVarValues()[index];
+}
+
+void Surf::mode::ApplyDefaultMaxVelocity()
+{
+	if (!sv_maxvelocity.IsValidRef() || !sv_maxvelocity.IsConVarDataAvailable())
+	{
+		return;
+	}
+
+	sv_maxvelocity.Set((f32)SurfOptionService::GetOptionFloat("defaultSvMaxVelocity", 4096.0f));
 }
 
 void Surf::mode::SendModeCvarValues(SurfPlayer *player)
