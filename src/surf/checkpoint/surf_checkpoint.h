@@ -43,7 +43,7 @@ private:
 	Checkpoint lastTeleportedCheckpoint {};
 
 public:
-	void OnPlayerPreferencesLoaded();
+	void OnPlayerPreferenceLoaded();
 	void ResetCheckpoints(bool playSound = false, bool resetTeleports = true);
 	void SetCheckpoint();
 

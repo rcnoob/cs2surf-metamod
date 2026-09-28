@@ -33,7 +33,7 @@ public:
 
 static_global class SurfOptionServiceEventListener_Styles : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player) override;
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player) override;
 } optionEventListener;
 
 void Surf::style::InitStyleManager()
@@ -539,7 +539,7 @@ SCMD(surf_clearstyles, SCFL_MODESTYLE)
 	return true;
 }
 
-void SurfOptionServiceEventListener_Styles::OnPlayerPreferencesLoaded(SurfPlayer *player)
+void SurfOptionServiceEventListener_Styles::OnPlayerPreferenceLoaded(SurfPlayer *player)
 {
 	std::string styles = player->optionService->GetPreferenceStr("preferredStyles", SurfOptionService::GetOptionStr("defaultStyles"));
 	// Give up changing styles if the player is already in the server for a while.

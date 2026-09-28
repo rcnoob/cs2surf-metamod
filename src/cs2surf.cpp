@@ -106,6 +106,7 @@ bool SurfPlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bo
 bool SurfPlugin::Unload(char *error, size_t maxlen)
 {
 	this->unloading = true;
+	SurfQuietService::Cleanup();
 	Surf::misc::UnrestrictTimeLimit();
 	SurfRecordingService::Shutdown();
 	AsyncFileIO::Cleanup();

@@ -39,7 +39,7 @@ public:
 
 static_global class SurfOptionServiceEventListener_Modes : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player) override;
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player) override;
 } optionEventListener;
 
 bool Surf::mode::CheckModeCvars()
@@ -489,7 +489,7 @@ void SurfDatabaseServiceEventListener_Modes::OnDatabaseSetup()
 	SurfDatabaseService::UpdateModeIDs();
 }
 
-void SurfOptionServiceEventListener_Modes::OnPlayerPreferencesLoaded(SurfPlayer *player)
+void SurfOptionServiceEventListener_Modes::OnPlayerPreferenceLoaded(SurfPlayer *player)
 {
 	const char *mode = player->optionService->GetPreferenceStr("preferredMode", SurfOptionService::GetOptionStr("defaultMode", SURF_DEFAULT_MODE));
 	// Give up changing modes if the player is already in the server for a while.

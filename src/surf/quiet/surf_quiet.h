@@ -16,14 +16,20 @@ class SurfQuietService : public SurfBaseService
 	u8 lastObserverMode;
 	CHandle<CBaseEntity> lastObserverTarget;
 	bool hideWeapon {};
+	CHandle<CBaseEntity> weaponCamera {};
+
+	void UpdateWeaponCamera();
+	void ReleaseWeaponCamera();
 
 public:
 	bool hideOtherPlayers {};
 	static void Init();
+	static void Cleanup();
 	virtual void Reset() override;
 
 	void OnPhysicsSimulatePost();
 	void ApplyPreferences();
+	static f64 UpdatePistol(SurfPlayer *player);
 	void ToggleHide();
 	void UpdateHideState();
 	void SendFullUpdate();

@@ -443,6 +443,7 @@ static KHook::Return<bool> FireEventPre(IGameEventManager2 *pThis, IGameEvent *e
 				if (player)
 				{
 					player->timerService->OnPlayerSpawn();
+					StartTimer<SurfPlayer *>(SurfQuietService::UpdatePistol, player, 0.05, false);
 				}
 			}
 		}

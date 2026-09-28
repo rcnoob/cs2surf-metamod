@@ -10,9 +10,9 @@
 
 static_global class SurfOptionServiceEventListener_Checkpoint : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
-		player->checkpointService->OnPlayerPreferencesLoaded();
+		player->checkpointService->OnPlayerPreferenceLoaded();
 	}
 } optionEventListener;
 
@@ -29,7 +29,7 @@ void SurfCheckpointService::Reset()
 	this->hasCustomStartPosition = false;
 }
 
-void SurfCheckpointService::OnPlayerPreferencesLoaded()
+void SurfCheckpointService::OnPlayerPreferenceLoaded()
 {
 	KeyValues3 ssps;
 	player->optionService->GetPreferenceTable("startPositions", ssps);

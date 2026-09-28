@@ -4,6 +4,7 @@
 #include "cs_gameevents.pb.h"
 
 #include "sdk/entity/cparticlesystem.h"
+#include "sdk/entity/ccscustomplayercamera.h"
 #include "sdk/services.h"
 
 #include "surf_quiet.h"
@@ -13,15 +14,16 @@
 
 #include "utils/utils.h"
 #include "utils/simplecmds.h"
+#include "utils/ctimer.h"
 
 static_global class SurfOptionServiceEventListener_Quiet : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
 		player->quietService->ApplyPreferences();
 	}
 
-	virtual void OnPlayerPreferencesChanged(SurfPlayer *player, const char *optionName)
+	virtual void OnPlayerPreferenceChanged(SurfPlayer *player, const char *optionName)
 	{
 		if (SURF_STREQI(optionName, "hideWeapon") || SURF_STREQI(optionName, "hideOtherPlayers"))
 		{
@@ -48,7 +50,6 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 			continue;
 		}
 		targetPlayer->quietService->UpdateHideState();
-		CCSPlayerPawn *targetPlayerPawn = targetPlayer->GetPlayerPawn();
 
 		EntityInstanceByClassIter_t iterParticleSystem(NULL, "info_particle_system");
 
@@ -79,20 +80,6 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 			 pawn = pawn->m_pEntity->m_pNextByClass ? static_cast<CCSPlayerPawn *>(pawn->m_pEntity->m_pNextByClass->m_pInstance) : nullptr)
 		// clang-format on
 		{
-			if (targetPlayerPawn == pawn && targetPlayer->quietService->ShouldHideWeapon())
-			{
-				auto pVecWeapons = pawn->m_pWeaponServices->m_hMyWeapons();
-
-				FOR_EACH_VEC(*pVecWeapons, i)
-				{
-					auto pWeapon = (*pVecWeapons)[i].Get();
-
-					if (pWeapon)
-					{
-						pTransmitInfo->m_pTransmitEdict->Clear(pWeapon->entindex());
-					}
-				}
-			}
 			// Bit is not even set, don't bother.
 			if (!pTransmitInfo->m_pTransmitEdict->IsBitSet(pawn->entindex()))
 			{
@@ -316,20 +303,112 @@ void SurfQuietService::ToggleHideWeapon()
 											 this->hideWeapon ? "Quiet Option - Show Weapon - Disable" : "Quiet Option - Show Weapon - Enable");
 }
 
-void SurfQuietService::OnPhysicsSimulatePost() {}
+void SurfQuietService::OnPhysicsSimulatePost()
+{
+	this->UpdateWeaponCamera();
+}
+
+// A custom camera that follows the eyes is still the pawn's view entity, and the client skips the viewmodel
+// while one is set. The weapon itself stays networked, so the native crosshair keeps working.
+void SurfQuietService::UpdateWeaponCamera()
+{
+	CCSPlayerPawn *pawn = this->player->GetPlayerPawn();
+	if (!this->hideWeapon || !pawn || !pawn->IsAlive())
+	{
+		this->ReleaseWeaponCamera();
+		return;
+	}
+	CCSCustomPlayerCamera *camera = static_cast<CCSCustomPlayerCamera *>(this->weaponCamera.Get());
+	if (!camera || camera->m_hPawn().Get() != pawn)
+	{
+		this->ReleaseWeaponCamera();
+		camera = CCSCustomPlayerCamera::Create(pawn);
+		if (!camera)
+		{
+			return;
+		}
+		// GetCustomCamera() finds a pawn's camera by designer name, so a map script never gets handed this one
+		// and spawns its own instead.
+		camera->m_pEntity->m_designerName = GameEntitySystem()->AllocPooledString("surf_weapon_camera");
+		camera->SetFollowConfig(pawn, true);
+		this->weaponCamera = camera->GetRefEHandle();
+	}
+	CPlayer_CameraServices *cameraServices = pawn->m_pCameraServices();
+	if (!cameraServices)
+	{
+		return;
+	}
+	// Only take the view while nothing else holds it: a map camera or point_viewcontrol keeps priority, and
+	// the weapon is hidden again as soon as it lets go.
+	CBaseEntity *viewEntity = cameraServices->m_hViewEntity().Get();
+	if (!viewEntity || viewEntity == pawn)
+	{
+		camera->SetMode(CUSTOM_CAMERA_MODE_FOLLOW_POSITION);
+	}
+}
+
+void SurfQuietService::ReleaseWeaponCamera()
+{
+	// Null on server exit.
+	if (CCSCustomPlayerCamera *camera = GameEntitySystem() ? static_cast<CCSCustomPlayerCamera *>(this->weaponCamera.Get()) : nullptr)
+	{
+		// Only clears the view entity while it is still this camera.
+		camera->SetMode(CUSTOM_CAMERA_MODE_DISABLED);
+		g_pSurfUtils->RemoveEntity(camera);
+	}
+	this->weaponCamera.Term();
+}
+
+void SurfQuietService::Cleanup()
+{
+	for (i32 i = 0; i < MAXPLAYERS; i++)
+	{
+		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(CPlayerSlot(i));
+		if (player && player->quietService)
+		{
+			player->quietService->ReleaseWeaponCamera();
+		}
+	}
+}
 
 void SurfQuietService::ApplyPreferences()
 {
 	auto *opts = this->player->optionService;
-	const bool newHideWeapon = opts->GetPreferenceBool("hideWeapon", false);
+
 	const bool newHideOthers = opts->GetPreferenceBool("hideOtherPlayers", false);
-	const bool changed = newHideWeapon != this->hideWeapon || newHideOthers != this->hideOtherPlayers;
-	this->hideWeapon = newHideWeapon;
+	const bool changedHideOthers = newHideOthers != this->hideOtherPlayers;
 	this->hideOtherPlayers = newHideOthers;
-	if (changed)
+
+	this->hideWeapon = opts->GetPreferenceBool("hideWeapon", false);
+
+	if (changedHideOthers)
 	{
 		this->SendFullUpdate();
 	}
+	this->UpdatePistol(this->player);
+}
+
+f64 SurfQuietService::UpdatePistol(SurfPlayer *player)
+{
+	if (!player->IsAlive() || !player->IsInGame())
+	{
+		return -1;
+	}
+
+	player->GetPlayerPawn()->m_pItemServices()->RemoveAllItems(false);
+	if (player->quietService->ShouldHideWeapon())
+	{
+		auto weapon = player->GetPlayerPawn()->m_pItemServices()->GiveNamedItem(
+			player->GetController()->m_iTeamNum() == CS_TEAM_CT ? "weapon_knife" : "weapon_knife_t");
+	}
+	else
+	{
+		auto knife = player->GetPlayerPawn()->m_pItemServices()->GiveNamedItem(
+			player->GetController()->m_iTeamNum() == CS_TEAM_CT ? "weapon_knife" : "weapon_knife_t");
+		auto weapon = player->GetPlayerPawn()->m_pItemServices()->GiveNamedItem(
+			player->GetController()->m_iTeamNum() == CS_TEAM_CT ? "weapon_usp_silencer" : "weapon_glock");
+	}
+	return -1;
 }
 
 void SurfQuietService::ToggleHide()

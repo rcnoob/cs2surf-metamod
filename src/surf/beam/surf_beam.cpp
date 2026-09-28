@@ -11,7 +11,7 @@
 
 static_global class SurfOptionServiceEventListener_Beam : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
 		player->beamService->ApplyPreferences();
 	}

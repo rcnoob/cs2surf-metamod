@@ -15,7 +15,7 @@
 class SurfOptionServiceEventListener
 {
 public:
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player) {};
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player) {};
 	virtual void OnPlayerPreferenceChanged(SurfPlayer *player, const char *optionName) {};
 };
 

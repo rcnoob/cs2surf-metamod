@@ -44,7 +44,7 @@ public:
 
 static_global class SurfOptionServiceEventListener_Timer : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
 		player->timerService->ApplyPreferences();
 	}

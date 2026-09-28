@@ -22,7 +22,7 @@ static_global class SurfTimerServiceEventListener_HUD : public SurfTimerServiceE
 
 static_global class SurfOptionServiceEventListener_HUD : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
 		player->hudService->ResetShowPanel();
 	}

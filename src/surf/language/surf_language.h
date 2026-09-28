@@ -46,7 +46,7 @@ public:
 	static void UpdateLanguage(u64 xuid, const char *langKey, LanguageInfo::CacheLevel cacheLevel, bool shouldReconnect = false);
 
 	void OnPlayerConnect(u64 steamID64);
-	void OnPlayerPreferencesLoaded();
+	void OnPlayerPreferenceLoaded();
 
 	const char *GetLanguage();
 

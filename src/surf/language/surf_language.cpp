@@ -16,9 +16,9 @@ extern IMultiAddonManager *g_pMultiAddonManager;
 
 static_global class SurfOptionServiceEventListener_Language : public SurfOptionServiceEventListener
 {
-	virtual void OnPlayerPreferencesLoaded(SurfPlayer *player)
+	virtual void OnPlayerPreferenceLoaded(SurfPlayer *player)
 	{
-		player->languageService->OnPlayerPreferencesLoaded();
+		player->languageService->OnPlayerPreferenceLoaded();
 	}
 } optionEventListener;
 
@@ -165,7 +165,7 @@ void SurfLanguageService::LoadTranslations()
 	}
 }
 
-void SurfLanguageService::OnPlayerPreferencesLoaded()
+void SurfLanguageService::OnPlayerPreferenceLoaded()
 {
 	const char *language = this->player->optionService->GetPreferenceStr("preferredLanguage");
 	bool shouldReconnect = !(this->player->checkpointService->GetCheckpointCount() || this->player->timerService->GetTimerRunning());

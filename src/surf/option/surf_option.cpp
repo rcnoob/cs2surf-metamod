@@ -278,7 +278,7 @@ void SurfOptionService::InitializeLocalPrefs(CUtlString text)
 	// We need to make sure the player is both authenticated and ingame.
 	if (this->player->IsInGame())
 	{
-		CALL_FORWARD(eventListeners, OnPlayerPreferencesLoaded, this->player);
+		CALL_FORWARD(eventListeners, OnPlayerPreferenceLoaded, this->player);
 		this->currentState = this->dataState;
 	}
 }
@@ -322,7 +322,7 @@ void SurfOptionService::InitializeGlobalPrefs(std::string json)
 	// We need to make sure the player is both authenticated and ingame.
 	if (this->player->IsInGame())
 	{
-		CALL_FORWARD(eventListeners, OnPlayerPreferencesLoaded, this->player);
+		CALL_FORWARD(eventListeners, OnPlayerPreferenceLoaded, this->player);
 		this->currentState = this->dataState;
 	}
 }
@@ -348,7 +348,7 @@ void SurfOptionService::OnPlayerActive()
 {
 	if (this->currentState <= this->dataState)
 	{
-		CALL_FORWARD(eventListeners, OnPlayerPreferencesLoaded, this->player);
+		CALL_FORWARD(eventListeners, OnPlayerPreferenceLoaded, this->player);
 		this->currentState = this->dataState;
 	}
 }
