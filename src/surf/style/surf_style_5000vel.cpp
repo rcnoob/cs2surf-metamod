@@ -77,11 +77,6 @@ bool Surf5000VelStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void Surf5000VelStyleService::Init()
 {
 	g_pSurfUtils->SendConVarValue(this->player->GetPlayerSlot(), sv_maxvelocity, "5000");

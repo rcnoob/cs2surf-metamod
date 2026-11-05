@@ -1,10 +1,11 @@
+#include <unordered_set>
 #include "watcher.h"
 #include "surf/replays/surf_replaysystem.h"
 #include "surf/mode/surf_mode.h"
 #include "surf/language/surf_language.h"
 #include "surf/option/surf_option.h"
 #include "surf/timer/surf_timer.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "utils/tables.h"
 
 static const char *ARCHIVE_INDEX_PATH = SURF_REPLAY_PATH "/archive_index.txt";
@@ -89,7 +90,7 @@ void ReplayWatcher::FilterAndPrintMatchingCheaterReplays(ReplayFilterCriteria &c
 	std::vector<std::pair<UUID_t, ReplayHeader>> matchingReplays =
 		CollectMatchesWithMapFallback(this->cheaterReplays, criteria, this->replayMapsMutex);
 	PageRange page = GetPageRange(criteria, matchingReplays.size());
-	CUtlString headers[SURF_ARRAYSIZE(cheaterReplayTableHeaders)];
+	std::string headers[SURF_ARRAYSIZE(cheaterReplayTableHeaders)];
 	for (u32 i = 0; i < SURF_ARRAYSIZE(cheaterReplayTableHeaders); i++)
 	{
 		headers[i] = player->languageService->PrepareMessage(cheaterReplayTableHeaders[i]).c_str();
@@ -119,14 +120,14 @@ void ReplayWatcher::FilterAndPrintMatchingCheaterReplays(ReplayFilterCriteria &c
 		player->languageService->PrintChat(true, false, "Replay List - No Matching Replays");
 		return;
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
-	player->PrintConsole(false, false, table.GetTitle());
-	player->PrintConsole(false, false, table.GetHeader());
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+	player->PrintConsole(false, false, table.GetTitle().c_str());
+	player->PrintConsole(false, false, table.GetHeader().c_str());
 	for (u32 i = 0; i < table.GetNumEntries(); i++)
 	{
-		player->PrintConsole(false, false, table.GetLine(i));
+		player->PrintConsole(false, false, table.GetLine(i).c_str());
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 }
 
 void ReplayWatcher::FilterAndPrintMatchingRunReplays(ReplayFilterCriteria &criteria, SurfPlayer *player)
@@ -137,7 +138,7 @@ void ReplayWatcher::FilterAndPrintMatchingRunReplays(ReplayFilterCriteria &crite
 			  [](const auto &a, const auto &b) { return a.second.run().time() < b.second.run().time(); });
 
 	PageRange page = GetPageRange(criteria, matchingReplays.size());
-	CUtlString headers[SURF_ARRAYSIZE(runReplayTableHeaders)];
+	std::string headers[SURF_ARRAYSIZE(runReplayTableHeaders)];
 	for (u32 i = 0; i < SURF_ARRAYSIZE(runReplayTableHeaders); i++)
 	{
 		headers[i] = player->languageService->PrepareMessage(runReplayTableHeaders[i]).c_str();
@@ -181,7 +182,7 @@ void ReplayWatcher::FilterAndPrintMatchingRunReplays(ReplayFilterCriteria &crite
                         run.course_name().c_str(), 
                         modeName.c_str(),
 						stylesList.c_str(),
-                        utils::FormatTime(run.time()).Get(), steamID.c_str(), pair.first.ToString().c_str());
+                        utils::FormatTime(run.time()).c_str(), steamID.c_str(), pair.first.ToString().c_str());
 		// clang-format on
 	}
 	if (table.GetNumEntries() == 0)
@@ -190,14 +191,14 @@ void ReplayWatcher::FilterAndPrintMatchingRunReplays(ReplayFilterCriteria &crite
 		return;
 	}
 	player->languageService->PrintChat(true, false, "Replay List - Check Console");
-	player->PrintConsole(false, false, table.GetSeparator("="));
-	player->PrintConsole(false, false, table.GetTitle());
-	player->PrintConsole(false, false, table.GetHeader());
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+	player->PrintConsole(false, false, table.GetTitle().c_str());
+	player->PrintConsole(false, false, table.GetHeader().c_str());
 	for (u32 i = 0; i < table.GetNumEntries(); i++)
 	{
-		player->PrintConsole(false, false, table.GetLine(i));
+		player->PrintConsole(false, false, table.GetLine(i).c_str());
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 }
 
 void ReplayWatcher::FilterAndPrintMatchingManualReplays(ReplayFilterCriteria &criteria, SurfPlayer *player)
@@ -205,7 +206,7 @@ void ReplayWatcher::FilterAndPrintMatchingManualReplays(ReplayFilterCriteria &cr
 	std::vector<std::pair<UUID_t, ReplayHeader>> matchingReplays =
 		CollectMatchesWithMapFallback(this->manualReplays, criteria, this->replayMapsMutex);
 	PageRange page = GetPageRange(criteria, matchingReplays.size());
-	CUtlString headers[SURF_ARRAYSIZE(manualReplayTableHeaders)];
+	std::string headers[SURF_ARRAYSIZE(manualReplayTableHeaders)];
 	for (u32 i = 0; i < SURF_ARRAYSIZE(manualReplayTableHeaders); i++)
 	{
 		headers[i] = player->languageService->PrepareMessage(manualReplayTableHeaders[i]).c_str();
@@ -239,14 +240,14 @@ void ReplayWatcher::FilterAndPrintMatchingManualReplays(ReplayFilterCriteria &cr
 		return;
 	}
 	player->languageService->PrintChat(true, false, "Replay List - Check Console");
-	player->PrintConsole(false, false, table.GetSeparator("="));
-	player->PrintConsole(false, false, table.GetTitle());
-	player->PrintConsole(false, false, table.GetHeader());
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+	player->PrintConsole(false, false, table.GetTitle().c_str());
+	player->PrintConsole(false, false, table.GetHeader().c_str());
 	for (u32 i = 0; i < table.GetNumEntries(); i++)
 	{
-		player->PrintConsole(false, false, table.GetLine(i));
+		player->PrintConsole(false, false, table.GetLine(i).c_str());
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 }
 
 void ReplayWatcher::PrintUsage(SurfPlayer *player)
@@ -303,7 +304,7 @@ void ReplayWatcher::FindReplaysMatchingCriteria(const char *inputs, SurfPlayer *
 	{
 		kv = params.FindMember("m");
 	}
-	criteria.mapName = kv ? kv->GetString() : g_pSurfUtils->GetCurrentMapName().Get();
+	criteria.mapName = kv ? kv->GetString() : g_pSurfUtils->GetCurrentMapName().c_str();
 
 	// Offset filter
 	kv = params.FindMember("offset");
@@ -550,11 +551,21 @@ void ReplayWatcher::SaveArchiveIndex()
 	{
 		kv.SetMemberUInt64(uuid.ToString().c_str(), timestamp);
 	}
+	// Writes through the "GAME" path ID land in its first directory, which is csgo/addons/metamod on servers running Metamod.
 	CUtlString error;
-	if (!SaveKV3ToFile(g_KV3Encoding_Text, g_KV3Format_Generic, &kv, &error, ARCHIVE_INDEX_PATH, "GAME", KV3_SAVE_TEXT_NONE))
+	CUtlBuffer buf(0, 0, CUtlBuffer::TEXT_BUFFER);
+	if (!SaveKV3(g_KV3Encoding_Text, g_KV3Format_Generic, &kv, &error, &buf, KV3_SAVE_TEXT_NONE))
 	{
-		// Log error if needed, but continue
-		SURF_LOG_WARN(LogChannel::Replays, "Failed to save archive index: %s\n", error.Get());
+		SURF_LOG_WARN(LogChannel::Replays, "Failed to serialize archive index: %s\n", error.Get());
+	}
+	else
+	{
+		const char *base = static_cast<const char *>(buf.Base());
+		std::vector<char> data(base, base + buf.TellPut());
+		if (!utils::WriteBufferToFile(ARCHIVE_INDEX_PATH, data))
+		{
+			SURF_LOG_WARN(LogChannel::Replays, "Failed to save archive index to %s\n", ARCHIVE_INDEX_PATH);
+		}
 	}
 
 	this->archiveDirty = false;
@@ -674,7 +685,7 @@ void ReplayWatcher::CleanupManualReplays(std::unordered_map<UUID_t, ReplayHeader
 			{
 				char fullPath[MAX_PATH];
 				V_snprintf(fullPath, sizeof(fullPath), "%s/%s.replay", SURF_REPLAY_PATH, vec[i].first.ToString().c_str());
-				g_pFullFileSystem->RemoveFile(fullPath, "GAME");
+				utils::RemoveFile(fullPath);
 
 				map.erase(vec[i].first);
 			}
@@ -702,6 +713,39 @@ void ReplayWatcher::WatchLoop()
 	}
 }
 
+// Recorders delete their own chunks when they finish, so anything left behind is from a
+// process that died mid-recording. A live recording only flushes a chunk every 15 minutes of
+// recorded time, so a full day of staleness cannot belong to one that is still running.
+void ReplayWatcher::SweepOrphanedChunks(u64 currentTime)
+{
+	static constexpr u64 CHUNK_MAX_AGE_SECONDS = 24 * 60 * 60;
+
+	char searchPath[MAX_PATH];
+	V_snprintf(searchPath, sizeof(searchPath), "%s/*.chunk", SURF_REPLAY_PATH);
+
+	FileFindHandle_t findHandle = {};
+	for (const char *pFileName = g_pFullFileSystem->FindFirstEx(searchPath, "GAME", &findHandle); pFileName;
+		 pFileName = g_pFullFileSystem->FindNext(findHandle))
+	{
+		if (g_pFullFileSystem->FindIsDirectory(findHandle))
+		{
+			continue;
+		}
+
+		char fullPath[MAX_PATH];
+		V_snprintf(fullPath, sizeof(fullPath), "%s/%s", SURF_REPLAY_PATH, pFileName);
+		long fileTime = g_pFullFileSystem->GetFileTime(fullPath, "GAME");
+		if (fileTime <= 0 || currentTime < (u64)fileTime + CHUNK_MAX_AGE_SECONDS)
+		{
+			continue;
+		}
+
+		SURF_LOG_INFO(LogChannel::Replays, "Removing orphaned replay chunk %s\n", fullPath);
+		utils::RemoveFile(fullPath);
+	}
+	g_pFullFileSystem->FindClose(findHandle);
+}
+
 void ReplayWatcher::ScanReplays()
 {
 	char searchPath[MAX_PATH];
@@ -710,16 +754,16 @@ void ReplayWatcher::ScanReplays()
 	FileFindHandle_t findHandle = {};
 	const char *pFileName = g_pFullFileSystem->FindFirstEx(searchPath, "GAME", &findHandle);
 
-	std::unordered_map<UUID_t, ReplayHeader> newCheater;
-	std::map<UUID_t, ReplayHeader> newRun;
-	std::unordered_map<UUID_t, ReplayHeader> newManual;
-	std::vector<std::tuple<UUID_t, ReplayHeader>> tempRun;
-	std::unordered_map<u64, std::vector<std::pair<UUID_t, u64>>> manualBySteam;
-
 	time_t currentUnixTime = 0;
 	time(&currentUnixTime);
 	u32 retentionMinutes = MAX(SurfOptionService::GetOptionInt("archiveRetentionMinutes", 2880), 1440);
 	u64 retentionSeconds = retentionMinutes * 60ULL;
+
+	SweepOrphanedChunks((u64)currentUnixTime);
+
+	// Files still present on disk this scan. Anything cached but not in this set has been
+	// deleted externally and must be dropped from the cache.
+	std::unordered_set<UUID_t> seen;
 
 	while (pFileName)
 	{
@@ -744,6 +788,31 @@ void ReplayWatcher::ScanReplays()
 			{
 				char fullPath[MAX_PATH];
 				V_snprintf(fullPath, sizeof(fullPath), "%s/%s", SURF_REPLAY_PATH, pFileName);
+				auto idxIt = this->archivedIndex.find(uuid);
+				if (idxIt != this->archivedIndex.end())
+				{
+					u64 age = currentUnixTime - idxIt->second;
+					if (age >= retentionSeconds)
+					{
+						utils::RemoveFile(fullPath);
+						this->archivedIndex.erase(idxIt);
+						this->archiveDirty = true;
+						this->replayCache.erase(uuid);
+						pFileName = g_pFullFileSystem->FindNext(findHandle);
+						continue;
+					}
+				}
+
+				seen.insert(uuid);
+
+				long fileTime = g_pFullFileSystem->GetFileTime(fullPath, "GAME");
+				auto cacheIt = this->replayCache.find(uuid);
+				if (cacheIt != this->replayCache.end() && cacheIt->second.fileTime == fileTime)
+				{
+					// Unchanged since last scan - reuse the cached header instead of re-reading/re-parsing.
+					pFileName = g_pFullFileSystem->FindNext(findHandle);
+					continue;
+				}
 				FileHandle_t file = g_pFullFileSystem->Open(fullPath, "rb", "GAME");
 				if (file)
 				{
@@ -757,38 +826,7 @@ void ReplayWatcher::ScanReplays()
 							ReplayHeader hdr;
 							if (hdr.ParseFromString(buf))
 							{
-								auto idxIt = this->archivedIndex.find(uuid);
-								if (idxIt != this->archivedIndex.end())
-								{
-									u64 age = currentUnixTime - idxIt->second;
-									if (age >= retentionSeconds)
-									{
-										g_pFullFileSystem->Close(file);
-										g_pFullFileSystem->RemoveFile(fullPath, "GAME");
-										this->archivedIndex.erase(idxIt);
-										this->archiveDirty = true;
-										pFileName = g_pFullFileSystem->FindNext(findHandle);
-										continue;
-									}
-								}
-								switch (static_cast<ReplayType>(hdr.type()))
-								{
-									case RP_CHEATER:
-										newCheater[uuid] = hdr;
-										break;
-									case RP_RUN:
-										tempRun.push_back({uuid, hdr});
-										break;
-									case RP_MANUAL:
-										newManual[uuid] = hdr;
-										if (hdr.has_player())
-										{
-											manualBySteam[hdr.player().steamid64()].push_back({uuid, hdr.timestamp()});
-										}
-										break;
-									default:
-										break;
-								}
+								this->replayCache[uuid] = {std::move(hdr), fileTime};
 							}
 						}
 					}
@@ -800,6 +838,49 @@ void ReplayWatcher::ScanReplays()
 	}
 
 	g_pFullFileSystem->FindClose(findHandle);
+
+	// Drop cache entries for files that no longer exist on disk.
+	for (auto it = this->replayCache.begin(); it != this->replayCache.end();)
+	{
+		if (!seen.count(it->first))
+		{
+			it = this->replayCache.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	// Rebuild the typed maps from the (mostly cached, in-memory) header set. No file I/O here.
+	std::unordered_map<UUID_t, ReplayHeader> newCheater;
+	std::map<UUID_t, ReplayHeader> newRun;
+	std::unordered_map<UUID_t, ReplayHeader> newManual;
+	std::vector<std::tuple<UUID_t, ReplayHeader>> tempRun;
+	std::unordered_map<u64, std::vector<std::pair<UUID_t, u64>>> manualBySteam;
+
+	for (auto &[uuid, cached] : this->replayCache)
+	{
+		const ReplayHeader &hdr = cached.header;
+		switch (static_cast<ReplayType>(hdr.type()))
+		{
+			case RP_CHEATER:
+				newCheater[uuid] = hdr;
+				break;
+			case RP_RUN:
+				tempRun.push_back({uuid, hdr});
+				break;
+			case RP_MANUAL:
+				newManual[uuid] = hdr;
+				if (hdr.has_player())
+				{
+					manualBySteam[hdr.player().steamid64()].push_back({uuid, hdr.timestamp()});
+				}
+				break;
+			default:
+				break;
+		}
+	}
 
 	// Process each replay type with dedicated functions
 	ProcessCheaterReplays(newCheater, currentUnixTime);

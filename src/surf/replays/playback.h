@@ -4,7 +4,7 @@
 #include "sdk/datatypes.h"
 
 class SurfPlayer;
-class PlayerCommand;
+class CUserCmd;
 class CMoveData;
 struct TickData;
 struct SubtickData;
@@ -19,10 +19,10 @@ namespace Surf::replaysystem::playback
 	void OnProcessMovementPost(SurfPlayer *player);
 	void OnFinishMovePre(SurfPlayer *player, CMoveData *mv);
 	void OnPhysicsSimulatePost(SurfPlayer *player);
-	void OnPlayerRunCommandPre(SurfPlayer *player, PlayerCommand *command);
+	void OnPlayerRunCommandPre(SurfPlayer *player, CUserCmd *command);
 
 	// Weapon management during playback
-	void CheckWeapon(SurfPlayer &player, PlayerCommand &cmd);
+	void CheckWeapon(SurfPlayer &player, CUserCmd &cmd);
 	void InitializeWeapons();
 
 	// Playback state management

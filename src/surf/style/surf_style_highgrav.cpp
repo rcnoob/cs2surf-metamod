@@ -76,11 +76,6 @@ bool SurfHighGravStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void SurfHighGravStyleService::Init()
 {
 	// called too early to set gravity scale here

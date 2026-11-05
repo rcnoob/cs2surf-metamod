@@ -215,7 +215,7 @@ void SurfBeamService::Reset()
 
 void SurfBeamService::UpdateBeams()
 {
-	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (i32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (!player || !player->IsInGame())

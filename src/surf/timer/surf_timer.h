@@ -168,12 +168,13 @@ private:
 public:
 	static void ClearRecordCache();
 	static void UpdateLocalRecordCache();
-	static void InsertRecordToCache(f64 time, const SurfCourseDescriptor *courseName, PluginId modeID, bool global, CUtlString metadata = "");
+	static void InsertRecordToCache(f64 time, const SurfCourseDescriptor *courseName, PluginId modeID, bool global, const std::string &metadata = "");
 
 	void ClearPBCache();
 	const PBData *GetGlobalCachedPB(const SurfCourseDescriptor *course, PluginId modeID);
 	void UpdateLocalPBCache();
-	void InsertPBToCache(f64 time, const SurfCourseDescriptor *courseName, PluginId modeID, bool global, CUtlString metadata = "", f64 points = 0);
+	void InsertPBToCache(f64 time, const SurfCourseDescriptor *courseName, PluginId modeID, bool global, const std::string &metadata = "",
+						 f64 points = 0);
 	void SetCompareTarget(const char *typeString);
 
 	void CheckMissedTime();
@@ -181,7 +182,7 @@ public:
 	void ShowCheckpointText(u32 currentCheckpoint);
 	void ShowStageText();
 
-	CUtlString GetCurrentRunMetadata();
+	std::string GetCurrentRunMetadata();
 
 private:
 	bool validJump {};
@@ -239,11 +240,11 @@ public:
 		}
 	}
 
-	static CUtlString FormatDiffTime(f64 time, bool precise = true)
+	static std::string FormatDiffTime(f64 time, bool precise = true)
 	{
 		char temp[32];
 		FormatDiffTime(time, temp, sizeof(temp), precise);
-		return CUtlString(temp);
+		return std::string(temp);
 	}
 
 	void SetTime(f64 time)

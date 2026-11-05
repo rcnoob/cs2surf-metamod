@@ -35,12 +35,12 @@ void SurfCheckpointService::OnPlayerPreferenceLoaded()
 	player->optionService->GetPreferenceTable("startPositions", ssps);
 
 	bool hasMapName = false;
-	CUtlString currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
+	std::string currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
 	if (!hasMapName)
 	{
 		return;
 	}
-	if (KeyValues3 *startPos = ssps.FindMember(currentMap.Get()))
+	if (KeyValues3 *startPos = ssps.FindMember(currentMap.c_str()))
 	{
 		if (!startPos->FindMember("origin") || !startPos->FindMember("angles") || !startPos->FindMember("ladderNormal")
 			|| !startPos->FindMember("onLadder") || !startPos->FindMember("groundEnt"))
@@ -342,12 +342,12 @@ void SurfCheckpointService::SetStartPosition()
 	this->player->GetAngles(&this->customStartPosition.angles);
 	this->customStartPosition.groundEnt = pawn->m_hGroundEntity();
 	bool hasMapName = false;
-	CUtlString currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
+	std::string currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
 	if (hasMapName)
 	{
 		KeyValues3 ssps;
 		player->optionService->GetPreferenceTable("startPositions", ssps);
-		KeyValues3 *startPos = ssps.FindOrCreateMember(currentMap.Get());
+		KeyValues3 *startPos = ssps.FindOrCreateMember(currentMap.c_str());
 
 		startPos->FindOrCreateMember("origin")->SetVector(this->customStartPosition.origin);
 		startPos->FindOrCreateMember("angles")->SetQAngle(this->customStartPosition.angles);
@@ -365,12 +365,12 @@ void SurfCheckpointService::ClearStartPosition()
 	this->hasCustomStartPosition = false;
 
 	bool hasMapName = false;
-	CUtlString currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
+	std::string currentMap = g_pSurfUtils->GetCurrentMapName(&hasMapName);
 	if (hasMapName)
 	{
 		KeyValues3 ssps;
 		player->optionService->GetPreferenceTable("startPositions", ssps);
-		ssps.RemoveMember(currentMap.Get());
+		ssps.RemoveMember(currentMap.c_str());
 		player->optionService->SetPreferenceTable("startPositions", ssps);
 	}
 

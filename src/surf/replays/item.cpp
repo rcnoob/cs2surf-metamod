@@ -3,7 +3,8 @@
 #include "sdk/entity/cbaseplayerweapon.h"
 #include "sdk/cskeletoninstance.h"
 #include "sdk/entity/ccsplayerpawn.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
+#include "utils/utils.h"
 
 extern CConVar<bool> surf_replay_playback_skins_enable;
 
@@ -260,10 +261,10 @@ void Surf::replaysystem::item::ApplyModelAttributesToPawn(CCSPlayerPawn *pawn, c
 		}
 	}
 	// Don't set model if it doesn't exist.
-	CUtlString modelStr = modelName;
-	modelStr = modelStr.StripExtension();
-	modelStr.Append(".vmdl_c");
-	if (g_pFullFileSystem->FileExists(modelStr.Get()))
+	std::string modelStr = modelName;
+	modelStr = utils::StripExtension(modelStr);
+	modelStr += ".vmdl_c";
+	if (g_pFullFileSystem->FileExists(modelStr.c_str()))
 	{
 		g_pSurfUtils->SetModel(pawn, modelName);
 	}

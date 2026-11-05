@@ -16,7 +16,7 @@ struct TopRecordRequest : public BaseRequest
 	struct RecordData
 	{
 		bool hasRecord {};
-		CUtlString holder;
+		std::string holder;
 		f32 runTime {};
 
 	} srData, wrData;
@@ -28,8 +28,8 @@ struct TopRecordRequest : public BaseRequest
 		{
 			return;
 		}
-		player->languageService->PrintChat(true, false, "WR/SR Command Usage");
-		player->languageService->PrintConsole(false, false, "WR/SR Command Usage - Console");
+		player->languageService->PrintChat(true, false, "Top Record Command Usage");
+		player->languageService->PrintConsole(false, false, "Top Record Command Usage - Console");
 	}
 
 	virtual void QueryGlobal()
@@ -68,8 +68,7 @@ struct TopRecordRequest : public BaseRequest
 				}
 			};
 			this->globalStatus = ResponseStatus::PENDING;
-			SurfGlobalService::QueryWorldRecords(std::string_view(this->mapName.Get(), this->mapName.Length()),
-												 std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, callback);
+			SurfGlobalService::QueryWorldRecords(std::string_view(this->mapName), std::string_view(this->courseName), this->apiMode, callback);
 		}
 	}
 
@@ -106,7 +105,7 @@ struct TopRecordRequest : public BaseRequest
 					req->srData.hasRecord = true;
 					if (result->FetchRow())
 					{
-						req->srData.holder = result->GetString(2);
+						req->srData.holder = utils::OrEmpty(result->GetString(2));
 						req->srData.runTime = result->GetFloat(3);
 					}
 				}
@@ -156,7 +155,7 @@ struct TopRecordRequest : public BaseRequest
 		utils::FormatTime(wrData.runTime, standardTime, sizeof(standardTime));
 
 		// Global Records on surf_map (Main) [VNL]
-		player->languageService->PrintChat(true, false, "WR Header", mapName.Get(), courseName.Get(), modeName.Get());
+		player->languageService->PrintChat(true, false, "WR Header", mapName.c_str(), courseName.c_str(), modeName.c_str());
 		if (!wrData.hasRecord)
 		{
 			player->languageService->PrintChat(true, false, "No Times");
@@ -164,7 +163,7 @@ struct TopRecordRequest : public BaseRequest
 		else
 		{
 			// Surf | Overall Record: 01:23.45 by Bill
-			player->languageService->PrintChat(true, false, "Top Record - Overall", standardTime, wrData.holder.Get());
+			player->languageService->PrintChat(true, false, "Top Record - Overall", standardTime, wrData.holder.c_str());
 		}
 	}
 
@@ -177,7 +176,7 @@ struct TopRecordRequest : public BaseRequest
 		utils::FormatTime(srData.runTime, standardTime, sizeof(standardTime));
 
 		// Server Records on surf_map (Main) [VNL]
-		player->languageService->PrintChat(true, false, "SR Header", mapName.Get(), courseName.Get(), modeName.Get());
+		player->languageService->PrintChat(true, false, "SR Header", mapName.c_str(), courseName.c_str(), modeName.c_str());
 		if (!srData.hasRecord)
 		{
 			player->languageService->PrintChat(true, false, "No Times");
@@ -185,7 +184,7 @@ struct TopRecordRequest : public BaseRequest
 		else
 		{
 			// Surf | Overall Record: 01:23.45 by Bill
-			player->languageService->PrintChat(true, false, "Top Record - Overall", standardTime, srData.holder.Get());
+			player->languageService->PrintChat(true, false, "Top Record - Overall", standardTime, srData.holder.c_str());
 		}
 	}
 };

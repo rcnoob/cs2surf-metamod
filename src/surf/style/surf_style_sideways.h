@@ -72,5 +72,5 @@ public:
 	virtual const CVValue_t *GetTweakedConvarValue(const char *name) override;
 	virtual void Init() override;
 	virtual void Cleanup() override;
-	virtual void OnSetupMove(PlayerCommand *) override;
+	virtual void OnSetupMove(CUserCmd *) override;
 };

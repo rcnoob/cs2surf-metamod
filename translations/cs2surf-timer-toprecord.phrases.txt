@@ -102,7 +102,7 @@
 		"lv"  		"{darkred}Neizdevās iegūt rekorda informāciju. {grey}(Nederīgs kursa nosaukums {default}{course_name}{grey})"
 		"pt"		"{darkred}Falha ao recuperar informações sobre o recorde. {grey}(Nome do curso inválido {default}{course_name}{grey})"
 	}
-	"WR/SR Command Usage"
+	"Top Record Command Usage"
 	{
 		"en"		"{grey}Usage: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Check console for details!"
 		"chi"		"{grey}用法: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. 打开控制台查看详情!"
@@ -118,7 +118,7 @@
 		"lv"  		"{grey}Pielietojums: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Pārbaudi konsoli, lai iegūtu detalizētu informāciju!"
 		"pt"		"{grey}Utilização: {default}surf_wr{grey}/{default}surf_wr {purple}<c/course/map/mode/p/player/s/style=...>{grey}. Verifique o console para mais informações!"
 	}
-	"WR/SR Command Usage - Console"
+	"Top Record Command Usage - Console"
 	{
 		"en"		"Usage: surf_wr/surf_sr <c/course/map/mode=...>\nExample: \"surf_wr map=surf_map c=Main\"."
 		"chi"		"用法: surf_wr/surf_sr <c/course/map/mode=...>\n例如: \"surf_wr map=surf_map c=Main\"."

@@ -24,7 +24,7 @@ void SurfDatabaseService::UpdateStyleIDs()
 	// clang-format on
 }
 
-void SurfDatabaseService::InsertAndUpdateStyleIDs(CUtlString styleName, CUtlString shortName)
+void SurfDatabaseService::InsertAndUpdateStyleIDs(const std::string &styleName, const std::string &shortName)
 {
 	if (!SurfDatabaseService::IsReady())
 	{
@@ -36,12 +36,12 @@ void SurfDatabaseService::InsertAndUpdateStyleIDs(CUtlString styleName, CUtlStri
 	{
 		case DatabaseType::SQLite:
 		{
-			V_snprintf(query, sizeof(query), sqlite_styles_insert, styleName.Get(), shortName.Get());
+			V_snprintf(query, sizeof(query), sqlite_styles_insert, styleName.c_str(), shortName.c_str());
 			break;
 		}
 		case DatabaseType::MySQL:
 		{
-			V_snprintf(query, sizeof(query), mysql_styles_insert, styleName.Get(), shortName.Get());
+			V_snprintf(query, sizeof(query), mysql_styles_insert, styleName.c_str(), shortName.c_str());
 			break;
 		}
 		default:
@@ -52,7 +52,7 @@ void SurfDatabaseService::InsertAndUpdateStyleIDs(CUtlString styleName, CUtlStri
 	}
 	txn.queries.push_back(query);
 
-	V_snprintf(query, sizeof(query), sql_styles_findid, styleName.Get());
+	V_snprintf(query, sizeof(query), sql_styles_findid, styleName.c_str());
 	txn.queries.push_back(query);
 	// clang-format off
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(

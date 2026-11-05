@@ -203,7 +203,7 @@ void SurfGlobalService::OnActivateServer()
 		case SurfGlobalService::State::HandshakeCompleted:
 		{
 			bool mapNameOk = false;
-			CUtlString currentMapName = g_pSurfUtils->GetCurrentMapName(&mapNameOk);
+			std::string currentMapName = g_pSurfUtils->GetCurrentMapName(&mapNameOk);
 
 			if (!mapNameOk)
 			{
@@ -212,7 +212,7 @@ void SurfGlobalService::OnActivateServer()
 			}
 
 			std::string_view event("map-change");
-			Surf::API::events::MapChange data(currentMapName.Get());
+			Surf::API::events::MapChange data(currentMapName.c_str());
 
 			// clang-format off
 			SurfGlobalService::SendMessage(event, data, [currentMapName](Surf::API::events::MapInfo& mapInfo)
@@ -223,7 +223,7 @@ void SurfGlobalService::OnActivateServer()
 				}
 				else
 				{
-					SURF_LOG_INFO(LogChannel::Global, "%s is not approved.\n", currentMapName.Get());
+					SURF_LOG_INFO(LogChannel::Global, "%s is not approved.\n", currentMapName.c_str());
 				}
 
 				{
@@ -359,13 +359,13 @@ void SurfGlobalService::OnClientDisconnect()
 		return;
 	}
 
-	CUtlString getPrefsError;
-	CUtlString getPrefsResult;
+	std::string getPrefsError;
+	std::string getPrefsResult;
 	this->player->optionService->GetPreferencesAsJSON(&getPrefsError, &getPrefsResult);
 
-	if (!getPrefsError.IsEmpty())
+	if (!getPrefsError.empty())
 	{
-		SURF_LOG_WARN(LogChannel::Global, "Failed to get preferences: %s\n", getPrefsError.Get());
+		SURF_LOG_WARN(LogChannel::Global, "Failed to get preferences: %s\n", getPrefsError.c_str());
 		SURF_LOG_INFO(LogChannel::Global, "Not sending `player-leave` event.\n");
 		return;
 	}
@@ -374,7 +374,7 @@ void SurfGlobalService::OnClientDisconnect()
 	Surf::API::events::PlayerLeave data;
 	data.steamID = this->player->GetSteamId64();
 	data.name = this->player->GetName();
-	data.preferences = Json(getPrefsResult.Get());
+	data.preferences = Json(getPrefsResult.c_str());
 
 	switch (SurfGlobalService::state.load())
 	{
@@ -544,7 +544,7 @@ void SurfGlobalService::OnWebSocketMessage(const ix::WebSocketMessagePtr &messag
 void SurfGlobalService::InitiateHandshake()
 {
 	bool mapNameOk = false;
-	CUtlString currentMapName = g_pSurfUtils->GetCurrentMapName(&mapNameOk);
+	std::string currentMapName = g_pSurfUtils->GetCurrentMapName(&mapNameOk);
 
 	if (!mapNameOk)
 	{
@@ -553,7 +553,7 @@ void SurfGlobalService::InitiateHandshake()
 	}
 
 	std::string_view event("hello");
-	Surf::API::handshake::Hello data(g_SurfPlugin.GetMD5(), currentMapName.Get());
+	Surf::API::handshake::Hello data(g_SurfPlugin.GetMD5(), currentMapName.c_str());
 
 	for (Player *player : g_pPlayerManager->players)
 	{

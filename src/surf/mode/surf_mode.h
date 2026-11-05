@@ -2,7 +2,7 @@
 #include "surf/surf.h"
 #include "surf/mappingapi/surf_mappingapi.h"
 #include "surf/global/api.h"
-#include "UtlStringMap.h"
+#include "tier0/utlstringmap.h"
 #include "cs_usercmd.pb.h"
 #include "utils/addresses.h"
 #include "utils/interfaces.h"
@@ -15,11 +15,11 @@
 #define SURF_MODE_MANAGER_INTERFACE "SurfModeManagerInterface"
 
 // Rampbug fix related
-#define MAX_BUMPS                   4
-#define RAMP_PIERCE_DISTANCE        0.0625f
-#define RAMP_BUG_THRESHOLD          0.98f
-#define RAMP_BUG_VELOCITY_THRESHOLD 0.95f
-#define NEW_RAMP_THRESHOLD          0.95f
+#define RAMP_BUG_OFFSET          0.03125f // The game keeps the player this far away from what they collide with.
+#define RAMP_BUG_THRESHOLD       0.999f
+#define RAMP_BUG_SAME_PLANE      0.99f
+#define RAMP_BUG_MIN_DISTANCE    1.0f
+#define GROUND_CHECK_SHRINK_SIZE 0.0625f
 
 #define DUCK_SPEED_NORMAL  8.0f
 #define DUCK_SPEED_MINIMUM 6.0234375f // Equal to if you just ducked/unducked for the first time in a while
@@ -72,7 +72,6 @@ class SurfModeService : public SurfBaseService
 protected:
 	bool hasValidDesiredViewAngle {};
 	QAngle lastValidDesiredViewAngle;
-	f32 lastJumpReleaseTime {};
 	bool oldDuckPressed {};
 	bool oldJumpPressed {};
 	bool forcedUnduck {};
@@ -93,11 +92,15 @@ protected:
 	f32 originalMaxSpeed {};
 	f32 tweakedMaxSpeed {};
 
-	bool didTPM {};
-	bool overrideTPM {};
-	Vector tpmVelocity = vec3_invalid;
-	Vector tpmOrigin = vec3_invalid;
-	Vector lastValidPlane = vec3_origin;
+	// Rampbug fix
+	bool inTryPlayerMove {};
+	// Last plane that TryPlayerMove hit.
+	Vector lastPlane = vec3_origin;
+	// Number of traces in the current TryPlayerMove that didn't move the player.
+	u32 stuckTraceCount {};
+
+	void FixTryPlayerMoveTrace(const Ray_t &ray, const Vector &start, const Vector &end, CTraceFilter *filter, trace_t *pm);
+	void FixGroundTrace(const Ray_t &ray, const Vector &start, const Vector &end, CTraceFilter *filter, trace_t *pm);
 
 	// Keep track of TryPlayerMove path for triggerfixing.
 	bool airMoving {};
@@ -116,18 +119,20 @@ public:
 		return true;
 	}
 
+	void OnTracePlayerBBoxPost(const Ray_t &ray, const Vector &start, const Vector &end, CTraceFilter *filter, trace_t *pm);
+
 	// Movement hooks
 	virtual void OnPhysicsSimulate() {}
 
 	virtual void OnPhysicsSimulatePost() {}
 
-	void OnProcessUsercmds(PlayerCommand *, int) {}
+	void OnProcessUsercmds(CUserCmd *, int) {}
 
-	void OnProcessUsercmdsPost(PlayerCommand *, int) {}
+	void OnProcessUsercmdsPost(CUserCmd *, int) {}
 
-	virtual void OnSetupMove(PlayerCommand *) {}
+	virtual void OnSetupMove(CUserCmd *) {}
 
-	void OnSetupMovePost(PlayerCommand *) {}
+	void OnSetupMovePost(CUserCmd *) {}
 
 	void OnProcessMovement();
 
@@ -206,9 +211,9 @@ public:
 
 	void OnTryPlayerMovePost(Vector *, trace_t *, bool *);
 
-	void OnCategorizePosition(bool);
+	void OnCategorizePosition(bool bStayOnGround);
 
-	void OnCategorizePositionPost(bool) {}
+	void OnCategorizePositionPost(bool bStayOnGround);
 
 	void OnFinishGravity() {}
 
@@ -282,8 +287,8 @@ public:
 		// -1 is for mode that exists in the database (but not loaded in the plugin)
 		// -2 is for invalid mode.
 		PluginId id = -2;
-		CUtlString shortModeName;
-		CUtlString longModeName;
+		std::string shortModeName;
+		std::string longModeName;
 		ModeServiceFactory factory {};
 		bool shortCmdRegistered {};
 		char md5[33] {};
@@ -304,11 +309,13 @@ extern SurfModeManager *g_pSurfModeManager;
 
 namespace Surf::mode
 {
+	bool InitTrace();
+	void CleanupTrace(SurfModeService *service);
 	bool CheckModeCvars();
 	void InitModeService(SurfPlayer *player);
 	void InitModeManager();
 	void LoadModePlugins();
-	void UpdateModeDatabaseID(CUtlString name, i32 id, CUtlString shortName = "");
+	void UpdateModeDatabaseID(const std::string &name, i32 id, const std::string &shortName = "");
 	// clang-format off
 
 	inline const char *modeCvarNames[] = {
@@ -394,6 +401,6 @@ namespace Surf::mode
 
 	SurfModeManager::ModePluginInfo GetModeInfo(SurfModeService *mode);
 	SurfModeManager::ModePluginInfo GetModeInfo(Surf::API::Mode mode);
-	SurfModeManager::ModePluginInfo GetModeInfo(CUtlString modeName);
+	SurfModeManager::ModePluginInfo GetModeInfo(const std::string &modeName);
 	SurfModeManager::ModePluginInfo GetModeInfoFromDatabaseID(i32 id);
 }; // namespace Surf::mode

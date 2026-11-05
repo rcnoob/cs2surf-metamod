@@ -15,10 +15,10 @@
 #include "networkbasetypes.pb.h"
 
 #include "convar.h"
-#include "igameeventsystem.h"
+#include "engine2/igameeventsystem.h"
 #include "gametrace.h"
 #include "bspflags.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "interfaces/interfaces.h"
 #include "networksystem/inetworkmessages.h"
 #include "steam/steam_gameserver.h"
@@ -39,7 +39,6 @@
 
 CGameConfig *g_pGameConfig = NULL;
 SurfUtils *g_pSurfUtils = NULL;
-extern CSteamGameServerAPIContext g_steamAPI;
 
 #define SERVER_VERSION_KEY "ServerVersion="
 static_global u32 serverVersion;
@@ -178,7 +177,7 @@ CBasePlayerController *utils::GetController(CBaseEntity *entity)
 		CBasePlayerPawn *pawn = static_cast<CBasePlayerPawn *>(entity);
 		if (!pawn->m_hController().IsValid() || pawn->m_hController.Get() == 0)
 		{
-			for (i32 i = 0; i <= MAXPLAYERS; i++)
+			for (i32 i = 0; i <= MAX_PLAYERS; i++)
 			{
 				controller = (CCSPlayerController *)utils::GetController(CPlayerSlot(i));
 				if (controller && controller->m_hObserverPawn() && controller->m_hObserverPawn().Get() == entity)
@@ -196,7 +195,7 @@ CBasePlayerController *utils::GetController(CBaseEntity *entity)
 		if (!pawn->m_hController().IsValid() || pawn->m_hController.Get() == 0)
 		{
 			// Seems like the pawn lost its controller, we can try looping through the controllers to find this pawn instead.
-			for (i32 i = 0; i <= MAXPLAYERS; i++)
+			for (i32 i = 0; i <= MAX_PLAYERS; i++)
 			{
 				controller = (CCSPlayerController *)utils::GetController(CPlayerSlot(i));
 				if (controller && controller->m_hPlayerPawn() && controller->m_hPlayerPawn().Get() == entity)
@@ -220,7 +219,7 @@ CBasePlayerController *utils::GetController(CBaseEntity *entity)
 
 CBasePlayerController *utils::GetController(CPlayerSlot slot)
 {
-	if (!GameEntitySystem() || slot.Get() < 0 || slot.Get() > MAXPLAYERS)
+	if (!GameEntitySystem() || slot.Get() < 0 || slot.Get() > MAX_PLAYERS)
 	{
 		return nullptr;
 	}
@@ -257,7 +256,7 @@ void utils::PlaySoundToClient(CPlayerSlot player, const char *sound, f32 volume)
 		return;
 	}
 
-	CSingleRecipientFilter filter(player.Get());
+	CReliableSingleUserRecipientFilter filter(player.Get());
 	EmitSound_t soundParams;
 	soundParams.m_pSoundName = sound;
 	soundParams.m_flVolume = volume;
@@ -389,7 +388,7 @@ void utils::SendConVarValue(CPlayerSlot slot, const char *conVar, const char *va
 	CMsg_CVars_CVar *cvar = msg->mutable_convars()->add_cvars();
 	cvar->set_name(conVar);
 	cvar->set_value(value);
-	CSingleRecipientFilter filter(slot.Get());
+	CReliableSingleUserRecipientFilter filter(slot.Get());
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
 	delete msg;
 }
@@ -404,7 +403,7 @@ void utils::SendMultipleConVarValues(CPlayerSlot slot, const char **cvars, const
 		cvar->set_name(cvars[i]);
 		cvar->set_value(values[i]);
 	}
-	CSingleRecipientFilter filter(slot.Get());
+	CReliableSingleUserRecipientFilter filter(slot.Get());
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
 	delete msg;
 }
@@ -444,7 +443,7 @@ void utils::SendMultipleConVarValues(CPlayerSlot slot, ConVarRefAbstract **conVa
 		cvar->set_name(conVarRefs[i]->GetName());
 		cvar->set_value(values[i]);
 	}
-	CSingleRecipientFilter filter(slot.Get());
+	CReliableSingleUserRecipientFilter filter(slot.Get());
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
 	delete msg;
 }
@@ -466,7 +465,7 @@ void utils::SendMultipleConVarValues(CPlayerSlot slot, ConVarRefAbstract **conVa
 		cvar->set_name(conVarRefs[i]->GetName());
 		cvar->set_value(buf.Get());
 	}
-	CSingleRecipientFilter filter(slot.Get());
+	CSingleUserRecipientFilter filter(slot.Get());
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
 	delete msg;
 }
@@ -480,7 +479,7 @@ bool utils::IsSpawnValid(const Vector &origin)
 	filter.m_bShouldIgnoreDisabledPairs = true;
 	filter.m_nCollisionGroup = COLLISION_GROUP_DEBRIS;
 	filter.m_nInteractsWith = 0x2c3011;
-	filter.m_bUnknown = true;
+	filter.m_unk101 = true;
 	filter.m_nObjectSetMask = RNQUERY_OBJECTS_ALL;
 	filter.m_nInteractsAs = 0x40000;
 	trace_t tr;
@@ -618,7 +617,7 @@ bool utils::FindValidPositionForTrigger(CBaseTrigger *trigger, Vector &originDes
 		filter.m_bShouldIgnoreDisabledPairs = true;
 		filter.m_nCollisionGroup = COLLISION_GROUP_DEBRIS;
 		filter.m_nInteractsWith = 0x2c3011;
-		filter.m_bUnknown = true;
+		filter.m_unk101 = true;
 		filter.m_nObjectSetMask = RNQUERY_OBJECTS_ALL;
 		filter.m_nInteractsAs = 0x40000;
 		trace_t tr;
@@ -689,11 +688,11 @@ void utils::ResetMap()
 
 bool utils::IsServerSecure()
 {
-	if (!g_steamAPI.SteamGameServer())
+	if (!SteamGameServer())
 	{
 		return !(CommandLine()->HasParm("-insecure") || CommandLine()->HasParm("-tools"));
 	}
-	return g_steamAPI.SteamGameServer()->BSecure();
+	return SteamGameServer()->BSecure();
 }
 
 void utils::UpdateServerVersion()
@@ -701,15 +700,15 @@ void utils::UpdateServerVersion()
 	FileHandle_t fp = g_pFullFileSystem->Open("steam.inf", "r");
 	if (fp)
 	{
-		CUtlString line = g_pFullFileSystem->ReadLine(fp);
-		while (!line.IsEmpty())
+		std::string line = g_pFullFileSystem->ReadLine(fp).Get();
+		while (!line.empty())
 		{
-			if (line.MatchesPattern(CUtlString(SERVER_VERSION_KEY) + "*"))
+			if (line.starts_with(SERVER_VERSION_KEY))
 			{
-				serverVersion = atoi(line.Get() + strlen(SERVER_VERSION_KEY));
+				serverVersion = atoi(line.c_str() + strlen(SERVER_VERSION_KEY));
 				break;
 			}
-			line = g_pFullFileSystem->ReadLine(fp);
+			line = g_pFullFileSystem->ReadLine(fp).Get();
 		}
 		g_pFullFileSystem->Close(fp);
 	}

@@ -1,6 +1,6 @@
 #include "surf_replay.h"
 #include "compression.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "vendor/zstd/lib/zstd.h"
 
 using namespace Surf::replaysystem::compression;

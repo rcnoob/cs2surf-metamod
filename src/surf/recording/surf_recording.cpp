@@ -12,12 +12,10 @@
 #include "sdk/usercmd.h"
 
 #include "steam/steam_gameserver.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "vprof.h"
 
 #include <set>
-
-extern CSteamGameServerAPIContext g_steamAPI;
 
 ReplayFileWriter *SurfRecordingService::fileWriter = nullptr;
 
@@ -45,7 +43,7 @@ void Recorder::Init(ReplayHeader &hdr, SurfPlayer *player, ReplayType type)
 	hdr.set_type(static_cast<cs2surf::replay::ReplayType>(type));
 
 	// Map info
-	hdr.mutable_map()->set_name(g_pSurfUtils->GetCurrentMapName().Get());
+	hdr.mutable_map()->set_name(g_pSurfUtils->GetCurrentMapName().c_str());
 	char md5[33] = {};
 	g_pSurfUtils->GetCurrentMapMD5(md5, sizeof(md5));
 	hdr.mutable_map()->set_md5(md5);
@@ -57,7 +55,7 @@ void Recorder::Init(ReplayHeader &hdr, SurfPlayer *player, ReplayType type)
 	time(&unixTime);
 	hdr.set_timestamp((u64)unixTime);
 
-	hdr.set_server_ip(g_steamAPI.SteamGameServer() ? g_steamAPI.SteamGameServer()->GetPublicIP().m_unIPv4 : 0);
+	hdr.set_server_ip(SteamGameServer() ? SteamGameServer()->GetPublicIP().m_unIPv4 : 0);
 
 	// Player info
 	auto *playerMsg = hdr.mutable_player();
@@ -130,7 +128,7 @@ void SurfRecordingService::RecordTickData_PhysicsSimulate()
 	this->currentTickData.pre.moveType = this->player->GetPlayerPawn()->m_nActualMoveType;
 }
 
-void SurfRecordingService::RecordTickData_SetupMove(PlayerCommand *pc)
+void SurfRecordingService::RecordTickData_SetupMove(CUserCmd *pc)
 {
 	this->currentTickData.cmdNumber = pc->cmdNum;
 	this->currentTickData.clientTick = pc->base().client_tick();
@@ -178,7 +176,7 @@ void SurfRecordingService::RecordTickData_PhysicsSimulatePost()
 	this->PushToRecorders<Recorder::Vec::Tick>(this->currentSubtickData, RecorderType::Run);
 }
 
-void SurfRecordingService::RecordCommand(PlayerCommand *cmds, i32 numCmds)
+void SurfRecordingService::RecordCommand(CUserCmd *cmds, i32 numCmds)
 {
 	this->EnsureCircularRecorderInitialized();
 
@@ -317,8 +315,8 @@ void SurfRecordingService::CheckModeStyles()
 	if (this->lastKnownMode.shortModeName != currentModeInfo.shortModeName || !SURF_STREQI(this->lastKnownMode.md5, currentModeInfo.md5))
 	{
 		this->lastKnownMode = currentModeInfo;
-		this->InsertModeChangeEvent(currentModeInfo.longModeName.Get(), currentModeInfo.md5);
-		SURF_LOG_DEBUG(LogChannel::Recording, "Mode change event: %s\n", currentModeInfo.longModeName.Get());
+		this->InsertModeChangeEvent(currentModeInfo.longModeName.c_str(), currentModeInfo.md5);
+		SURF_LOG_DEBUG(LogChannel::Recording, "Mode change event: %s\n", currentModeInfo.longModeName.c_str());
 	}
 	bool refreshStyles = this->player->styleServices.Count() != this->lastKnownStyles.size();
 	if (!refreshStyles)
@@ -365,7 +363,7 @@ void SurfRecordingService::CheckModeStyles()
 	{
 		auto modeInfo = Surf::mode::GetModeInfo(this->player->modeService);
 		this->circularRecording->earliestMode = RpModeStyleInfo();
-		V_strncpy(this->circularRecording->earliestMode->name, modeInfo.longModeName.Get(), sizeof(this->circularRecording->earliestMode->name));
+		V_strncpy(this->circularRecording->earliestMode->name, modeInfo.longModeName.c_str(), sizeof(this->circularRecording->earliestMode->name));
 		V_strncpy(this->circularRecording->earliestMode->md5, modeInfo.md5, sizeof(this->circularRecording->earliestMode->md5));
 	}
 	if (!this->circularRecording->earliestStyles.has_value())

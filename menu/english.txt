@@ -16,35 +16,35 @@
 				{
 					"hotkey"	"1"
 					"label"		"Respawn"
-					"cmd"		"surf_r; radio"
+					"cmd"		"radio; say /r"
 				}
 
 				"Respawn Stage"
 				{
 					"hotkey"	"2"
 					"label"		"Respawn Stage"
-					"cmd"		"surf_rs; radio"
+					"cmd"		"radio; say /rs"
 				}
 
 				"Respawn Bonus"
 				{
 					"hotkey"	"3"
 					"label"		"Respawn Bonus"
-					"cmd"		"surf_rb; radio"
+					"cmd"		"radio; say /rb"
 				}
 
 				"Pause"
 				{
 					"hotkey"	"4"
 					"label"		"Pause/Resume"
-					"cmd"		"surf_pause; radio"
+					"cmd"		"radio; say /pause"
 				}
 
 				"Noclip"
 				{
 					"hotkey"	"5"
 					"label"		"Toggle Noclip"
-					"cmd"		"surf_noclip; radio"
+					"cmd"		"radio; say /noclip"
 				}
 			}
 		}
@@ -61,42 +61,42 @@
 				{
 					"hotkey"	"1"
 					"label"		"Saveloc"
-					"cmd"		"surf_cp; radio1"
+					"cmd"		"radio1; say /cp"
 				}
 
 				"Loadloc"
 				{
 					"hotkey"	"2"
 					"label"		"Loadloc"
-					"cmd"		"surf_tp; radio1"
+					"cmd"		"radio1; say /tp"
 				}
 				
 				"Prevloc"
 				{
 					"hotkey"	"3"
 					"label"		"Prevloc"
-					"cmd"		"surf_prevcp; radio1"
+					"cmd"		"radio1; say /prevcp"
 				}
 
 				"Nextloc"
 				{
 					"hotkey"	"4"
 					"label"		"Nextloc"
-					"cmd"		"surf_nextcp; radio1"
+					"cmd"		"radio1; say /nextcp"
 				}
 
 				"Respawn"
 				{
 					"hotkey"	"5"
 					"label"		"Respawn"
-					"cmd"		"surf_r; radio1"
+					"cmd"		"radio1; say /r"
 				}
 
 				"Noclip"
 				{
 					"hotkey"	"6"
 					"label"		"Toggle Noclip"
-					"cmd"		"surf_noclip; radio1"
+					"cmd"		"radio1; say /noclip"
 				}
 			}
 		}
@@ -113,35 +113,35 @@
 				{
 					"hotkey"	"1"
 					"label"		"Set Custom Start Position"
-					"cmd"		"surf_ssp"
+					"cmd"		"say /ssp"
 				}
 				
 				"Clear Custom Start Position"
 				{
 					"hotkey"	"2"
 					"label"		"Clear Custom Start Position"
-					"cmd"		"surf_csp"
+					"cmd"		"say /csp"
 				}
 
 				"Hide"
 				{
 					"hotkey"	"3"
 					"label"		"Show/Hide Other Players"
-					"cmd"		"surf_hide"
+					"cmd"		"say /hide"
 				}
 
 				"Hide Weapon"
 				{
 					"hotkey"	"4"
 					"label"		"Show/Hide Weapon"
-					"cmd"		"surf_hideweapon"
+					"cmd"		"say /hideweapon"
 				}
 
 				"Hide Legs"
 				{
 					"hotkey"	"5"
 					"label"		"Show/Hide Legs"
-					"cmd"		"surf_hidelegs"
+					"cmd"		"say /hidelegs"
 				}
 			}
 		}

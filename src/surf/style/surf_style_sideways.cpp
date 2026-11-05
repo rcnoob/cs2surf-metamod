@@ -77,11 +77,6 @@ bool SurfSidewaysStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void SurfSidewaysStyleService::Init() {}
 
 const CVValue_t *SurfSidewaysStyleService::GetTweakedConvarValue(const char *name)
@@ -91,7 +86,7 @@ const CVValue_t *SurfSidewaysStyleService::GetTweakedConvarValue(const char *nam
 
 void SurfSidewaysStyleService::Cleanup() {}
 
-void SurfSidewaysStyleService::OnSetupMove(PlayerCommand *pc)
+void SurfSidewaysStyleService::OnSetupMove(CUserCmd *pc)
 {
 	auto subtickMoves = pc->mutable_base()->mutable_subtick_moves();
 	auto iterator = subtickMoves->begin();

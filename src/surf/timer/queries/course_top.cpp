@@ -37,38 +37,36 @@ struct CourseTopRequest : public BaseRequest
 
 	struct RunStats
 	{
-		CUtlString runID;
-		CUtlString name;
+		std::string runID;
+		std::string name;
 		f64 time;
 		u64 steamid64;
 		u64 points {}; // 0 for local database
 
-		CUtlString GetName()
+		std::string GetName()
 		{
 			return name;
 		}
 
-		CUtlString GetRunID()
+		std::string GetRunID()
 		{
 			return runID;
 		}
 
-		CUtlString GetTime()
+		std::string GetTime()
 		{
 			return utils::FormatTime(time);
 		}
 
-		CUtlString GetSteamID64()
+		std::string GetSteamID64()
 		{
-			CUtlString fmt;
-			fmt.Format("%llu", steamid64);
+			std::string fmt = tfm::format("%llu", steamid64);
 			return fmt;
 		}
 
-		CUtlString GetPoints()
+		std::string GetPoints()
 		{
-			CUtlString fmt;
-			fmt.Format("%llu", points);
+			std::string fmt = tfm::format("%llu", points);
 			return fmt;
 		}
 	};
@@ -124,8 +122,8 @@ struct CourseTopRequest : public BaseRequest
 				{
 					while (result->FetchRow())
 					{
-						req->srData.overallData.AddToTail(
-							{result->GetString(0), result->GetString(2), result->GetFloat(3), (u64)result->GetInt64(1)});
+						req->srData.overallData.AddToTail({utils::OrEmpty(result->GetString(0)), utils::OrEmpty(result->GetString(2)),
+														   result->GetFloat(3), (u64)result->GetInt64(1)});
 					}
 				}
 			};
@@ -175,14 +173,12 @@ struct CourseTopRequest : public BaseRequest
 
 				for (const auto &record : ctops.overall)
 				{
-					CUtlString id;
-					id.Format("%u", record.id);
-					req->wrData.overallData.AddToTail({id, record.player.name.c_str(), record.time, record.player.id, (u64)floor(record.points)});
+					req->wrData.overallData.AddToTail(
+						{std::to_string(record.id), record.player.name, record.time, record.player.id, (u64)floor(record.points)});
 				}
 			};
 			this->globalStatus = ResponseStatus::PENDING;
-			SurfGlobalService::QueryCourseTop(std::string_view(this->mapName.Get(), this->mapName.Length()),
-											  std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->limit,
+			SurfGlobalService::QueryCourseTop(std::string_view(this->mapName), std::string_view(this->courseName), this->apiMode, this->limit,
 											  this->offset, callback);
 		}
 	}
@@ -215,61 +211,62 @@ struct CourseTopRequest : public BaseRequest
 	void ReplyGlobal()
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(userID);
-		CUtlString rank;
+		std::string rank;
 
 		// Overall table
-		CUtlString headers[SURF_ARRAYSIZE(columnKeysGlobal)];
+		std::string headers[SURF_ARRAYSIZE(columnKeysGlobal)];
 		for (u32 i = 0; i < SURF_ARRAYSIZE(columnKeysGlobal); i++)
 		{
 			headers[i] = player->languageService->PrepareMessage(columnKeysGlobal[i]).c_str();
 		}
 		utils::Table<SURF_ARRAYSIZE(columnKeysGlobal)> table(
-			player->languageService->PrepareMessage(COURSE_TOP_TABLE_KEY_GLOBAL, mapName.Get(), courseName.Get(), modeName.Get()).c_str(), headers);
+			player->languageService->PrepareMessage(COURSE_TOP_TABLE_KEY_GLOBAL, mapName.c_str(), courseName.c_str(), modeName.c_str()).c_str(),
+			headers);
 		FOR_EACH_VEC(wrData.overallData, i)
 		{
-			rank.Format("%llu", this->offset + i + 1);
+			rank = tfm::format("%llu", this->offset + i + 1);
 			RunStats stats = wrData.overallData[i];
 			table.SetRow(i, rank, stats.GetName(), stats.GetTime(), stats.GetSteamID64(), stats.GetPoints(), stats.GetRunID());
 		}
-		player->PrintConsole(false, false, table.GetSeparator("="));
-		player->PrintConsole(false, false, table.GetTitle());
-		player->PrintConsole(false, false, table.GetHeader());
+		player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+		player->PrintConsole(false, false, table.GetTitle().c_str());
+		player->PrintConsole(false, false, table.GetHeader().c_str());
 
 		for (u32 i = 0; i < table.GetNumEntries(); i++)
 		{
-			player->PrintConsole(false, false, table.GetLine(i));
+			player->PrintConsole(false, false, table.GetLine(i).c_str());
 		}
-		player->PrintConsole(false, false, table.GetSeparator("="));
+		player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 	}
 
 	void ReplyLocal()
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(userID);
-		CUtlString rank;
+		std::string rank;
 
 		// Overall table
-		CUtlString headers[SURF_ARRAYSIZE(columnKeysLocal)];
+		std::string headers[SURF_ARRAYSIZE(columnKeysLocal)];
 		for (u32 i = 0; i < SURF_ARRAYSIZE(columnKeysLocal); i++)
 		{
 			headers[i] = player->languageService->PrepareMessage(columnKeysLocal[i]).c_str();
 		}
 		utils::Table<SURF_ARRAYSIZE(columnKeysLocal)> table(
-			player->languageService->PrepareMessage(COURSE_TOP_TABLE_KEY, mapName.Get(), courseName.Get(), modeName.Get()).c_str(), headers);
+			player->languageService->PrepareMessage(COURSE_TOP_TABLE_KEY, mapName.c_str(), courseName.c_str(), modeName.c_str()).c_str(), headers);
 		FOR_EACH_VEC(srData.overallData, i)
 		{
-			rank.Format("%llu", this->offset + i + 1);
+			rank = tfm::format("%llu", this->offset + i + 1);
 			RunStats stats = srData.overallData[i];
 			table.SetRow(i, rank, stats.GetName(), stats.GetTime(), stats.GetSteamID64(), stats.GetRunID());
 		}
-		player->PrintConsole(false, false, table.GetSeparator("="));
-		player->PrintConsole(false, false, table.GetTitle());
-		player->PrintConsole(false, false, table.GetHeader());
+		player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+		player->PrintConsole(false, false, table.GetTitle().c_str());
+		player->PrintConsole(false, false, table.GetHeader().c_str());
 
 		for (u32 i = 0; i < table.GetNumEntries(); i++)
 		{
-			player->PrintConsole(false, false, table.GetLine(i));
+			player->PrintConsole(false, false, table.GetLine(i).c_str());
 		}
-		player->PrintConsole(false, false, table.GetSeparator("="));
+		player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 	}
 };
 

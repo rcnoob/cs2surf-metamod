@@ -70,7 +70,7 @@ class Surf102tModeService : public SurfModeService
 		(float)800.0f,  // sv_gravity
 		(float)302.0f,  // sv_jump_impulse
 		(bool)false,    // sv_jump_precision_enable
-		(float)0.0f,    // sv_jump_spam_penalty_time
+		(float)-1.267f, // sv_jump_spam_penalty_time
 		(float)-0.707f, // sv_ladder_angle
 		(float)1.0f,    // sv_ladder_dampen
 		(float)1.0f,    // sv_ladder_scale_speed
@@ -100,7 +100,7 @@ public:
 	virtual const char *GetModeName() override;
 	virtual const char *GetModeShortName() override;
 	virtual const CVValue_t *GetModeConVarValues() override;
-	virtual void OnSetupMove(PlayerCommand *) override;
+	virtual void OnSetupMove(CUserCmd *) override;
 	virtual void OnPhysicsSimulate() override;
 	virtual void OnPhysicsSimulatePost() override;
 };

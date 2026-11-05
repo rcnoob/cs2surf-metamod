@@ -5,7 +5,6 @@
 
 class SurfPlayer;
 class CCSPlayerPawnBase;
-class PlayerCommand;
 class CUserCmd;
 class CBasePlayerWeapon;
 struct EconInfo;
@@ -22,7 +21,7 @@ namespace Surf::replaysystem
 	void OnProcessMovementPost(SurfPlayer *player);
 	void OnFinishMovePre(SurfPlayer *player, CMoveData *pMoveData);
 	void OnPhysicsSimulatePost(SurfPlayer *player);
-	void OnPlayerRunCommandPre(SurfPlayer *player, PlayerCommand *command);
+	void OnPlayerRunCommandPre(SurfPlayer *player, CUserCmd *command);
 	bool IsReplayBot(SurfPlayer *player);
 	bool CanTouchTrigger(SurfPlayer *player, CBaseTrigger *trigger);
 

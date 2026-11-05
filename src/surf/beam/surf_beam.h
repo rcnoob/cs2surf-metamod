@@ -1,6 +1,6 @@
 #pragma once
 #include "surf/surf.h"
-#include "tier1/circularbuffer.h"
+#include "tier0/circularbuffer.h"
 
 class SurfBeamService : public SurfBaseService
 {

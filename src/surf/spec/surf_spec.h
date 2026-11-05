@@ -24,7 +24,7 @@ public:
 	bool SpectatePlayer(SurfPlayer *target);
 	bool CanSpectate();
 
-	void GetSpectatorList(CUtlVector<CUtlString> &spectatorList);
+	void GetSpectatorList(CUtlVector<std::string> &spectatorList);
 	SurfPlayer *GetSpectatedPlayer();
 	SurfPlayer *GetNextSpectator(SurfPlayer *current);
 };

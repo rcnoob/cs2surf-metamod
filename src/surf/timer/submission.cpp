@@ -79,7 +79,7 @@ RunSubmission::RunSubmission(SurfPlayer *player)
 
 	// Setup course
 	assert(player->timerService->GetCourse());
-	this->course.name = player->timerService->GetCourse()->GetName().Get();
+	this->course.name = player->timerService->GetCourse()->GetName();
 	this->course.localID = player->timerService->GetCourse()->localDatabaseID;
 
 	// clang-format off
@@ -143,7 +143,7 @@ RunSubmission::RunSubmission(SurfPlayer *player)
 	}
 
 	// Metadata
-	this->metadata = player->timerService->GetCurrentRunMetadata().Get();
+	this->metadata = player->timerService->GetCurrentRunMetadata();
 
 	// Previous GPBs
 	if (global)
@@ -440,16 +440,15 @@ void RunSubmission::AnnounceRun()
 	char formattedTime[32];
 	utils::FormatTime(time, formattedTime, sizeof(formattedTime));
 
-	CUtlString combinedModeStyleText;
-	combinedModeStyleText.Format("{purple}%s{grey}", this->mode.name.c_str());
+	std::string combinedModeStyleText = tfm::format("{purple}%s{grey}", this->mode.name.c_str());
 	for (auto &style : this->styles)
 	{
 		combinedModeStyleText += " +{grey2}";
-		combinedModeStyleText.Append(style.name.c_str());
+		combinedModeStyleText += style.name;
 		combinedModeStyleText += "{grey}";
 	}
 
-	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (u32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (!player->IsInGame())
@@ -457,13 +456,13 @@ void RunSubmission::AnnounceRun()
 			continue;
 		}
 		player->languageService->PrintChat(true, false, "Beat Course Info - Basic", this->player.name.c_str(), this->course.name.c_str(),
-										   formattedTime, combinedModeStyleText.Get());
+										   formattedTime, combinedModeStyleText.c_str());
 	}
 }
 
 void RunSubmission::AnnounceLocal()
 {
-	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (u32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (!player->IsInGame())

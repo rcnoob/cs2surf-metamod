@@ -74,7 +74,7 @@ bool SurfSpecService::SpectatePlayer(const char *playerName)
 	else
 	{
 		// Prefer exact matches over partial matches.
-		for (i32 i = 0; i <= MAXPLAYERS; i++)
+		for (i32 i = 0; i <= MAX_PLAYERS; i++)
 		{
 			CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController();
 			SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(i);
@@ -97,7 +97,7 @@ bool SurfSpecService::SpectatePlayer(const char *playerName)
 		// If no exact match was found, try partial matches.
 		if (!targetPlayer)
 		{
-			for (i32 i = 0; i <= MAXPLAYERS; i++)
+			for (i32 i = 0; i <= MAX_PLAYERS; i++)
 			{
 				CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController();
 				SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(i);
@@ -164,12 +164,13 @@ bool SurfSpecService::SpectatePlayer(SurfPlayer *target)
 	obsService->m_iObserverMode(OBS_MODE_IN_EYE);
 	obsService->m_iObserverLastMode(OBS_MODE_NONE);
 	obsService->m_hObserverTarget(target->GetPlayerPawn());
+	controller->m_DesiredObserverMode(OBS_MODE_IN_EYE);
+	controller->m_hDesiredObserverTarget(target->GetPlayerPawn());
 
 	if (target == this->player)
 	{
 		controller->m_DesiredObserverMode(OBS_MODE_ROAMING);
 		obsService->m_iObserverMode(OBS_MODE_ROAMING);
-		controller->m_hDesiredObserverTarget(target->GetPlayerPawn());
 		obsService->m_hObserverTarget(target->GetPlayerPawn());
 		Vector origin;
 		QAngle angles;
@@ -186,7 +187,7 @@ bool SurfSpecService::CanSpectate()
 	return !this->player->IsAlive() || this->player->timerService->GetPaused() || this->player->timerService->CanPause();
 }
 
-void SurfSpecService::GetSpectatorList(CUtlVector<CUtlString> &spectatorList)
+void SurfSpecService::GetSpectatorList(CUtlVector<std::string> &spectatorList)
 {
 	SurfPlayer *spectator = this->player->specService->GetNextSpectator(nullptr);
 	while (spectator)
@@ -223,7 +224,7 @@ SurfPlayer *SurfSpecService::GetSpectatedPlayer()
 
 SurfPlayer *SurfSpecService::GetNextSpectator(SurfPlayer *current)
 {
-	for (int i = current ? current->index + 1 : 0; i < MAXPLAYERS + 1; i++)
+	for (int i = current ? current->index + 1 : 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (player->specService->IsSpectating(this->player))
@@ -250,7 +251,7 @@ SCMD(surf_spec, SCFL_SPEC)
 	// Count alive players and find first alive player
 	u32 numAlivePlayers = 0;
 	SurfPlayer *firstAlivePlayer = nullptr;
-	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (i32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(i);
 		if (otherPlayer && otherPlayer->IsAlive() && otherPlayer != player)
@@ -297,7 +298,7 @@ SCMD(surf_specs, SCFL_SPEC)
 		player->languageService->PrintChat(true, false, "Spectator List (None)");
 		return true;
 	}
-	CUtlVector<CUtlString> spectatorList;
+	CUtlVector<std::string> spectatorList;
 	targetPlayer->specService->GetSpectatorList(spectatorList);
 	if (spectatorList.Count() == 0)
 	{
@@ -312,7 +313,7 @@ SCMD(surf_specs, SCFL_SPEC)
 	}
 	else
 	{
-		CUtlString spectatorListString;
+		std::string spectatorListString;
 		for (i32 i = 0; i < spectatorList.Count(); i++)
 		{
 			spectatorListString += spectatorList[i];
@@ -323,12 +324,12 @@ SCMD(surf_specs, SCFL_SPEC)
 		}
 		if (targetPlayer == player)
 		{
-			player->languageService->PrintChat(true, false, "Spectator List", spectatorList.Count(), spectatorListString.Get());
+			player->languageService->PrintChat(true, false, "Spectator List", spectatorList.Count(), spectatorListString.c_str());
 		}
 		else
 		{
 			player->languageService->PrintChat(true, false, "Target Spectator List", targetPlayer->GetName(), spectatorList.Count(),
-											   spectatorListString.Get());
+											   spectatorListString.c_str());
 		}
 	}
 	return true;

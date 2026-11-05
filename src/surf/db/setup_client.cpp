@@ -78,7 +78,7 @@ void SurfDatabaseService::SetupClient()
 			if (result)
 			{
 				bool isCheater = (result->FetchRow() && result->GetInt(0) == 1);
-				const char *prefs = result->GetString(1);
+				const char *prefs = result->FetchRow() ? utils::OrEmpty(result->GetString(1)) : "";
 				this->isSetUp = true;
 				pl->optionService->InitializeLocalPrefs(prefs);
 				CALL_FORWARD(SurfDatabaseService::eventListeners, OnClientSetup, pl, pl->GetSteamId64(), isCheater);

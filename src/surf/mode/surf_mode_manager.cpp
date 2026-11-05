@@ -1,7 +1,7 @@
 #include "surf_mode.h"
 #include "surf_mode_64t.h"
 
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 
 #include "utils/utils.h"
 #include "interfaces/interfaces.h"
@@ -66,6 +66,11 @@ void Surf::mode::InitModeManager()
 	{
 		return;
 	}
+	if (!Surf::mode::InitTrace())
+	{
+		SURF_LOG_WARN(LogChannel::Mode, "Failed to initialize trace!\n");
+		return;
+	}
 	ModeServiceFactory _64tFactory = [](SurfPlayer *player) -> SurfModeService * { return new Surf64tModeService(player); };
 	modeManager.RegisterMode(g_PLID, "64t", "64tick", _64tFactory);
 	SurfDatabaseService::RegisterEventListener(&databaseEventListener);
@@ -101,15 +106,15 @@ void Surf::mode::LoadModePlugins()
 	}
 }
 
-void Surf::mode::UpdateModeDatabaseID(CUtlString name, i32 id, CUtlString shortName)
+void Surf::mode::UpdateModeDatabaseID(const std::string &name, i32 id, const std::string &shortName)
 {
 	// Check if the mode already exists in the list, if yes, we update it.
 	FOR_EACH_VEC(modeInfos, i)
 	{
-		if (!V_stricmp(modeInfos[i].longModeName, name))
+		if (!V_stricmp(modeInfos[i].longModeName.c_str(), name.c_str()))
 		{
 			modeInfos[i].databaseID = id;
-			if (!shortName.IsEmpty())
+			if (!shortName.empty())
 			{
 				modeInfos[i].shortModeName = shortName;
 			}
@@ -117,11 +122,12 @@ void Surf::mode::UpdateModeDatabaseID(CUtlString name, i32 id, CUtlString shortN
 		}
 	}
 	// If the code reaches here, that means the mode is not in the list yet.
-	modeInfos.AddToTail({-1, name.Get(), shortName.Get()});
+	modeInfos.AddToTail({-1, name.c_str(), shortName.c_str()});
 }
 
 void Surf::mode::InitModeService(SurfPlayer *player)
 {
+	Surf::mode::CleanupTrace(player->modeService);
 	delete player->modeService;
 	player->modeService = new Surf64tModeService(player);
 }
@@ -194,7 +200,7 @@ bool SurfModeManager::RegisterMode(PluginId id, const char *shortModeName, const
 	ModePluginInfo *info = nullptr;
 	FOR_EACH_VEC(modeInfos, i)
 	{
-		if (!V_stricmp(modeInfos[i].shortModeName, shortModeName) || !V_stricmp(modeInfos[i].longModeName, longModeName))
+		if (!V_stricmp(modeInfos[i].shortModeName.c_str(), shortModeName) || !V_stricmp(modeInfos[i].longModeName.c_str(), longModeName))
 		{
 			if (modeInfos[i].id > 0)
 			{
@@ -232,7 +238,7 @@ bool SurfModeManager::RegisterMode(PluginId id, const char *shortModeName, const
 void SurfModeManager::UnregisterMode(PluginId id)
 {
 	// Cannot unregister 64t.
-	if (id = g_PLID)
+	if (id == g_PLID)
 	{
 		return;
 	}
@@ -241,22 +247,22 @@ void SurfModeManager::UnregisterMode(PluginId id)
 	{
 		if (id == modeInfos[i].id)
 		{
-			for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+			for (u32 i = 0; i < MAX_PLAYERS + 1; i++)
 			{
 				SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 				if (!player->IsInGame())
 				{
 					continue;
 				}
-				if (!V_strcmp(player->modeService->GetModeName(), modeInfos[i].longModeName)
-					|| !V_strcmp(player->modeService->GetModeShortName(), modeInfos[i].shortModeName))
+				if (!V_strcmp(player->modeService->GetModeName(), modeInfos[i].longModeName.c_str())
+					|| !V_strcmp(player->modeService->GetModeShortName(), modeInfos[i].shortModeName.c_str()))
 				{
 					this->SwitchToMode(player, "64t");
 				}
 			}
 
 			char shortModeCmd[64];
-			V_snprintf(shortModeCmd, 64, "surf_%s", modeInfos[i].shortModeName.Get());
+			V_snprintf(shortModeCmd, 64, "surf_%s", modeInfos[i].shortModeName.c_str());
 			scmd::UnregisterCmd(shortModeCmd);
 
 			modeInfos[i].id = -1;
@@ -285,9 +291,9 @@ bool SurfModeManager::SwitchToMode(SurfPlayer *player, const char *modeName, boo
 			// clang-format off
 			player->PrintConsole(false, false,
 				"%s (surf_mode %s / surf_mode %s)",
-				modeInfos[i].longModeName.Get(),
-				modeInfos[i].longModeName.Get(),
-				modeInfos[i].shortModeName.Get()
+				modeInfos[i].longModeName.c_str(),
+				modeInfos[i].longModeName.c_str(),
+				modeInfos[i].shortModeName.c_str()
 			);
 			// clang-format on
 		}
@@ -304,7 +310,7 @@ bool SurfModeManager::SwitchToMode(SurfPlayer *player, const char *modeName, boo
 
 	FOR_EACH_VEC(modeInfos, i)
 	{
-		if (V_stricmp(modeInfos[i].shortModeName, modeName) == 0 || V_stricmp(modeInfos[i].longModeName, modeName) == 0)
+		if (V_stricmp(modeInfos[i].shortModeName.c_str(), modeName) == 0 || V_stricmp(modeInfos[i].longModeName.c_str(), modeName) == 0)
 		{
 			factory = modeInfos[i].factory;
 			break;
@@ -319,6 +325,7 @@ bool SurfModeManager::SwitchToMode(SurfPlayer *player, const char *modeName, boo
 		return false;
 	}
 	player->modeService->Cleanup();
+	Surf::mode::CleanupTrace(player->modeService);
 	delete player->modeService;
 	player->modeService = factory(player);
 	player->timerService->TimerStop();
@@ -411,7 +418,7 @@ SurfModeManager::ModePluginInfo Surf::mode::GetModeInfo(SurfModeService *mode)
 	}
 	FOR_EACH_VEC(modeInfos, i)
 	{
-		if (!V_stricmp(mode->GetModeName(), modeInfos[i].longModeName))
+		if (!V_stricmp(mode->GetModeName(), modeInfos[i].longModeName.c_str()))
 		{
 			return modeInfos[i];
 		}
@@ -447,17 +454,17 @@ SurfModeManager::ModePluginInfo Surf::mode::GetModeInfo(Surf::API::Mode mode)
 	return SurfModeManager::ModePluginInfo();
 }
 
-SurfModeManager::ModePluginInfo Surf::mode::GetModeInfo(CUtlString modeName)
+SurfModeManager::ModePluginInfo Surf::mode::GetModeInfo(const std::string &modeName)
 {
 	SurfModeManager::ModePluginInfo emptyInfo;
-	if (modeName.IsEmpty())
+	if (modeName.empty())
 	{
 		SURF_LOG_WARN(LogChannel::Mode, "Warning: Getting mode info from an empty string!\n");
 		return emptyInfo;
 	}
 	FOR_EACH_VEC(modeInfos, i)
 	{
-		if (modeName.IsEqual_FastCaseInsensitive(modeInfos[i].shortModeName) || modeName.IsEqual_FastCaseInsensitive(modeInfos[i].longModeName))
+		if (SURF_STREQI(modeName.c_str(), modeInfos[i].shortModeName.c_str()) || SURF_STREQI(modeName.c_str(), modeInfos[i].longModeName.c_str()))
 		{
 			return modeInfos[i];
 		}
@@ -495,6 +502,7 @@ void SurfOptionServiceEventListener_Modes::OnPlayerPreferenceLoaded(SurfPlayer *
 	// Give up changing modes if the player is already in the server for a while.
 	if (player->telemetryService->GetTimeInServer() < 30.0f && !player->timerService->GetTimerRunning())
 	{
-		modeManager.SwitchToMode(player, mode, false, false);
+		// Applying the loaded preference is not a change to it, and writing it back would mark it as one.
+		modeManager.SwitchToMode(player, mode, false, false, false);
 	}
 }

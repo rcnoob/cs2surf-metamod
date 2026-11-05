@@ -25,7 +25,7 @@ void SurfTelemetryService::ActiveCheck()
 {
 	f64 currentTime = g_pSurfUtils->GetServerGlobals()->realtime;
 	f64 duration = currentTime - SurfTelemetryService::lastActiveCheckTime;
-	for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (u32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (!player->IsInGame() || player->IsFakeClient() || player->IsCSTV())

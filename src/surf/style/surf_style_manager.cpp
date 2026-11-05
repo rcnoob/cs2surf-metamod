@@ -1,6 +1,6 @@
 #include "surf_style.h"
 
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 
 #include "utils/utils.h"
 #include "interfaces/interfaces.h"
@@ -76,11 +76,11 @@ void Surf::style::LoadStylePlugins()
 	}
 }
 
-void Surf::style::UpdateStyleDatabaseID(CUtlString name, i32 id)
+void Surf::style::UpdateStyleDatabaseID(const std::string &name, i32 id)
 {
 	FOR_EACH_VEC(styleInfos, i)
 	{
-		if (!V_stricmp(styleInfos[i].longName, name))
+		if (!V_stricmp(styleInfos[i].longName, name.c_str()))
 		{
 			styleInfos[i].databaseID = id;
 			break;
@@ -106,17 +106,17 @@ SurfStyleManager::StylePluginInfo Surf::style::GetStyleInfo(SurfStyleService *st
 	return emptyInfo;
 }
 
-SurfStyleManager::StylePluginInfo Surf::style::GetStyleInfo(CUtlString styleName)
+SurfStyleManager::StylePluginInfo Surf::style::GetStyleInfo(const std::string &styleName)
 {
 	SurfStyleManager::StylePluginInfo emptyInfo;
-	if (styleName.IsEmpty())
+	if (styleName.empty())
 	{
 		SURF_LOG_WARN(LogChannel::Style, "Warning: Getting style info from an empty string!\n");
 		return emptyInfo;
 	}
 	FOR_EACH_VEC(styleInfos, i)
 	{
-		if (styleName.IsEqual_FastCaseInsensitive(styleInfos[i].shortName) || styleName.IsEqual_FastCaseInsensitive(styleInfos[i].longName))
+		if (SURF_STREQI(styleName.c_str(), styleInfos[i].shortName) || SURF_STREQI(styleName.c_str(), styleInfos[i].longName))
 		{
 			return styleInfos[i];
 		}
@@ -176,7 +176,7 @@ void SurfStyleManager::UnregisterStyle(PluginId id)
 	{
 		if (styleInfos[i].id == id)
 		{
-			for (u32 i = 0; i < MAXPLAYERS + 1; i++)
+			for (u32 i = 0; i < MAX_PLAYERS + 1; i++)
 			{
 				SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 				FOR_EACH_VEC(player->styleServices, i)
@@ -274,7 +274,7 @@ void SurfStyleManager::AddStyle(SurfPlayer *player, const char *styleName, bool 
 	player->styleServices.Tail()->Init();
 	if (updatePreference)
 	{
-		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player));
+		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player).c_str());
 	}
 	if (!silent)
 	{
@@ -306,7 +306,7 @@ void SurfStyleManager::RemoveStyle(SurfPlayer *player, const char *styleName, bo
 			delete style;
 			if (updatePreference)
 			{
-				player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player));
+				player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player).c_str());
 			}
 			return;
 		}
@@ -344,7 +344,7 @@ void SurfStyleManager::ToggleStyle(SurfPlayer *player, const char *styleName, bo
 			delete style;
 			if (updatePreference)
 			{
-				player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player));
+				player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player).c_str());
 			}
 			return;
 		}
@@ -386,7 +386,7 @@ void SurfStyleManager::ToggleStyle(SurfPlayer *player, const char *styleName, bo
 	player->styleServices.Tail()->Init();
 	if (updatePreference)
 	{
-		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player));
+		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player).c_str());
 	}
 	if (!silent)
 	{
@@ -405,7 +405,7 @@ void SurfStyleManager::ClearStyles(SurfPlayer *player, bool silent, bool updateP
 	player->styleServices.PurgeAndDeleteElements();
 	if (updatePreference)
 	{
-		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player));
+		player->optionService->SetPreferenceStr("preferredStyles", styleManager.GetStylesString(player).c_str());
 	}
 	if (!silent)
 	{
@@ -429,15 +429,17 @@ void SurfStyleManager::RefreshStyles(SurfPlayer *player, bool updatePreference)
 	}
 }
 
-CUtlString SurfStyleManager::GetStylesString(SurfPlayer *player)
+std::string SurfStyleManager::GetStylesString(SurfPlayer *player)
 {
-	CUtlString result;
+	std::string result;
 	FOR_EACH_VEC(player->styleServices, i)
 	{
-		result.Append(player->styleServices[i]->GetStyleName());
-		result.Append(",");
+		if (i > 0)
+		{
+			result += ",";
+		}
+		result += player->styleServices[i]->GetStyleName();
 	}
-	result.TrimRight(',');
 	return result;
 }
 
@@ -546,10 +548,10 @@ void SurfOptionServiceEventListener_Styles::OnPlayerPreferenceLoaded(SurfPlayer 
 	if (player->telemetryService->GetTimeInServer() < 30.0f && !player->timerService->GetTimerRunning())
 	{
 		styleManager.ClearStyles(player, true, false);
-		CSplitString splitStyles(styles.c_str(), ",");
-		FOR_EACH_VEC(splitStyles, i)
+		for (const std::string &style : utils::Split(styles, ','))
 		{
-			styleManager.AddStyle(player, splitStyles[i]);
+			// Applying the loaded preference is not a change to it, and writing it back would mark it as one.
+			styleManager.AddStyle(player, style.c_str(), false, false);
 		}
 	}
 }

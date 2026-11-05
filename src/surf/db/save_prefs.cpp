@@ -5,21 +5,20 @@
 
 #include "queries/players.h"
 
-void SurfDatabaseService::SavePrefs(CUtlString prefs)
+void SurfDatabaseService::SavePrefs(const std::string &prefs)
 {
 	if (!SurfDatabaseService::IsReady() || !this->IsSetup())
 	{
 		return;
 	}
 	u64 steamID64 = this->player->GetSteamId64();
-	std::string cleanedPrefs = SurfDatabaseService::GetDatabaseConnection()->Escape(prefs);
+	std::string cleanedPrefs = SurfDatabaseService::GetDatabaseConnection()->Escape(prefs.c_str());
 
 	Transaction txn;
 
-	CUtlString query;
-	query.Format(sql_players_set_prefs, prefs.Get(), steamID64);
+	std::string query = tfm::format(sql_players_set_prefs, cleanedPrefs.c_str(), steamID64);
 
-	txn.queries.push_back(query.Get());
+	txn.queries.push_back(query.c_str());
 
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, OnGenericTxnSuccess, OnGenericTxnFailure);
 }

@@ -98,10 +98,10 @@ namespace Surf::replaysystem::commands
 				{
 					return;
 				}
-				if (!SURF_STREQI(data::GetCurrentReplay()->header.map().name().c_str(), g_pSurfUtils->GetCurrentMapName().Get()))
+				if (!SURF_STREQI(data::GetCurrentReplay()->header.map().name().c_str(), g_pSurfUtils->GetCurrentMapName().c_str()))
 				{
 					player->languageService->PrintChat(true, false, "Replay - Wrong Map", 
-						data::GetCurrentReplay()->header.map().name().c_str(), g_pSurfUtils->GetCurrentMapName().Get());
+						data::GetCurrentReplay()->header.map().name().c_str(), g_pSurfUtils->GetCurrentMapName().c_str());
 					return;
 				}
 				for (u32 i = 0; i < data::GetCurrentReplay()->numEvents; i++)
@@ -111,7 +111,7 @@ namespace Surf::replaysystem::commands
 					{
 						case RPEVENT_MODE_CHANGE:
 						{
-							if (Surf::mode::GetModeInfo(CUtlString(event.data.modeChange.name)).id < 0)
+							if (Surf::mode::GetModeInfo(event.data.modeChange.name).id < 0)
 							{
 								player->languageService->PrintChat(true, false, "Replay - Unknown Mode", event.data.modeChange.name);
 							}
@@ -119,7 +119,7 @@ namespace Surf::replaysystem::commands
 						}
 						case RPEVENT_STYLE_CHANGE:
 						{
-							if (event.data.styleChange.name[0] != '\0' && Surf::style::GetStyleInfo(CUtlString(event.data.styleChange.name)).id < 0)
+							if (event.data.styleChange.name[0] != '\0' && Surf::style::GetStyleInfo(event.data.styleChange.name).id < 0)
 							{
 								player->languageService->PrintChat(true, false, "Replay - Unknown Style", event.data.styleChange.name);
 							}
@@ -358,9 +358,9 @@ namespace Surf::replaysystem::commands
 					auto &run = replay->header.run();
 					i32 styleCount = run.styles_size();
 					V_snprintf(modeStr, sizeof(modeStr), "%s%s", run.mode().name().c_str(), styleCount ? "*" : "");
-					CUtlString timeString = utils::FormatTime(run.time());
+					std::string timeString = utils::FormatTime(run.time());
 					player->languageService->PrintConsole(false, false, "Replay - Run Info Console", run.course_name().c_str(), modeStr,
-														  timeString.Get());
+														  timeString.c_str());
 				}
 				break;
 			}

@@ -59,7 +59,7 @@ namespace Surf::replaysystem::events
 			case RpEvent::RpEventData::TimerEvent::TIMER_START:
 			{
 				const SurfCourseDescriptor *course = Surf::course::GetCourseByCourseID(event->data.timer.index);
-				if (!course || course->GetName().IsEmpty())
+				if (!course || course->GetName().empty())
 				{
 					break;
 				}
@@ -75,7 +75,7 @@ namespace Surf::replaysystem::events
 				replay->lastCPZTime = 0.0f;
 				replay->lastStageTime = 0.0f;
 				replay->stopTick = 0;
-				V_snprintf(replay->courseName, sizeof(replay->courseName), "%s", course->GetName().Get());
+				V_snprintf(replay->courseName, sizeof(replay->courseName), "%s", course->GetName().c_str());
 				replay->paused = false;
 				break;
 			}
@@ -83,11 +83,11 @@ namespace Surf::replaysystem::events
 			case RpEvent::RpEventData::TimerEvent::TIMER_END:
 			{
 				const SurfCourseDescriptor *courseDesc = Surf::course::GetCourseByCourseID(event->data.timer.index);
-				if (!courseDesc || courseDesc->GetName().IsEmpty())
+				if (!courseDesc || courseDesc->GetName().empty())
 				{
 					break;
 				}
-				if (replay->startTime == 0.0f || !courseDesc->GetName().IsEqual_FastCaseInsensitive(replay->courseName))
+				if (replay->startTime == 0.0f || !SURF_STREQI(courseDesc->GetName().c_str(), replay->courseName))
 				{
 					break;
 				}
@@ -95,13 +95,12 @@ namespace Surf::replaysystem::events
 				char formattedTime[32];
 				utils::FormatTime(event->data.timer.time, formattedTime, sizeof(formattedTime));
 
-				CUtlString combinedModeStyleText;
-				combinedModeStyleText.Format("{purple}%s{grey}", player.modeService->GetModeShortName());
+				std::string combinedModeStyleText = tfm::format("{purple}%s{grey}", player.modeService->GetModeShortName());
 				FOR_EACH_VEC(player.styleServices, i)
 				{
 					SurfStyleService *style = player.styleServices[i];
 					combinedModeStyleText += " +{grey2}";
-					combinedModeStyleText.Append(style->GetStyleName());
+					combinedModeStyleText += style->GetStyleName();
 					combinedModeStyleText += "{grey}";
 				}
 
@@ -120,8 +119,8 @@ namespace Surf::replaysystem::events
 				}
 
 				player.languageService->PrintChat(true, true, "Beat Course Info - Basic", replay->header.player().name().c_str(),
-												  courseDesc ? courseDesc->GetName() : "unknown", formattedTime, combinedModeStyleText.Get(),
-												  teleportText.c_str());
+												  courseDesc ? courseDesc->GetName().c_str() : "unknown", formattedTime,
+												  combinedModeStyleText.c_str(), teleportText.c_str());
 				replay->startTime = 0.0f;
 				replay->stopTick = replay->currentTick;
 				replay->courseName[0] = '\0';
@@ -154,13 +153,13 @@ namespace Surf::replaysystem::events
 					break;
 				}
 
-				CUtlString time = utils::FormatTime(event->data.timer.time);
+				std::string time = utils::FormatTime(event->data.timer.time);
 				if (replay->lastCPZTime != 0)
 				{
 					f64 diff = event->data.timer.time - replay->lastCPZTime;
-					CUtlString splitTime = SurfTimerService::FormatDiffTime(diff);
-					splitTime.Format(" {grey}({default}%s{grey})", splitTime.Get());
-					time.Append(splitTime.Get());
+					std::string splitTime = SurfTimerService::FormatDiffTime(diff);
+					splitTime = tfm::format(" {grey}({default}%s{grey})", splitTime.c_str());
+					time += splitTime;
 				}
 
 				for (SurfPlayer *spec = player.specService->GetNextSpectator(NULL); spec != NULL; spec = player.specService->GetNextSpectator(spec))
@@ -168,20 +167,20 @@ namespace Surf::replaysystem::events
 					spec->timerService->PlayReachedCheckpointSound();
 				}
 
-				player.languageService->PrintChat(true, true, "Course Checkpoint Reached", event->data.timer.index, time.Get(), "", "");
+				player.languageService->PrintChat(true, true, "Course Checkpoint Reached", event->data.timer.index, time.c_str(), "", "");
 				replay->lastCPZTime = event->data.timer.time;
 				break;
 			}
 
 			case RpEvent::RpEventData::TimerEvent::TIMER_STAGE:
 			{
-				CUtlString time = utils::FormatTime(event->data.timer.time);
+				std::string time = utils::FormatTime(event->data.timer.time);
 				if (replay->lastStageTime != 0)
 				{
 					f64 diff = event->data.timer.time - replay->lastStageTime;
-					CUtlString splitTime = SurfTimerService::FormatDiffTime(diff);
-					splitTime.Format(" {grey}({default}%s{grey})", splitTime.Get());
-					time.Append(splitTime.Get());
+					std::string splitTime = SurfTimerService::FormatDiffTime(diff);
+					splitTime = tfm::format(" {grey}({default}%s{grey})", splitTime.c_str());
+					time += splitTime;
 				}
 
 				for (SurfPlayer *spec = player.specService->GetNextSpectator(NULL); spec != NULL; spec = player.specService->GetNextSpectator(spec))
@@ -189,7 +188,7 @@ namespace Surf::replaysystem::events
 					spec->timerService->PlayReachedStageSound();
 				}
 
-				player.languageService->PrintChat(true, true, "Course Stage Reached", event->data.timer.index, time.Get(), "", "");
+				player.languageService->PrintChat(true, true, "Course Stage Reached", event->data.timer.index, time.c_str(), "", "");
 				replay->lastStageTime = event->data.timer.time;
 				break;
 			}
@@ -338,11 +337,11 @@ namespace Surf::replaysystem::events
 						case RpEvent::RpEventData::TimerEvent::TIMER_START:
 						{
 							const SurfCourseDescriptor *courseDesc = Surf::course::GetCourseByCourseID(event->data.timer.index);
-							if (!courseDesc || courseDesc->GetName().IsEmpty())
+							if (!courseDesc || courseDesc->GetName().empty())
 							{
 								break;
 							}
-							V_snprintf(replay->courseName, sizeof(replay->courseName), "%s", courseDesc->GetName().Get());
+							V_snprintf(replay->courseName, sizeof(replay->courseName), "%s", courseDesc->GetName().c_str());
 							replay->paused = false;
 							replay->endTime = 0.0f;
 							replay->stopTick = 0;

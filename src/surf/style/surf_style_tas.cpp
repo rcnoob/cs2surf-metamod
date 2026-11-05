@@ -73,11 +73,6 @@ bool SurfTASStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void SurfTASStyleService::Init() {}
 
 const CVValue_t *SurfTASStyleService::GetTweakedConvarValue(const char *name)

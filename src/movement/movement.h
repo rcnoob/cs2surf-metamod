@@ -15,7 +15,7 @@ class CCSPlayer_MovementServices;
 class CCSPlayerController;
 class MovementPlayer;
 class CCSPlayerPawnBase;
-class PlayerCommand;
+class CUserCmd;
 
 #ifdef DEBUG_TPM
 struct TraceHistory
@@ -82,13 +82,13 @@ public:
 	virtual void OnPhysicsSimulate();
 	virtual void OnPhysicsSimulatePost();
 
-	virtual void OnProcessUsercmds(PlayerCommand *, int) {}
+	virtual void OnProcessUsercmds(CUserCmd *, int) {}
 
-	virtual void OnProcessUsercmdsPost(PlayerCommand *, int) {}
+	virtual void OnProcessUsercmdsPost(CUserCmd *, int) {}
 
-	virtual void OnSetupMove(PlayerCommand *) {}
+	virtual void OnSetupMove(CUserCmd *) {}
 
-	virtual void OnSetupMovePost(PlayerCommand *) {}
+	virtual void OnSetupMovePost(CUserCmd *) {}
 
 	virtual void OnProcessMovement();
 	virtual void OnProcessMovementPost();
@@ -292,7 +292,7 @@ class MovementPlayerManager : public PlayerManager
 public:
 	MovementPlayerManager()
 	{
-		for (int i = 0; i < MAXPLAYERS + 1; i++)
+		for (int i = 0; i < MAX_PLAYERS + 1; i++)
 		{
 			delete players[i];
 			players[i] = new MovementPlayer(i);
@@ -307,6 +307,16 @@ public:
 	MovementPlayer *ToPlayer(CEntityIndex entIndex);
 	MovementPlayer *ToPlayer(CPlayerUserId userID);
 	MovementPlayer *ToPlayer(u32 index);
+
+	PlayerSlotRange<MovementPlayer> GetAllSlots()
+	{
+		return PlayerSlotRange<MovementPlayer>(players, false);
+	}
+
+	PlayerSlotRange<MovementPlayer> GetInGamePlayers()
+	{
+		return PlayerSlotRange<MovementPlayer>(players, true);
+	}
 
 	MovementPlayer *ToMovementPlayer(Player *player)
 	{

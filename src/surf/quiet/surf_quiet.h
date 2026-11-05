@@ -1,6 +1,6 @@
 #pragma once
 #include "surf/surf.h"
-#include "iserver.h"
+#include "engine2/inetworkgameserver.h"
 #include "networksystem/inetworkserializer.h"
 
 namespace Surf::quiet

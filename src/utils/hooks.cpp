@@ -7,17 +7,15 @@
 #include "utils/ctimer.h"
 
 #include "entityclass.h"
-#include "gamesystems/spawngroup_manager.h"
+#include "spawngroupmgrgamesystem.h"
 #include "steam/steam_gameserver.h"
-#include "bufferstring.h"
-#include "igameeventsystem.h"
+#include "tier0/buffer_string.h"
+#include "engine2/igameeventsystem.h"
+#include "engine2/gamesessionconfiguration.h"
+#include "engine2/inetworkserverservice.h"
+#include "engine2/networkgameserverbase.h"
 #include "igamesystem.h"
-#include "entityclass.h"
-#include "gamesystems/spawngroup_manager.h"
-#include "utils/simplecmds.h"
-#include "utils/gamesystem.h"
 #include "utils/async_file_io.h"
-#include "steam/steam_gameserver.h"
 
 #include "sdk/steamnetworkingsockets.h"
 #include "surf/surf.h"
@@ -36,7 +34,6 @@
 #include "surf/profile/surf_profile.h"
 #include "surf/recording/surf_recording.h"
 #include "surf/replays/surf_replaysystem.h"
-#include "utils/utils.h"
 #include "utils/cvarquery.h"
 #include "sdk/entity/cbasetrigger.h"
 #include "cstrike15_usermessages.pb.h"
@@ -49,12 +46,7 @@
 
 #include "memdbgon.h"
 
-extern CSteamGameServerAPIContext g_steamAPI;
 extern CGameConfig *g_pGameConfig;
-
-class GameSessionConfiguration_t
-{
-};
 
 class EntListener : public IEntityListener
 {
@@ -229,7 +221,6 @@ static KHook::Virtual<ISource2Server, void, bool, bool, bool> gameFrameHook(Game
 static KHook::Return<void> GameServerSteamAPIActivatedPre(ISource2Server *pThis)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
-	g_steamAPI.Init();
 	g_pSurfPlayerManager->OnSteamAPIActivated();
 	return {KHook::Action::Ignore};
 }
@@ -276,14 +267,16 @@ static KHook::Return<void> ClientFullyConnectPre(ISource2GameClients *pThis, CPl
 
 static KHook::Virtual<ISource2GameClients, void, CPlayerSlot> clientFullyConnectHook(ClientFullyConnectPre, nullptr);
 
-static KHook::Return<void> ClientPutInServerPre(ISource2GameClients *pThis, CPlayerSlot slot, char const *pszName, int type, uint64 xuid)
+static KHook::Return<void> ClientPutInServerPre(ISource2GameClients *pThis, CPlayerSlot slot, char const *pszName, ClientPutInServerType_t type,
+												uint64 xuid)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	g_pSurfPlayerManager->OnClientPutInServer(slot, pszName, type, xuid);
 	return {KHook::Action::Ignore};
 }
 
-static KHook::Virtual<ISource2GameClients, void, CPlayerSlot, char const *, int, uint64> clientPutInServerHook(ClientPutInServerPre, nullptr);
+static KHook::Virtual<ISource2GameClients, void, CPlayerSlot, char const *, ClientPutInServerType_t, uint64>
+	clientPutInServerHook(ClientPutInServerPre, nullptr);
 
 static KHook::Return<void> ClientActivePost(ISource2GameClients *pThis, CPlayerSlot slot, bool bLoadGame, const char *pszName, uint64 xuid)
 {
@@ -523,7 +516,7 @@ static KHook::Return<bool> ActivateServerPost(CNetworkGameServerBase *pThis)
 	u64 id = g_pSurfUtils->GetCurrentMapWorkshopID();
 	u64 size = g_pSurfUtils->GetCurrentMapSize();
 
-	SURF_LOG_INFO(LogChannel::General, "Loading map %s, workshop ID %llu, size %llu\n", g_pSurfUtils->GetCurrentMapVPK().Get(), id, size);
+	SURF_LOG_INFO(LogChannel::General, "Loading map %s, workshop ID %llu, size %llu\n", g_pSurfUtils->GetCurrentMapVPK().c_str(), id, size);
 
 	RunSubmission::Clear();
 	Surf::misc::OnActivateServer();
@@ -635,7 +628,7 @@ static KHook::Return<void> BuildGameSessionManifestPost(IGameSystem *pThis, cons
 static KHook::Virtual<IGameSystem, void, const EventBuildGameSessionManifest_t *> buildGameSessionManifestHook(nullptr, BuildGameSessionManifestPost);
 
 // CCSPlayer_MovementServices virtual hooks
-static KHook::Return<void> PlayerRunCommandPre(CCSPlayer_MovementServices *pThis, PlayerCommand *pCmd)
+static KHook::Return<void> PlayerRunCommandPre(CCSPlayer_MovementServices *pThis, CUserCmd *pCmd)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(pThis);
@@ -643,9 +636,9 @@ static KHook::Return<void> PlayerRunCommandPre(CCSPlayer_MovementServices *pThis
 	return {KHook::Action::Ignore};
 }
 
-static KHook::Virtual<CCSPlayer_MovementServices, void, PlayerCommand *> playerRunCommandHook(PlayerRunCommandPre, nullptr);
+static KHook::Virtual<CCSPlayer_MovementServices, void, CUserCmd *> playerRunCommandHook(PlayerRunCommandPre, nullptr);
 
-static KHook::Return<void> FinishMovePre(CCSPlayer_MovementServices *pThis, PlayerCommand *pCmd, CMoveData *pMoveData)
+static KHook::Return<void> FinishMovePre(CCSPlayer_MovementServices *pThis, CUserCmd *pCmd, CMoveData *pMoveData)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(pThis);
@@ -653,7 +646,7 @@ static KHook::Return<void> FinishMovePre(CCSPlayer_MovementServices *pThis, Play
 	return {KHook::Action::Ignore};
 }
 
-static KHook::Virtual<CCSPlayer_MovementServices, void, PlayerCommand *, CMoveData *> finishMoveHook(FinishMovePre, nullptr);
+static KHook::Virtual<CCSPlayer_MovementServices, void, CUserCmd *, CMoveData *> finishMoveHook(FinishMovePre, nullptr);
 
 // Signature-based hooks
 static KHook::Return<int> RecvServerBrowserPacketPost(RecvPktInfo_t &info, void *pSock)
@@ -735,11 +728,11 @@ static KHook::Return<void> PhysicsSimulatePost(CCSPlayerController *controller)
 
 static KHook::Member<CCSPlayerController, void> PhysicsSimulate(PhysicsSimulatePre, PhysicsSimulatePost);
 
-static KHook::Return<i32> ProcessUsercmdsPre(CCSPlayerController *controller, PlayerCommand *cmds, int numcmds, bool paused, float margin);
+static KHook::Return<i32> ProcessUsercmdsPre(CCSPlayerController *controller, CUserCmd *cmds, int numcmds, bool paused, float margin);
 
-static KHook::Member<CCSPlayerController, i32, PlayerCommand *, int, bool, float> ProcessUsercmds(ProcessUsercmdsPre, nullptr);
+static KHook::Member<CCSPlayerController, i32, CUserCmd *, int, bool, float> ProcessUsercmds(ProcessUsercmdsPre, nullptr);
 
-static KHook::Return<i32> ProcessUsercmdsPre(CCSPlayerController *controller, PlayerCommand *cmds, int numcmds, bool paused, float margin)
+static KHook::Return<i32> ProcessUsercmdsPre(CCSPlayerController *controller, CUserCmd *cmds, int numcmds, bool paused, float margin)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	MovementPlayer *player = playerManager->ToPlayer(controller);
@@ -749,7 +742,7 @@ static KHook::Return<i32> ProcessUsercmdsPre(CCSPlayerController *controller, Pl
 	return {KHook::Action::Supersede, retValue};
 }
 
-static KHook::Return<void> SetupMovePre(CCSPlayer_MovementServices *ms, PlayerCommand *pc, CMoveData *mv)
+static KHook::Return<void> SetupMovePre(CCSPlayer_MovementServices *ms, CUserCmd *pc, CMoveData *mv)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	MovementPlayer *player = playerManager->ToPlayer(ms);
@@ -759,14 +752,14 @@ static KHook::Return<void> SetupMovePre(CCSPlayer_MovementServices *ms, PlayerCo
 	return {KHook::Action::Ignore};
 }
 
-static KHook::Return<void> SetupMovePost(CCSPlayer_MovementServices *ms, PlayerCommand *pc, CMoveData *mv)
+static KHook::Return<void> SetupMovePost(CCSPlayer_MovementServices *ms, CUserCmd *pc, CMoveData *mv)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	playerManager->ToPlayer(ms)->OnSetupMovePost(pc);
 	return {KHook::Action::Ignore};
 }
 
-static KHook::Member<CCSPlayer_MovementServices, void, PlayerCommand *, CMoveData *> SetupMove(SetupMovePre, SetupMovePost);
+static KHook::Member<CCSPlayer_MovementServices, void, CUserCmd *, CMoveData *> SetupMove(SetupMovePre, SetupMovePost);
 
 static KHook::Return<void> ProcessMovementPre(CCSPlayer_MovementServices *ms, CMoveData *mv)
 {

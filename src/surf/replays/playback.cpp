@@ -182,7 +182,7 @@ namespace Surf::replaysystem::playback
 		}
 	}
 
-	void OnPlayerRunCommandPre(SurfPlayer *player, PlayerCommand *command)
+	void OnPlayerRunCommandPre(SurfPlayer *player, CUserCmd *command)
 	{
 		if (!player || !bot::IsValidBot(player->GetController()))
 		{
@@ -277,7 +277,7 @@ namespace Surf::replaysystem::playback
 		CheckWeapon(*player, *command);
 	}
 
-	void CheckWeapon(SurfPlayer &player, PlayerCommand &cmd)
+	void CheckWeapon(SurfPlayer &player, CUserCmd &cmd)
 	{
 		auto replay = data::GetCurrentReplay();
 		if (!replay->playingReplay)

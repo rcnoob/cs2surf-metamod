@@ -189,7 +189,7 @@ public:
 	 */
 	template<typename CB>
 	static bool QueryPB(u64 steamid64, std::string_view targetPlayerName, std::string_view mapName, std::string_view courseNameOrNumber,
-						Surf::API::Mode mode, const CUtlVector<CUtlString> &styleNames, CB &&cb)
+						Surf::API::Mode mode, const CUtlVector<std::string> &styleNames, CB &&cb)
 	{
 		if (!SurfGlobalService::IsAvailable())
 		{
@@ -200,7 +200,7 @@ public:
 		Surf::API::events::WantPersonalBest data = {steamid64, targetPlayerName, mapName, courseNameOrNumber, mode};
 		FOR_EACH_VEC(styleNames, i)
 		{
-			data.styles.emplace_back(styleNames[i].Get());
+			data.styles.emplace_back(styleNames[i]);
 		}
 		return SurfGlobalService::SendMessage(event, data, std::move(cb));
 	}

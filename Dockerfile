@@ -1,12 +1,15 @@
 FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk
 
 ENV AR=llvm-ar-11
+ENV CC=clang-22
+ENV CXX=clang++-22
 
 WORKDIR /app
 
-RUN sed -i '/-security/d' /etc/apt/sources.list \
-	&& apt update -o Acquire::Check-Valid-Until=false \
-	&& apt install -y --no-install-recommends --no-install-suggests git \
+RUN wget -4 --retry-on-host-error -O /etc/apt/keyrings/apt.llvm.org.asc https://apt.llvm.org/llvm-snapshot.gpg.key \
+	&& echo "deb [signed-by=/etc/apt/keyrings/apt.llvm.org.asc] http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-22 main" > /etc/apt/sources.list.d/llvm.list \
+	&& apt update \
+	&& apt install -y --no-install-recommends --no-install-suggests clang-22 \
 	&& apt autoremove -y \
 	&& apt clean \
 	&& rm -rf /var/lib/apt/lists/*

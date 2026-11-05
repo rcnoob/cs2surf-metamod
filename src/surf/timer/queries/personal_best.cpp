@@ -36,7 +36,7 @@ struct PBRequest : public BaseRequest
 		}
 		else if (this->targetSteamID64)
 		{
-			for (u32 i = 1; i < MAXPLAYERS + 1; i++)
+			for (u32 i = 1; i < MAX_PLAYERS + 1; i++)
 			{
 				SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 				if (this->targetSteamID64 == player->GetSteamId64())
@@ -135,9 +135,8 @@ struct PBRequest : public BaseRequest
 				req->gpbData.points = pb.overall->points;
 			}
 		};
-		SurfGlobalService::QueryPB(this->targetSteamID64, std::string_view(this->targetPlayerName.Get(), this->targetPlayerName.Length()),
-								   std::string_view(this->mapName.Get(), this->mapName.Length()),
-								   std::string_view(this->courseName.Get(), this->courseName.Length()), this->apiMode, this->styleList, callback);
+		SurfGlobalService::QueryPB(this->targetSteamID64, this->targetPlayerName, this->mapName, this->courseName, this->apiMode, this->styleList,
+								   callback);
 	}
 
 	virtual void Reply()
@@ -153,18 +152,17 @@ struct PBRequest : public BaseRequest
 			return;
 		}
 
-		CUtlString combinedModeStyleText;
-		combinedModeStyleText.Format("{purple}%s{grey}", modeName.Get());
-		FOR_EACH_VEC(styleList, i)
+		std::string combinedModeStyleText = tfm::format("{purple}%s{grey}", modeName.c_str());
+		for (const std::string &style : styleList)
 		{
 			combinedModeStyleText += " +{grey2}";
-			combinedModeStyleText.Append(styleList[i].Get());
+			combinedModeStyleText += style;
 			combinedModeStyleText += "{grey}";
 		}
 
 		// Player on surf_map (Main) [VNL]
-		player->languageService->PrintChat(true, false, "PB Header", targetPlayerName.Get(), mapName.Get(), courseName.Get(),
-										   combinedModeStyleText.Get());
+		player->languageService->PrintChat(true, false, "PB Header", targetPlayerName.c_str(), mapName.c_str(), courseName.c_str(),
+										   combinedModeStyleText.c_str());
 
 		if (!this->pbData.hasPB && !this->gpbData.hasPB)
 		{

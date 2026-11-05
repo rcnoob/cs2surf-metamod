@@ -57,7 +57,7 @@ static_global void PrintCategoryCommands(SurfPlayer *player, i32 category, bool 
 {
 	char tableName[64];
 	V_snprintf(tableName, sizeof(tableName), "Command List - %s", cmdFlagNames[category]);
-	CUtlString headers[SURF_ARRAYSIZE(columnKeys)];
+	std::string headers[SURF_ARRAYSIZE(columnKeys)];
 	for (u32 i = 0; i < SURF_ARRAYSIZE(columnKeys); i++)
 	{
 		headers[i] = player->languageService->PrepareMessage(columnKeys[i]).c_str();
@@ -79,11 +79,11 @@ static_global void PrintCategoryCommands(SurfPlayer *player, i32 category, bool 
 			}
 			else
 			{
-				CUtlString newEntry = table.GetEntry(cmdCount - 1).data[0];
+				std::string newEntry = table.GetEntry(cmdCount - 1).data[0];
 				// Remove the trailing space that exists in each column
-				newEntry.SetLength(newEntry.Length() - strlen("ᅟ"));
-				newEntry.Append("/");
-				newEntry.Append(cmds[i].name);
+				newEntry.resize(newEntry.size() - strlen("ᅟ"));
+				newEntry += "/";
+				newEntry += cmds[i].name;
 				table.Set(cmdCount - 1, 0, newEntry);
 			}
 		}
@@ -92,15 +92,15 @@ static_global void PrintCategoryCommands(SurfPlayer *player, i32 category, bool 
 	{
 		return;
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
-	player->PrintConsole(false, false, table.GetTitle());
-	player->PrintConsole(false, false, table.GetHeader());
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
+	player->PrintConsole(false, false, table.GetTitle().c_str());
+	player->PrintConsole(false, false, table.GetHeader().c_str());
 
 	for (u32 i = 0; i < table.GetNumEntries(); i++)
 	{
-		player->PrintConsole(false, false, table.GetLine(i));
+		player->PrintConsole(false, false, table.GetLine(i).c_str());
 	}
-	player->PrintConsole(false, false, table.GetSeparator("="));
+	player->PrintConsole(false, false, table.GetSeparator("=").c_str());
 }
 
 SCMD(surf_help, SCFL_MISC)

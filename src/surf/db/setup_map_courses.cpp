@@ -20,7 +20,7 @@ void SurfDatabaseService::SetupCourses(CUtlVector<SurfCourseDescriptor *> &cours
 	FOR_EACH_VEC(courses, i)
 	{
 		SurfCourseDescriptor *course = courses[i];
-		std::string cleanCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(course->GetName());
+		std::string cleanCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(course->GetName().c_str());
 		switch (databaseType)
 		{
 			case DatabaseType::SQLite:

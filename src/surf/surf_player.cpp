@@ -31,8 +31,6 @@
 #include "steam/isteamgameserver.h"
 #include "tier0/memdbgon.h"
 
-extern CSteamGameServerAPIContext g_steamAPI;
-
 void SurfPlayer::Init()
 {
 	MovementPlayer::Init();
@@ -104,10 +102,9 @@ void SurfPlayer::Reset()
 
 	g_pSurfModeManager->SwitchToMode(this, SurfOptionService::GetOptionStr("defaultMode", SURF_DEFAULT_MODE), true, true, false);
 	g_pSurfStyleManager->ClearStyles(this, true, false);
-	CSplitString styles(SurfOptionService::GetOptionStr("defaultStyles"), ",");
-	FOR_EACH_VEC(styles, i)
+	for (const std::string &style : utils::Split(SurfOptionService::GetOptionStr("defaultStyles"), ','))
 	{
-		g_pSurfStyleManager->AddStyle(this, styles[i]);
+		g_pSurfStyleManager->AddStyle(this, style.c_str(), true, false);
 	}
 }
 
@@ -186,7 +183,7 @@ void SurfPlayer::OnPhysicsSimulatePost()
 	this->profileService->OnPhysicsSimulatePost();
 }
 
-void SurfPlayer::OnProcessUsercmds(PlayerCommand *cmds, int numcmds)
+void SurfPlayer::OnProcessUsercmds(CUserCmd *cmds, int numcmds)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	this->recordingService->OnProcessUsercmds(cmds, numcmds);
@@ -197,7 +194,7 @@ void SurfPlayer::OnProcessUsercmds(PlayerCommand *cmds, int numcmds)
 	}
 }
 
-void SurfPlayer::OnProcessUsercmdsPost(PlayerCommand *cmds, int numcmds)
+void SurfPlayer::OnProcessUsercmdsPost(CUserCmd *cmds, int numcmds)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	this->modeService->OnProcessUsercmdsPost(cmds, numcmds);
@@ -207,7 +204,7 @@ void SurfPlayer::OnProcessUsercmdsPost(PlayerCommand *cmds, int numcmds)
 	}
 }
 
-void SurfPlayer::OnSetupMove(PlayerCommand *pc)
+void SurfPlayer::OnSetupMove(CUserCmd *pc)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	this->recordingService->OnSetupMove(pc);
@@ -218,7 +215,7 @@ void SurfPlayer::OnSetupMove(PlayerCommand *pc)
 	}
 }
 
-void SurfPlayer::OnSetupMovePost(PlayerCommand *pc)
+void SurfPlayer::OnSetupMovePost(CUserCmd *pc)
 {
 	VPROF_BUDGET(__func__, "CS2Surf");
 	this->modeService->OnSetupMovePost(pc);

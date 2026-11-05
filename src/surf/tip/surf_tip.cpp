@@ -102,7 +102,7 @@ SCMD(surf_tips, SCFL_MISC)
 
 f64 SurfTipService::PrintTips()
 {
-	for (int i = 0; i <= MAXPLAYERS; i++)
+	for (int i = 0; i <= MAX_PLAYERS; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (player->tipService->ShouldPrintTip())

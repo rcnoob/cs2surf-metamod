@@ -77,11 +77,6 @@ bool Surf3500VelStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void Surf3500VelStyleService::Init()
 {
 	g_pSurfUtils->SendConVarValue(this->player->GetPlayerSlot(), sv_maxvelocity, "3500");

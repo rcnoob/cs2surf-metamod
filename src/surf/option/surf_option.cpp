@@ -20,7 +20,7 @@ IMPLEMENT_CLASS_EVENT_LISTENER(SurfOptionService, SurfOptionServiceEventListener
 // Helper function to merge loaded preferences with existing ones
 // Source values overwrite target values, except for keys in excludeKeys
 // excludeKeys: list of keys to never overwrite (user-set preferences)
-static_function void MergePreferences(KeyValues3 *target, KeyValues3 *source, const CUtlVector<CUtlString> *excludeKeys = nullptr)
+static_function void MergePreferences(KeyValues3 *target, KeyValues3 *source, const CUtlVector<std::string> *excludeKeys = nullptr)
 {
 	if (!source || !target)
 	{
@@ -220,11 +220,14 @@ static_function i64 ReadPrefsStamp(KeyValues3 *prefs)
 	return stamp;
 }
 
+// The stamp is when the set last changed, not when it was written. Saving an untouched set must not make it beat a newer
+// copy that another server wrote in the meantime.
 void SurfOptionService::StampPreferences()
 {
-	time_t now = 0;
-	time(&now);
-	this->prefKV.FindOrCreateMember(SURF_PREF_UPDATED_AT)->SetInt64((i64)now);
+	if (this->modifiedAt > ReadPrefsStamp(&this->prefKV))
+	{
+		this->prefKV.FindOrCreateMember(SURF_PREF_UPDATED_AT)->SetInt64(this->modifiedAt);
+	}
 }
 
 bool SurfOptionService::ShouldApplyPrefs(i64 incomingStamp, i32 incomingTier)
@@ -241,22 +244,18 @@ bool SurfOptionService::ShouldApplyPrefs(i64 incomingStamp, i32 incomingTier)
 	return incomingTier > (i32)this->dataState;
 }
 
-void SurfOptionService::InitializeLocalPrefs(CUtlString text)
+void SurfOptionService::InitializeLocalPrefs(const std::string &text)
 {
 	if (this->localLoaded)
 	{
 		return;
 	}
 	this->localLoaded = true;
-	if (text.IsEmpty())
-	{
-		text = "{\n}";
-	}
 
 	// Load the preferences from the database into a temporary KV
 	KeyValues3 loadedPrefs(KV3_TYPEEX_TABLE, KV3_SUBTYPE_UNSPECIFIED);
 	CUtlString error;
-	LoadKV3FromJSON(&loadedPrefs, &error, text.Get(), "");
+	LoadKV3FromJSON(&loadedPrefs, &error, text.empty() ? "{\n}" : text.c_str(), "");
 	if (!error.IsEmpty())
 	{
 		SURF_LOG_WARN(LogChannel::DB, "Error fetching local preference: %s\n", error.Get());
@@ -329,7 +328,7 @@ void SurfOptionService::InitializeGlobalPrefs(std::string json)
 
 void SurfOptionService::SaveLocalPrefs()
 {
-	if (this->player->IsFakeClient() || !this->player->IsAuthenticated())
+	if (this->player->IsFakeClient() || !this->player->IsAuthenticated() || !this->CanSaveLocalPrefs())
 	{
 		return;
 	}
@@ -341,7 +340,7 @@ void SurfOptionService::SaveLocalPrefs()
 		SURF_LOG_WARN(LogChannel::DB, "Error saving local preference: %s\n", error.Get());
 		return;
 	}
-	this->player->databaseService->SavePrefs(output);
+	this->player->databaseService->SavePrefs(output.Get());
 }
 
 void SurfOptionService::OnPlayerActive()

@@ -77,11 +77,6 @@ bool SurfHalfSidewaysStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void SurfHalfSidewaysStyleService::Init() {}
 
 const CVValue_t *SurfHalfSidewaysStyleService::GetTweakedConvarValue(const char *name)
@@ -91,12 +86,12 @@ const CVValue_t *SurfHalfSidewaysStyleService::GetTweakedConvarValue(const char 
 
 void SurfHalfSidewaysStyleService::Cleanup() {}
 
-void SurfHalfSidewaysStyleService::OnSetupMove(PlayerCommand *pc)
+void SurfHalfSidewaysStyleService::OnSetupMove(CUserCmd *pc)
 {
 	auto base = pc->mutable_base();
 	auto subtickMoves = base->mutable_subtick_moves();
 
-	// first scan all subtick moves in playercommand to look for non HSW inputs
+	// first scan all subtick moves in CUserCmd to look for non HSW inputs
 	bool hasForwardBack = false;
 	bool hasSide = false;
 

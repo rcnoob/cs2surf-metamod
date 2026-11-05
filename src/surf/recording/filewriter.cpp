@@ -1,5 +1,5 @@
 #include "surf_recording.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "cs2surf.h"
 #include "utils/utils.h"
 

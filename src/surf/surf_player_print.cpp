@@ -21,36 +21,31 @@
 	} \
 	va_end(args);
 
-static_function CRecipientFilter *CreateRecipientFilter(SurfPlayer *targetPlayer, bool addSpectators)
+static_function bool BuildRecipientFilter(CRecipientFilter &filter, SurfPlayer *targetPlayer, bool addSpectators)
 {
+	filter.MakeReliable();
 	if (!targetPlayer->GetController())
 	{
-		return nullptr;
+		return false;
 	}
-	CRecipientFilter *filter = new CRecipientFilter();
 	CPlayerSlot slot = targetPlayer->GetPlayerSlot();
-	filter->AddRecipient(slot);
+	filter.AddRecipient(slot);
 	if (!addSpectators)
 	{
-		return filter;
+		return true;
 	}
 	if (!targetPlayer->IsAlive())
 	{
-		return filter;
+		return true;
 	}
 	CCSPlayerPawn *targetPlayerPawn = targetPlayer->GetPlayerPawn();
 	if (!targetPlayerPawn)
 	{
-		return nullptr;
+		return false;
 	}
-	for (int i = 0; i < MAXPLAYERS; i++)
+	for (SurfPlayer *player : g_pSurfPlayerManager->GetInGamePlayers())
 	{
-		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
-		if (!player || player->IsAlive())
-		{
-			continue;
-		}
-		if (!player->GetController() || !player->GetController()->m_hObserverPawn())
+		if (player->IsAlive() || !player->GetController()->m_hObserverPawn())
 		{
 			continue;
 		}
@@ -61,22 +56,21 @@ static_function CRecipientFilter *CreateRecipientFilter(SurfPlayer *targetPlayer
 		}
 		if (obsService->m_hObserverTarget().IsValid() && obsService->m_hObserverTarget().GetEntryIndex() == targetPlayerPawn->GetEntityIndex().Get())
 		{
-			filter->AddRecipient(player->GetPlayerSlot());
+			filter.AddRecipient(player->GetPlayerSlot());
 		}
 	}
-	return filter;
+	return true;
 }
 
 void SurfPlayer::PrintConsole(bool addPrefix, bool includeSpectators, const char *format, ...)
 {
 	FORMAT_STRING(buffer, addPrefix);
-	CRecipientFilter *filter = CreateRecipientFilter(this, includeSpectators);
-	if (!filter)
+	CRecipientFilter filter;
+	if (!BuildRecipientFilter(filter, this, includeSpectators))
 	{
 		return;
 	}
-	utils::ClientPrintFilter(filter, HUD_PRINTCONSOLE, buffer, "", "", "", "");
-	delete filter;
+	utils::ClientPrintFilter(&filter, HUD_PRINTCONSOLE, buffer, "", "", "", "");
 }
 
 void SurfPlayer::PrintChat(bool addPrefix, bool includeSpectators, const char *format, ...)
@@ -88,60 +82,57 @@ void SurfPlayer::PrintChat(bool addPrefix, bool includeSpectators, const char *f
 		Warning("utils::CPrintChat did not have enough space to print: %s\n", buffer);
 		return;
 	}
-	CRecipientFilter *filter = CreateRecipientFilter(this, includeSpectators);
-	if (!filter)
+	CRecipientFilter filter;
+	if (!BuildRecipientFilter(filter, this, includeSpectators))
 	{
 		return;
 	}
-	utils::ClientPrintFilter(filter, HUD_PRINTTALK, coloredBuffer, "", "", "", "");
-	delete filter;
+	utils::ClientPrintFilter(&filter, HUD_PRINTTALK, coloredBuffer, "", "", "", "");
 }
 
 void SurfPlayer::PrintCentre(bool addPrefix, bool includeSpectators, const char *format, ...)
 {
 	FORMAT_STRING(buffer, addPrefix);
-	CRecipientFilter *filter = CreateRecipientFilter(this, includeSpectators);
-	if (!filter)
+	CRecipientFilter filter;
+	if (!BuildRecipientFilter(filter, this, includeSpectators))
 	{
 		return;
 	}
-	utils::ClientPrintFilter(filter, HUD_PRINTCENTER, buffer, "", "", "", "");
-	delete filter;
+	utils::ClientPrintFilter(&filter, HUD_PRINTCENTER, buffer, "", "", "", "");
 }
 
 void SurfPlayer::PrintAlert(bool addPrefix, bool includeSpectators, const char *format, ...)
 {
 	FORMAT_STRING(buffer, addPrefix);
-	CRecipientFilter *filter = CreateRecipientFilter(this, includeSpectators);
-	if (!filter)
+	CRecipientFilter filter;
+	if (!BuildRecipientFilter(filter, this, includeSpectators))
 	{
 		return;
 	}
-	utils::ClientPrintFilter(filter, HUD_PRINTALERT, buffer, "", "", "", "");
-	delete filter;
+	utils::ClientPrintFilter(&filter, HUD_PRINTALERT, buffer, "", "", "", "");
 }
 
 void SurfPlayer::PrintHTMLCentre(bool addPrefix, bool includeSpectators, const char *format, ...)
 {
-	CUtlString buffer;
 	va_list args;
 	va_start(args, format);
-	buffer.FormatV(format, args);
+	std::string buffer = utils::FormatV(format, args);
+	va_end(args);
 
 	if (addPrefix)
 	{
 		const char *prefix = SurfOptionService::GetOptionStr("chatPrefix", SURF_DEFAULT_CHAT_PREFIX);
-		buffer.Format("%s %s", prefix, buffer.Get());
+		buffer = tfm::format("%s %s", prefix, buffer.c_str());
 	}
 
 	if (!includeSpectators)
 	{
-		utils::PrintHTMLCentre(this->GetController(), buffer.Get());
+		utils::PrintHTMLCentre(this->GetController(), buffer.c_str());
 		return;
 	}
 
-	CRecipientFilter *filter = CreateRecipientFilter(this, includeSpectators);
-	if (!filter)
+	CRecipientFilter filter;
+	if (!BuildRecipientFilter(filter, this, includeSpectators))
 	{
 		return;
 	}
@@ -157,11 +148,11 @@ void SurfPlayer::PrintHTMLCentre(bool addPrefix, bool includeSpectators, const c
 	{
 		return;
 	}
-	event->SetString("loc_token", buffer.Get());
+	event->SetString("loc_token", buffer.c_str());
 	event->SetInt("duration", 1);
 	event->SetInt("userid", -1);
 
-	auto recipients = filter->GetRecipients();
+	auto recipients = filter.GetRecipients();
 	int index = recipients.FindNextSetBit(0);
 
 	while (index > -1)
@@ -172,5 +163,4 @@ void SurfPlayer::PrintHTMLCentre(bool addPrefix, bool includeSpectators, const c
 		index = recipients.FindNextSetBit(index + 1);
 	}
 	interfaces::pGameEventManager->FreeEvent(event);
-	delete filter;
 }

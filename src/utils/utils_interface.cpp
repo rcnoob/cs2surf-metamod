@@ -1,13 +1,14 @@
 #include "utils.h"
 #include "gameconfig.h"
-#include "iserver.h"
+#include "engine2/inetworkserverservice.h"
+#include "engine2/networkgameserverbase.h"
 #include "interfaces.h"
 #include "cs2surf.h"
 #include "ctimer.h"
 #include "keyvalues3.h"
-#include <filesystem.h>
+#include <filesystem/ifilesystem.h>
 #include "checksum_md5.h"
-#include "sdk/serversideclient.h"
+#include "engine2/serversideclient.h"
 #include "sdk/gamerules.h"
 
 #include "memdbgon.h"
@@ -118,17 +119,29 @@ void SurfUtils::RemoveTimer(CTimerBase *timer)
 	}
 }
 
-CUtlVector<CServerSideClient *> *SurfUtils::GetClientList()
+CUtlVector<CServerSideClientBase *> *SurfUtils::GetClientList()
 {
-	if (!g_pNetworkServerService)
+	// There is no game server before the first map loads.
+	if (!g_pNetworkServerService || !g_pNetworkServerService->GetIGameServer())
 	{
 		return nullptr;
 	}
-	static_persist const int offset = g_pGameConfig->GetOffset("ClientOffset");
-	return (CUtlVector<CServerSideClient *> *)((char *)g_pNetworkServerService->GetIGameServer() + offset);
+	return &static_cast<CNetworkGameServerBase *>(g_pNetworkServerService->GetIGameServer())->m_Clients;
 }
 
-CUtlString SurfUtils::GetCurrentMapName(bool *result)
+// The engine keeps the client object in its slot after a disconnect, so only hand it out while someone occupies the slot.
+CServerSideClient *SurfUtils::GetClientBySlot(CPlayerSlot slot)
+{
+	CUtlVector<CServerSideClientBase *> *clients = this->GetClientList();
+	if (!clients || slot.Get() < 0 || slot.Get() >= clients->Count())
+	{
+		return nullptr;
+	}
+	CServerSideClient *client = static_cast<CServerSideClient *>(clients->Element(slot.Get()));
+	return client && client->IsConnected() ? client : nullptr;
+}
+
+std::string SurfUtils::GetCurrentMapName(bool *result)
 {
 	CNetworkGameServerBase *networkGameServer = (CNetworkGameServerBase *)g_pNetworkServerService->GetIGameServer();
 	if (networkGameServer)
@@ -159,126 +172,131 @@ CUtlString SurfUtils::GetCurrentMapName(bool *result)
 
 u64 SurfUtils::GetCurrentMapWorkshopID()
 {
-	CUtlString directory = this->GetCurrentMapDirectory();
-	if (directory.MatchesPattern("*workshop*"))
+	std::string directory = this->GetCurrentMapDirectory();
+	if (directory.find("*workshop") != std::string::npos)
 	{
-		return atoll(directory.UnqualifiedFilenameAlloc());
+		return atoll(V_UnqualifiedFileName(directory.c_str()));
 	}
 	return 0;
 }
 
-CUtlString SurfUtils::GetCurrentMapVPK()
+std::string SurfUtils::GetCurrentMapVPK()
 {
-	CUtlString map = this->GetCurrentMapName();
-	if (map.IsEmpty())
+	std::string map = this->GetCurrentMapName();
+	if (map.empty())
 	{
 		return "";
 	}
 	CUtlVector<CUtlString> paths;
 	char mapName[1024];
 
-	g_SMAPI->PathFormat(mapName, sizeof(mapName), "maps/%s.vpk", map.Get());
+	g_SMAPI->PathFormat(mapName, sizeof(mapName), "maps/%s.vpk", map.c_str());
 
 	g_pFullFileSystem->FindFileAbsoluteList(paths, mapName, "GAME");
 	if (paths.Count() > 0)
 	{
-		CUtlString realPath = paths[0];
-		if (realPath.MatchesPattern("vpk:*"))
+		std::string realPath = paths[0].Get();
+		if (realPath.starts_with("vpk:"))
 		{
-			realPath = realPath.Slice((sizeof("vpk:") - 1));
-			return realPath.StripFilename().StripExtension() + ".vpk";
+			realPath = realPath.substr(sizeof("vpk:") - 1);
+			return utils::StripExtension(utils::StripFilename(realPath)) + ".vpk";
 		}
 		return realPath;
 	}
 	return "";
 }
 
-CUtlString SurfUtils::GetCurrentMapDirectory()
+std::string SurfUtils::GetCurrentMapDirectory()
 {
-	return this->GetCurrentMapVPK().DirName();
+	return utils::DirName(this->GetCurrentMapVPK());
 }
 
 u64 SurfUtils::GetCurrentMapSize()
 {
-	CUtlString currentMap = this->GetCurrentMapVPK();
+	std::string currentMap = this->GetCurrentMapVPK();
 	u32 size = 0;
-	if (g_pFullFileSystem->FileExists(currentMap.Get()))
+	if (g_pFullFileSystem->FileExists(currentMap.c_str()))
 	{
-		size = g_pFullFileSystem->Size(currentMap.Get());
+		size = g_pFullFileSystem->Size(currentMap.c_str());
 	}
 	else
 	{
-		CUtlString newFileName = currentMap.StripExtension() + "_dir.vpk";
-		size = g_pFullFileSystem->Size(newFileName.Get());
-		for (u32 i = 0; g_pFullFileSystem->FileExists(newFileName.Get()); i++)
+		std::string newFileName = utils::StripExtension(currentMap) + "_dir.vpk";
+		size = g_pFullFileSystem->Size(newFileName.c_str());
+		for (u32 i = 0; g_pFullFileSystem->FileExists(newFileName.c_str()); i++)
 		{
-			newFileName.Format("%s_%03i.vpk", currentMap.StripExtension().Get(), i);
-			size += g_pFullFileSystem->Size(newFileName.Get());
+			newFileName = tfm::format("%s_%03i.vpk", utils::StripExtension(currentMap), i);
+			size += g_pFullFileSystem->Size(newFileName.c_str());
 		}
 	}
 	return size;
 }
 
-CUtlString SurfUtils::GetCurrentMapConfig()
+std::string SurfUtils::GetCurrentMapConfig()
 {
-	CUtlString map = this->GetCurrentMapName();
-	if (map.IsEmpty())
+	std::string map = this->GetCurrentMapName();
+	if (map.empty())
 	{
 		return "";
 	}
 	CUtlVector<CUtlString> paths;
 	char mapName[1024];
 
-	g_SMAPI->PathFormat(mapName, sizeof(mapName), "cfg/maps/%s.cfg", map.Get());
+	g_SMAPI->PathFormat(mapName, sizeof(mapName), "cfg/maps/%s.cfg", map.c_str());
 
 	g_pFullFileSystem->FindFileAbsoluteList(paths, mapName, "GAME");
 
 	if (paths.Count() > 0)
 	{
-		return paths[0];
+		return paths[0].Get();
 	}
 	return "";
 }
 
 u32 SurfUtils::GetCurrentMapMaxVelocity()
 {
-	FileHandle_t fp = g_pFullFileSystem->Open(this->GetCurrentMapConfig().Get(), "r");
+	std::string configPath = this->GetCurrentMapConfig();
+	if (configPath.empty())
+	{
+		return 0;
+	}
+
+	FileHandle_t fp = g_pFullFileSystem->Open(configPath.c_str(), "r");
 	u32 maxVel = 0;
 	if (fp)
 	{
 		int size = g_pFullFileSystem->Size(fp);
-		char *buffer = new char[size + 1];
+		std::string buffer(size, '\0');
 
-		g_pFullFileSystem->Read((void *)buffer, size, fp);
-		buffer[size] = 0;
+		int bytesRead = g_pFullFileSystem->Read(buffer.data(), size, fp);
 		g_pFullFileSystem->Close(fp);
+		buffer.resize(bytesRead > 0 ? bytesRead : 0);
 
 		std::istringstream stream(buffer);
-		std::string lineC;
+		std::string line;
+		const std::string_view key = MAX_VELOCITY_KEY;
 
-		while (std::getline(stream, lineC))
+		while (std::getline(stream, line))
 		{
 			// strip windows line endings
-			if (!lineC.empty() && lineC.back() == '\r')
+			if (!line.empty() && line.back() == '\r')
 			{
-				lineC.pop_back();
+				line.pop_back();
 			}
 
-			CUtlString line(lineC.c_str());
-			if (line.MatchesPattern(CUtlString(MAX_VELOCITY_KEY) + "*") && utils::IsNumeric(line.Get() + strlen(MAX_VELOCITY_KEY)))
+			if (line.starts_with(key) && utils::IsNumeric(line.c_str() + key.size()))
 			{
-				maxVel = atoi(line.Get() + strlen(MAX_VELOCITY_KEY));
+				maxVel = atoi(line.c_str() + key.size());
 				break;
 			}
 		}
-		delete[] buffer;
 	}
 	return maxVel;
 }
 
 bool SurfUtils::UpdateCurrentMapMD5()
 {
-	return this->GetFileMD5(this->GetCurrentMapVPK(), currentMapMD5, sizeof(currentMapMD5));
+	return this->GetFileMD5(this->GetCurrentMapVPK().c_str(), currentMapMD5, sizeof(currentMapMD5));
 }
 
 bool SurfUtils::GetCurrentMapMD5(char *buffer, i32 size)
@@ -346,9 +364,9 @@ bool SurfUtils::GetFileMD5(const char *filePath, char *buffer, i32 size)
 	if (V_strlen(filePath) >= 4 && SURF_STREQI(filePath + V_strlen(filePath) - 4, ".vpk"))
 	{
 		i32 index = 0;
-		CUtlString originalPath = filePath;
-		CUtlString newFile = originalPath.StripExtension() + "_dir.vpk";
-		file = g_pFullFileSystem->OpenEx(newFile.Get(), "rb");
+		std::string originalPath = filePath;
+		std::string newFile = utils::StripExtension(originalPath) + "_dir.vpk";
+		file = g_pFullFileSystem->OpenEx(newFile.c_str(), "rb");
 		if (file)
 		{
 			i64 sizeRemaining = g_pFullFileSystem->Size(file);
@@ -369,8 +387,8 @@ bool SurfUtils::GetFileMD5(const char *filePath, char *buffer, i32 size)
 				if (g_pFullFileSystem->EndOfFile(file))
 				{
 					g_pFullFileSystem->Close(file);
-					newFile.Format("%s_%03i.vpk", originalPath.StripExtension().Get(), index);
-					file = g_pFullFileSystem->OpenEx(newFile.Get(), "rb");
+					newFile = tfm::format("%s_%03i.vpk", utils::StripExtension(originalPath), index);
+					file = g_pFullFileSystem->OpenEx(newFile.c_str(), "rb");
 					if (!file)
 					{
 						break;
@@ -421,7 +439,7 @@ u32 SurfUtils::GetPlayerCount()
 	{
 		FOR_EACH_VEC(*clients, i)
 		{
-			CServerSideClient *client = clients->Element(i);
+			CServerSideClientBase *client = clients->Element(i);
 
 			if (client && client->IsConnected() && !client->IsFakeClient() && !client->IsHLTV())
 			{
@@ -434,7 +452,7 @@ u32 SurfUtils::GetPlayerCount()
 
 void SurfUtils::AddTriangleOverlay(Vector const &p1, Vector const &p2, Vector const &p3, u8 r, u8 g, u8 b, u8 a, bool noDepthTest, f64 flDuration)
 {
-	void *debugoverlay = CALL_VIRTUAL(void *, g_pGameConfig->GetOffset("GetDebugOverlay"), interfaces::pServer);
+	void *debugoverlay = interfaces::pServer->GetDebugOverlays();
 	if (debugoverlay)
 	{
 		CALL_VIRTUAL(void, g_pGameConfig->GetOffset("DebugTriangle"), debugoverlay, &p1, &p2, &p3, r, g, b, a, noDepthTest, flDuration);
@@ -443,7 +461,7 @@ void SurfUtils::AddTriangleOverlay(Vector const &p1, Vector const &p2, Vector co
 
 void SurfUtils::ClearOverlays()
 {
-	void *debugoverlay = CALL_VIRTUAL(void *, g_pGameConfig->GetOffset("GetDebugOverlay"), interfaces::pServer);
+	void *debugoverlay = interfaces::pServer->GetDebugOverlays();
 	if (debugoverlay)
 	{
 		CALL_VIRTUAL(void, g_pGameConfig->GetOffset("ClearOverlays"), debugoverlay);

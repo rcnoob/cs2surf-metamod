@@ -69,10 +69,10 @@ public:
 
 	virtual void OnPhysicsSimulate() override;
 	virtual void OnPhysicsSimulatePost() override;
-	virtual void OnProcessUsercmds(PlayerCommand *, int) override;
-	virtual void OnProcessUsercmdsPost(PlayerCommand *, int) override;
-	virtual void OnSetupMove(PlayerCommand *) override;
-	virtual void OnSetupMovePost(PlayerCommand *) override;
+	virtual void OnProcessUsercmds(CUserCmd *, int) override;
+	virtual void OnProcessUsercmdsPost(CUserCmd *, int) override;
+	virtual void OnSetupMove(CUserCmd *) override;
+	virtual void OnSetupMovePost(CUserCmd *) override;
 	virtual void OnProcessMovement() override;
 	virtual void OnProcessMovementPost() override;
 	virtual void OnPlayerMove() override;
@@ -209,7 +209,7 @@ class SurfPlayerManager : public MovementPlayerManager
 public:
 	SurfPlayerManager()
 	{
-		for (int i = 0; i < MAXPLAYERS + 1; i++)
+		for (int i = 0; i < MAX_PLAYERS + 1; i++)
 		{
 			delete players[i];
 			players[i] = new SurfPlayer(i);
@@ -225,6 +225,16 @@ public:
 	SurfPlayer *ToPlayer(CPlayerUserId userID);
 	SurfPlayer *ToPlayer(u32 index);
 	SurfPlayer *SteamIdToPlayer(u64 steamID, bool validated = true);
+
+	PlayerSlotRange<SurfPlayer> GetAllSlots()
+	{
+		return PlayerSlotRange<SurfPlayer>(players, false);
+	}
+
+	PlayerSlotRange<SurfPlayer> GetInGamePlayers()
+	{
+		return PlayerSlotRange<SurfPlayer>(players, true);
+	}
 
 	SurfPlayer *ToSurfPlayer(MovementPlayer *player)
 	{

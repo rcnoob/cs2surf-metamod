@@ -1,6 +1,6 @@
 #include "cs2surf.h"
 #include "data.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "utils/utils.h"
 #include "utils/uuid.h"
 #include "compression.h"
@@ -299,7 +299,7 @@ namespace Surf::replaysystem::data
 		g_pFullFileSystem->Close(file);
 
 		UUID_t uuid = {};
-		if (!UUID_t::FromString(CUtlString(path).GetBaseFilename().StripExtension().Get(), &uuid))
+		if (!UUID_t::FromString(utils::StripExtension(utils::GetBaseFilename(path)).c_str(), &uuid))
 		{
 			return result;
 		}

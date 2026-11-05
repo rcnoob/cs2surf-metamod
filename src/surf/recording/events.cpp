@@ -65,7 +65,7 @@ void SurfRecordingService::Shutdown()
 
 void SurfRecordingService::OnActivateServer()
 {
-	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (i32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (player && player->recordingService)
@@ -83,7 +83,7 @@ void SurfRecordingService::ProcessFileWriteCompletion()
 	}
 }
 
-void SurfRecordingService::OnProcessUsercmds(PlayerCommand *cmds, i32 numCmds)
+void SurfRecordingService::OnProcessUsercmds(CUserCmd *cmds, i32 numCmds)
 {
 	if (Surf::replaysystem::IsReplayBot(this->player))
 	{
@@ -260,7 +260,7 @@ void SurfRecordingService::OnPhysicsSimulate()
 	this->RecordTickData_PhysicsSimulate();
 }
 
-void SurfRecordingService::OnSetupMove(PlayerCommand *pc)
+void SurfRecordingService::OnSetupMove(CUserCmd *pc)
 {
 	if (Surf::replaysystem::IsReplayBot(this->player))
 	{

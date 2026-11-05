@@ -57,7 +57,7 @@ namespace Surf::replaysystem
 		playback::OnPhysicsSimulatePost(player);
 	}
 
-	void OnPlayerRunCommandPre(SurfPlayer *player, PlayerCommand *command)
+	void OnPlayerRunCommandPre(SurfPlayer *player, CUserCmd *command)
 	{
 		playback::OnPlayerRunCommandPre(player, command);
 	}

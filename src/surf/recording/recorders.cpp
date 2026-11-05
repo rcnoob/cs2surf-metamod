@@ -1,7 +1,7 @@
 #include "surf_recording.h"
 #include "utils/simplecmds.h"
 #include "surf/timer/surf_timer.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "cs2surf.h"
 #include "utils/ctimer.h"
 #include "utils/async_file_io.h"
@@ -38,10 +38,10 @@ CheaterRecorder::CheaterRecorder(SurfPlayer *player, const char *reason, SurfPla
 RunRecorder::RunRecorder(SurfPlayer *player) : Recorder(player, 5.0f, RP_RUN, true)
 {
 	auto *runProto = replayHeader.mutable_run();
-	runProto->set_course_name(player->timerService->GetCourse()->GetName().Get());
+	runProto->set_course_name(player->timerService->GetCourse()->GetName().c_str());
 	auto modeInfo = Surf::mode::GetModeInfo(player->modeService);
-	runProto->mutable_mode()->set_name(modeInfo.longModeName.Get());
-	runProto->mutable_mode()->set_short_name(modeInfo.shortModeName.Get());
+	runProto->mutable_mode()->set_name(modeInfo.longModeName.c_str());
+	runProto->mutable_mode()->set_short_name(modeInfo.shortModeName.c_str());
 	runProto->mutable_mode()->set_md5(modeInfo.md5);
 	FOR_EACH_VEC(player->styleServices, i)
 	{

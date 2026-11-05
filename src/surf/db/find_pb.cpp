@@ -2,11 +2,11 @@
 #include "vendor/sql_mm/src/public/sql_mm.h"
 #include "queries/personal_best.h"
 
-void SurfDatabaseService::QueryPB(u64 steamID64, CUtlString mapName, CUtlString courseName, u32 modeID, TransactionSuccessCallbackFunc onSuccess,
-								  TransactionFailureCallbackFunc onFailure)
+void SurfDatabaseService::QueryPB(u64 steamID64, const std::string &mapName, const std::string &courseName, u32 modeID,
+								  TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
 {
-	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
-	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.Get());
+	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.c_str());
+	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.c_str());
 
 	Transaction txn;
 
@@ -27,12 +27,12 @@ void SurfDatabaseService::QueryPB(u64 steamID64, CUtlString mapName, CUtlString 
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, onSuccess, onFailure);
 }
 
-void SurfDatabaseService::QueryPBRankless(u64 steamID64, CUtlString mapName, CUtlString courseName, u32 modeID, u64 styleIDFlags,
+void SurfDatabaseService::QueryPBRankless(u64 steamID64, const std::string &mapName, const std::string &courseName, u32 modeID, u64 styleIDFlags,
 										  TransactionSuccessCallbackFunc onSuccess, TransactionFailureCallbackFunc onFailure)
 {
-	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
+	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.c_str());
 
-	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.Get());
+	std::string cleanedCourseName = SurfDatabaseService::GetDatabaseConnection()->Escape(courseName.c_str());
 
 	char query[2048];
 	Transaction txn;
@@ -43,10 +43,10 @@ void SurfDatabaseService::QueryPBRankless(u64 steamID64, CUtlString mapName, CUt
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(txn, onSuccess, onFailure);
 }
 
-void SurfDatabaseService::QueryAllPBs(u64 steamID64, CUtlString mapName, TransactionSuccessCallbackFunc onSuccess,
+void SurfDatabaseService::QueryAllPBs(u64 steamID64, const std::string &mapName, TransactionSuccessCallbackFunc onSuccess,
 									  TransactionFailureCallbackFunc onFailure)
 {
-	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
+	std::string cleanedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.c_str());
 	Transaction txn;
 
 	char query[2048];

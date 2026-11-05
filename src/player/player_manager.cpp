@@ -1,6 +1,7 @@
 #include "player.h"
 #include "utils/utils.h"
-#include "iserver.h"
+#include "engine2/inetworkgameserver.h"
+#include "engine2/inetworkserverservice.h"
 
 Player *PlayerManager::ToPlayer(CPlayerPawnComponent *component)
 {
@@ -14,7 +15,7 @@ Player *PlayerManager::ToPlayer(CBasePlayerController *controller)
 		return nullptr;
 	}
 	int index = controller->m_pEntity->m_EHandle.GetEntryIndex();
-	assert(index >= 0 && index < MAXPLAYERS + 1);
+	assert(index >= 0 && index < MAX_PLAYERS + 1);
 	return this->players[index];
 }
 
@@ -35,7 +36,7 @@ Player *PlayerManager::ToPlayer(CBasePlayerPawn *pawn)
 Player *PlayerManager::ToPlayer(CPlayerSlot slot)
 {
 	int index = slot.Get() + 1;
-	assert(index >= 0 && index < MAXPLAYERS + 1);
+	assert(index >= 0 && index < MAX_PLAYERS + 1);
 	return this->players[index];
 }
 
@@ -64,7 +65,7 @@ Player *PlayerManager::ToPlayer(CEntityIndex entIndex)
 Player *PlayerManager::ToPlayer(CPlayerUserId userID)
 {
 	// Untested, careful!
-	for (int i = 0; i < MAXPLAYERS; i++)
+	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		if (interfaces::pEngine->GetPlayerUserId(i) == userID.Get())
 		{

@@ -44,7 +44,6 @@ def configure_main(sdk_target, sdk, cxx):
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'shared'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
       os.path.join(builder.sourcePath, 'vendor', 'ixwebsocket'),
       os.path.join(builder.sourcePath, 'vendor', 'zstd', 'lib'),
   ]
@@ -53,7 +52,7 @@ def configure_main(sdk_target, sdk, cxx):
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
-    os.path.join(sdk['path'], 'tier1', 'keyvalues3.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
 
     os.path.join(builder.sourcePath, 'src', 'cs2surf.cpp'),
 
@@ -206,7 +205,6 @@ def configure_85t(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _85t_binary.compiler.target.platform == 'linux':
@@ -246,7 +244,6 @@ def configure_102t(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _102t_binary.compiler.target.platform == 'linux':
@@ -286,7 +283,6 @@ def configure_128t(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _128t_binary.compiler.target.platform == 'linux':
@@ -326,7 +322,6 @@ def configure_css(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if css_binary.compiler.target.platform == 'linux':
@@ -366,7 +361,6 @@ def configure_lg(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if lg_binary.compiler.target.platform == 'linux':
@@ -407,7 +401,6 @@ def configure_hg(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if hg_binary.compiler.target.platform == 'linux':
@@ -448,7 +441,6 @@ def configure_sw(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if sw_binary.compiler.target.platform == 'linux':
@@ -489,7 +481,6 @@ def configure_hsw(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if hsw_binary.compiler.target.platform == 'linux':
@@ -530,7 +521,6 @@ def configure_ow(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if ow_binary.compiler.target.platform == 'linux':
@@ -571,7 +561,6 @@ def configure_tas(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if tas_binary.compiler.target.platform == 'linux':
@@ -612,7 +601,6 @@ def configure_3500vel(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _3500vel_binary.compiler.target.platform == 'linux':
@@ -653,7 +641,6 @@ def configure_5000vel(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _5000vel_binary.compiler.target.platform == 'linux':
@@ -694,7 +681,6 @@ def configure_10000vel(sdk, cxx):
       os.path.join(builder.sourcePath, 'src'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2'),
       os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'public', 'entity2'),
-      os.path.join(builder.sourcePath, 'hl2sdk-cs2', 'game', 'server'),
   ]
 
   if _10000vel_binary.compiler.target.platform == 'linux':

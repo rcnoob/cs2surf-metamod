@@ -1,7 +1,7 @@
 #include "common.h"
 #include "interfaces.h"
 #include "igameevents.h"
-#include "iserver.h"
+#include "engine2/inetworkgameserver.h"
 
 namespace hooks
 {

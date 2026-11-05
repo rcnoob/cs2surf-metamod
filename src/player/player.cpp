@@ -4,7 +4,6 @@
 #include "sdk/recipientfilters.h"
 
 #include "steam/steam_gameserver.h"
-extern CSteamGameServerAPIContext g_steamAPI;
 
 CCSPlayerController *Player::GetController()
 {
@@ -28,19 +27,14 @@ void Player::Kick(const char *internalReason, ENetworkDisconnectionReason reason
 void Player::OnAuthorized()
 {
 	auto steamID = this->GetClient()->GetClientSteamID();
-	if (!g_steamAPI.SteamGameServer())
-	{
-		g_steamAPI.Init();
-	}
-	this->hasPrime =
-		g_steamAPI.SteamGameServer() && g_steamAPI.SteamGameServer()->UserHasLicenseForApp(steamID, 624820) == k_EUserHasLicenseResultHasLicense;
+	this->hasPrime = SteamGameServer() && SteamGameServer()->UserHasLicenseForApp(steamID, 624820) == k_EUserHasLicenseResultHasLicense;
 }
 
 void Player::SetName(const char *name)
 {
 	if (this->GetClient())
 	{
-		this->GetClient()->m_ConVars->SetString("name", name);
+		this->GetClient()->m_pUserInfo->SetString("name", name);
 		this->GetClient()->UpdateUserSettings();
 		this->GetClient()->SetName(name);
 	}

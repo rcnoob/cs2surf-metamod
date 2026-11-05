@@ -1,9 +1,12 @@
 #pragma once
 #include "gametrace.h"
-#include "tier1/utlmap.h"
+#include "tier0/utlmap.h"
 #include "mathlib/transform.h"
-#include "tier1/utlvector.h"
-#include "tier1/utlstring.h"
+#include "tier0/utlvector.h"
+#include "tier0/utlvectorultraconservative.h"
+#include "tier0/utlleanvector.h"
+#include "tier0/utlstring.h"
+#include "mathlib/aabb.h"
 
 typedef CUtlVector<Vector> CUtlVectorSIMDPaddedVector;
 
@@ -79,13 +82,6 @@ struct alignas(8) RnCapsuleDesc_t : public RnShapeDesc_t
 {
 public:
 	RnCapsule_t m_Capsule;
-};
-
-struct alignas(4) AABB_t
-{
-public:
-	Vector m_vMinBounds;
-	Vector m_vMaxBounds;
 };
 
 struct alignas(1) RnVertex_t;

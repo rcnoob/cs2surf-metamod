@@ -15,8 +15,8 @@ public:
 
 	struct AvailableLanguage
 	{
-		CUtlString code;
-		CUtlString name;
+		std::string code;
+		std::string name;
 		i32 coverage {}; // percent of the loaded phrases that carry this language
 	};
 
@@ -194,7 +194,7 @@ public:
 	template<typename... Args> \
 	static void name(bool addPrefix, const char *message, Args &&...args) \
 	{ \
-		for (u32 i = 0; i < MAXPLAYERS + 1; i++) \
+		for (u32 i = 0; i < MAX_PLAYERS + 1; i++) \
 		{ \
 			CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController(); \
 			if (controller) \

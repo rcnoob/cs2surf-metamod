@@ -1,9 +1,9 @@
 #include "surf_language.h"
 #include "utils/utils.h"
 #include "utils/simplecmds.h"
-#include "KeyValues.h"
+#include "tier0/keyvalues.h"
 #include "interfaces/interfaces.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "utils/ctimer.h"
 #include "surf/option/surf_option.h"
 #include "surf/checkpoint/surf_checkpoint.h"
@@ -96,7 +96,7 @@ const std::vector<SurfLanguageService::AvailableLanguage> &SurfLanguageService::
 			i32 index = -1;
 			for (i32 i = 0; i < (i32)availableLanguages.size(); i++)
 			{
-				if (V_stricmp(availableLanguages[i].code.Get(), code) == 0)
+				if (V_stricmp(availableLanguages[i].code.c_str(), code) == 0)
 				{
 					index = i;
 					break;
@@ -105,7 +105,7 @@ const std::vector<SurfLanguageService::AvailableLanguage> &SurfLanguageService::
 			if (index < 0)
 			{
 				// config.txt maps a Steam language name to each code; use the first one as the label.
-				CUtlString steamName = code;
+				std::string steamName = code;
 				for (KeyValues *named = languagesKV ? languagesKV->GetFirstSubKey() : nullptr; named; named = named->GetNextKey())
 				{
 					if (V_stricmp(named->GetString(nullptr, ""), code) == 0)

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "steam/isteamuser.h"
-#include "sdk/serversideclient.h"
+#include "engine2/serversideclient.h"
 #include "sdk/datatypes.h"
 #include "sdk/services.h"
 #include "sdk/entity/ccsplayercontroller.h"
@@ -60,7 +60,7 @@ public:
 
 	bool IsInGame()
 	{
-		return GetClient() ? GetClient()->IsInGame() : false;
+		return GetClient() ? GetClient()->IsActive() : false;
 	}
 
 	bool IsFakeClient()
@@ -75,13 +75,12 @@ public:
 
 	void Kick(const char *internalReason = "", ENetworkDisconnectionReason reason = NETWORK_DISCONNECT_KICKED);
 
-	CUtlString sanitizedName;
+	std::string sanitizedName;
 
 	const char *GetName()
 	{
-		sanitizedName = GetClient() ? GetClient()->GetClientName() : "<blank>";
-		sanitizedName.Trim();
-		return sanitizedName.Get();
+		sanitizedName = utils::Trim(GetClient() ? GetClient()->GetClientName() : "<blank>");
+		return sanitizedName.c_str();
 	}
 
 	void SetName(const char *name);
@@ -140,12 +139,73 @@ private:
 	CSteamID unauthenticatedSteamID = k_steamIDNil;
 };
 
+// Iterates every player slot, or only the slots whose player is in game.
+template<typename T>
+class PlayerSlotRange
+{
+public:
+	class Iterator
+	{
+	public:
+		Iterator(Player *const *entry, Player *const *last, bool inGameOnly) : entry(entry), last(last), inGameOnly(inGameOnly)
+		{
+			this->SkipFiltered();
+		}
+
+		T *operator*() const
+		{
+			return static_cast<T *>(*entry);
+		}
+
+		Iterator &operator++()
+		{
+			entry++;
+			this->SkipFiltered();
+			return *this;
+		}
+
+		bool operator!=(const Iterator &other) const
+		{
+			return entry != other.entry;
+		}
+
+	private:
+		void SkipFiltered()
+		{
+			while (inGameOnly && entry != last && !(*entry)->IsInGame())
+			{
+				entry++;
+			}
+		}
+
+		Player *const *entry;
+		Player *const *last;
+		bool inGameOnly;
+	};
+
+	PlayerSlotRange(Player *const *players, bool inGameOnly) : players(players), inGameOnly(inGameOnly) {}
+
+	Iterator begin() const
+	{
+		return Iterator(players, players + MAX_PLAYERS, inGameOnly);
+	}
+
+	Iterator end() const
+	{
+		return Iterator(players + MAX_PLAYERS, players + MAX_PLAYERS, inGameOnly);
+	}
+
+private:
+	Player *const *players;
+	bool inGameOnly;
+};
+
 class PlayerManager
 {
 public:
 	PlayerManager()
 	{
-		for (int i = 0; i < MAXPLAYERS + 1; i++)
+		for (int i = 0; i < MAX_PLAYERS + 1; i++)
 		{
 			delete players[i];
 			players[i] = new Player(i);
@@ -155,7 +215,7 @@ public:
 
 	virtual ~PlayerManager()
 	{
-		for (int i = 0; i < MAXPLAYERS + 1; i++)
+		for (int i = 0; i < MAX_PLAYERS + 1; i++)
 		{
 			delete players[i];
 		}
@@ -170,9 +230,19 @@ public:
 	Player *ToPlayer(CPlayerUserId userID);
 	Player *SteamIdToPlayer(u64 steamID, bool validated = true);
 
+	PlayerSlotRange<Player> GetAllSlots()
+	{
+		return PlayerSlotRange<Player>(players, false);
+	}
+
+	PlayerSlotRange<Player> GetInGamePlayers()
+	{
+		return PlayerSlotRange<Player>(players, true);
+	}
+
 	virtual void ResetPlayers()
 	{
-		for (int i = 0; i < MAXPLAYERS + 1; i++)
+		for (int i = 0; i < MAX_PLAYERS + 1; i++)
 		{
 			players[i]->Reset();
 		}
@@ -222,7 +292,7 @@ private:
 	bool callbackRegistered {};
 
 public:
-	Player *players[MAXPLAYERS + 1];
+	Player *players[MAX_PLAYERS + 1];
 };
 
 extern PlayerManager *g_pPlayerManager;

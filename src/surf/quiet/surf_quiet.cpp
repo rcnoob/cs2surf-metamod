@@ -36,12 +36,9 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 {
 	for (int i = 0; i < infoCount; i++)
 	{
-		// Cast it to our own TransmitInfo struct because CCheckTransmitInfo isn't correct.
-		TransmitInfo *pTransmitInfo = reinterpret_cast<TransmitInfo *>(pInfo[i]);
+		CCheckTransmitInfo *pTransmitInfo = pInfo[i];
 
-		// Find out who this info will be sent to.
-		uintptr_t targetAddr = reinterpret_cast<uintptr_t>(pTransmitInfo) + g_pGameConfig->GetOffset("QuietPlayerSlot");
-		CPlayerSlot targetSlot = CPlayerSlot(*reinterpret_cast<int *>(targetAddr));
+		CPlayerSlot targetSlot = pTransmitInfo->m_nPlayerSlot;
 		SurfPlayer *targetPlayer = g_pSurfPlayerManager->ToPlayer(targetSlot);
 		// Make sure the target isn't CSTV.
 		CCSPlayerController *targetController = targetPlayer->GetController();
@@ -70,7 +67,7 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 				// Don't hide the beam for the owner.
 				continue;
 			}
-			pTransmitInfo->m_pTransmitEdict->Clear(particleSystem->GetEntityIndex().Get());
+			pTransmitInfo->m_pTransmitEntity->Clear(particleSystem->GetEntityIndex().Get());
 		}
 
 		EntityInstanceByClassIter_t iter(NULL, "player");
@@ -81,14 +78,14 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 		// clang-format on
 		{
 			// Bit is not even set, don't bother.
-			if (!pTransmitInfo->m_pTransmitEdict->IsBitSet(pawn->entindex()))
+			if (!pTransmitInfo->m_pTransmitEntity->IsBitSet(pawn->entindex()))
 			{
 				continue;
 			}
 			// Do not transmit a pawn without any controller to prevent crashes.
 			if (!pawn->m_hController().IsValid())
 			{
-				pTransmitInfo->m_pTransmitEdict->Clear(pawn->entindex());
+				pTransmitInfo->m_pTransmitEntity->Clear(pawn->entindex());
 				continue;
 			}
 			// Respawn must be enabled or !hide will cause client crash.
@@ -96,7 +93,7 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 			// Never send dead players to prevent crashes.
 			if (pawn->m_lifeState() != LIFE_ALIVE)
 			{
-				pTransmitInfo->m_pTransmitEdict->Clear(pawn->entindex());
+				pTransmitInfo->m_pTransmitEntity->Clear(pawn->entindex());
 				continue;
 			}
 #endif
@@ -105,10 +102,16 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 			{
 				continue;
 			}
-			u32 index = g_pSurfPlayerManager->ToPlayer(pawn)->index;
-			if (targetPlayer->quietService->ShouldHideIndex(index))
+			SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(pawn);
+			// The controller handle can be stale, treat the pawn as if it had no controller.
+			if (!otherPlayer)
 			{
-				pTransmitInfo->m_pTransmitEdict->Clear(pawn->entindex());
+				pTransmitInfo->m_pTransmitEntity->Clear(pawn->entindex());
+				continue;
+			}
+			if (targetPlayer->quietService->ShouldHideIndex(otherPlayer->index))
+			{
+				pTransmitInfo->m_pTransmitEntity->Clear(pawn->entindex());
 			}
 		}
 	}
@@ -116,7 +119,7 @@ void Surf::quiet::OnCheckTransmit(CCheckTransmitInfo **pInfo, int infoCount)
 
 static void FilterQuietClients(const uint64 *clients, u32 emitterPlayerIndex = 0)
 {
-	for (i32 recipientPlayerIndex = 1; recipientPlayerIndex < MAXPLAYERS + 1; recipientPlayerIndex++)
+	for (i32 recipientPlayerIndex = 1; recipientPlayerIndex < MAX_PLAYERS + 1; recipientPlayerIndex++)
 	{
 		SurfPlayer *recipient = g_pSurfPlayerManager->ToPlayer(recipientPlayerIndex);
 		if (recipient->quietService->ShouldHide() && (emitterPlayerIndex == 0 || recipient->quietService->ShouldHideIndex(emitterPlayerIndex)))
@@ -205,17 +208,18 @@ void Surf::quiet::OnPostEvent(INetworkMessageInternal *pEvent, const CNetMessage
 	if (emitterEnt->IsPawn())
 	{
 		CBasePlayerPawn *pawn = static_cast<CBasePlayerPawn *>(emitterEnt);
-		u32 emitterPlayerIndex = g_pSurfPlayerManager->ToPlayer(utils::GetController(pawn))->index;
-		FilterQuietClients(clients, emitterPlayerIndex);
+		// Without a player, the index stays 0 and the event is hidden from everyone having !hide enabled.
+		SurfPlayer *emitter = g_pSurfPlayerManager->ToPlayer(utils::GetController(pawn));
+		FilterQuietClients(clients, emitter ? emitter->index : 0);
 	}
 	else if (V_strstr(emitterEnt->GetClassname(), "weapon_"))
 	{
 		// Find the owner of the weapon if possible
-		if (emitterEnt->m_hOwnerEntity().IsValid() && emitterEnt->m_hOwnerEntity.Get()->IsPawn())
+		CBaseEntity *owner = emitterEnt->m_hOwnerEntity().Get();
+		if (owner && owner->IsPawn())
 		{
-			CBasePlayerPawn *ownerPawn = static_cast<CBasePlayerPawn *>(emitterEnt->m_hOwnerEntity().Get());
-			u32 emitterPlayerIndex = g_pSurfPlayerManager->ToPlayer(ownerPawn)->index;
-			FilterQuietClients(clients, emitterPlayerIndex);
+			SurfPlayer *emitter = g_pSurfPlayerManager->ToPlayer(static_cast<CBasePlayerPawn *>(owner));
+			FilterQuietClients(clients, emitter ? emitter->index : 0);
 		}
 		// Otherwise just hide from everyone having !hide enabled
 		else
@@ -245,7 +249,7 @@ void SurfQuietService::SendFullUpdate()
 {
 	if (CServerSideClient *client = g_pSurfUtils->GetClientBySlot(this->player->GetPlayerSlot()))
 	{
-		client->ForceFullUpdate();
+		client->m_nDeltaTick = -1;
 	}
 	// Keep the player's angles the same.
 	QAngle angles;
@@ -361,7 +365,7 @@ void SurfQuietService::ReleaseWeaponCamera()
 
 void SurfQuietService::Cleanup()
 {
-	for (i32 i = 0; i < MAXPLAYERS; i++)
+	for (i32 i = 0; i < MAX_PLAYERS; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(CPlayerSlot(i));
 		if (player && player->quietService)

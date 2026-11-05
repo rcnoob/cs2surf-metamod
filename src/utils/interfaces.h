@@ -4,17 +4,15 @@
 #include "sdk/datatypes.h"
 #include "playerslot.h"
 #include "vector.h"
-#include "igameeventsystem.h"
+#include "engine2/igameeventsystem.h"
+#include "engine2/isource2server.h"
+#include "engine2/ivengineserver2.h"
 
 class CGameConfig;
 class CTraceFilter;
 class CCSPlayerController;
-class CGameResourceService;
 class CSchemaSystem;
-class IVEngineServer2;
-class ISource2Server;
 class IGameEventManager2;
-class IGameEventSystem;
 class CBasePlayerPawn;
 class CCSPlayerPawn;
 class CBaseEntity;
@@ -22,8 +20,8 @@ class CBasePlayerController;
 class IGameEventListener2;
 class CTimerBase;
 class CServerSideClient;
+class CServerSideClientBase;
 class CCSGameRules;
-class BotProfile;
 
 // temporary botprofile classes
 #include "utllinkedlist.h"
@@ -88,7 +86,6 @@ typedef void SetModel_t(CBaseModelEntity *entity, const char *modelName);
 
 namespace interfaces
 {
-	inline CGameResourceService *pGameResourceServiceServer = nullptr;
 	inline IVEngineServer2 *pEngine = nullptr;
 	inline ISource2Server *pServer = nullptr;
 	inline IGameEventManager2 *pGameEventManager = nullptr;
@@ -97,8 +94,7 @@ namespace interfaces
 	inline bool Initialize(ISmmAPI *ismm, char *error, size_t maxlen)
 	{
 		GET_V_IFACE_CURRENT(GetEngineFactory, g_pCVar, ICvar, CVAR_INTERFACE_VERSION);
-		GET_V_IFACE_CURRENT(GetEngineFactory, interfaces::pGameResourceServiceServer, CGameResourceService,
-							GAMERESOURCESERVICESERVER_INTERFACE_VERSION);
+		GET_V_IFACE_CURRENT(GetEngineFactory, g_pGameResourceServiceServer, IGameResourceService, GAMERESOURCESERVICESERVER_INTERFACE_VERSION);
 		GET_V_IFACE_CURRENT(GetServerFactory, g_pSource2GameClients, ISource2GameClients, INTERFACEVERSION_SERVERGAMECLIENTS);
 		GET_V_IFACE_CURRENT(GetServerFactory, g_pSource2GameEntities, ISource2GameEntities, SOURCE2GAMEENTITIES_INTERFACE_VERSION);
 		GET_V_IFACE_CURRENT(GetEngineFactory, interfaces::pEngine, IVEngineServer2, INTERFACEVERSION_VENGINESERVER);
@@ -166,19 +162,16 @@ public:
 
 	virtual void AddTimer(CTimerBase *timer, bool preserveMapChange = true);
 	virtual void RemoveTimer(CTimerBase *timer);
-	virtual CUtlVector<CServerSideClient *> *GetClientList();
+	virtual CUtlVector<CServerSideClientBase *> *GetClientList();
 
-	CServerSideClient *GetClientBySlot(CPlayerSlot slot)
-	{
-		return (GetClientList() && GetController(slot)) ? GetClientList()->Element(slot.Get()) : nullptr;
-	}
+	CServerSideClient *GetClientBySlot(CPlayerSlot slot);
 
-	virtual CUtlString GetCurrentMapName(bool *success = NULL);
+	virtual std::string GetCurrentMapName(bool *success = NULL);
 	virtual u64 GetCurrentMapWorkshopID();
-	virtual CUtlString GetCurrentMapVPK();
-	virtual CUtlString GetCurrentMapDirectory();
+	virtual std::string GetCurrentMapVPK();
+	virtual std::string GetCurrentMapDirectory();
 	virtual u64 GetCurrentMapSize();
-	virtual CUtlString GetCurrentMapConfig();
+	virtual std::string GetCurrentMapConfig();
 	virtual u32 GetCurrentMapMaxVelocity();
 	// MD5 calculation is not very fast, avoid doing this too often!
 	virtual bool UpdateCurrentMapMD5();

@@ -2,9 +2,9 @@
 #include "surf/surf.h"
 #include "utils/utils.h"
 #include "utils/simplecmds.h"
-#include "KeyValues.h"
+#include "tier0/keyvalues.h"
 #include "interfaces/interfaces.h"
-#include "filesystem.h"
+#include "filesystem/ifilesystem.h"
 #include "utils/ctimer.h"
 #include "surf/option/surf_option.h"
 

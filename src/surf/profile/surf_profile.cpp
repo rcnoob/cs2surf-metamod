@@ -54,7 +54,7 @@ void SurfProfileService::OnGameFrame()
 	{
 		return;
 	}
-	CBroadcastRecipientFilter filter;
+	CInGameRecipientFilter filter;
 	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("CCSUsrMsg_ServerRankRevealAll");
 	CNetMessage *msg = netmsg->AllocateMessage();
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
@@ -63,7 +63,7 @@ void SurfProfileService::OnGameFrame()
 
 void SurfProfileService::OnCheckTransmit()
 {
-	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (i32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (player && player->profileService)

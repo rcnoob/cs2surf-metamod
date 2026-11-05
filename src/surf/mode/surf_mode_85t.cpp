@@ -79,16 +79,10 @@ bool Surf85tModePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void Surf85tModeService::Reset()
 {
 	this->hasValidDesiredViewAngle = {};
 	this->lastValidDesiredViewAngle = vec3_angle;
-	this->lastJumpReleaseTime = {};
 	this->oldDuckPressed = {};
 	this->forcedUnduck = {};
 	this->postProcessMovementZSpeed = {};
@@ -99,11 +93,9 @@ void Surf85tModeService::Reset()
 	this->bonusSpeed = {};
 	this->maxPre = {};
 
-	this->didTPM = {};
-	this->overrideTPM = {};
-	this->tpmVelocity = vec3_origin;
-	this->tpmOrigin = vec3_origin;
-	this->lastValidPlane = vec3_origin;
+	this->inTryPlayerMove = {};
+	this->lastPlane = vec3_origin;
+	this->stuckTraceCount = {};
 
 	this->airMoving = {};
 	this->tpmTriggerFixOrigins.RemoveAll();
@@ -133,7 +125,7 @@ const CVValue_t *Surf85tModeService::GetModeConVarValues()
 	return modeCvarValues;
 }
 
-void Surf85tModeService::OnSetupMove(PlayerCommand *pc)
+void Surf85tModeService::OnSetupMove(CUserCmd *pc)
 {
 	u32 tickCount = g_pSurfUtils->GetServerGlobals()->tickcount;
 
@@ -148,21 +140,6 @@ void Surf85tModeService::OnSetupMove(PlayerCommand *pc)
 			continue;
 		}
 		float when = subtickMove->when();
-		if (subtickMove->button() == IN_JUMP)
-		{
-			f32 inputTime = (tickCount + when - 1) * ENGINE_FIXED_TICK_INTERVAL;
-			if (when != 0)
-			{
-				if (subtickMove->pressed() && inputTime - this->lastJumpReleaseTime > 0.5 * ENGINE_FIXED_TICK_INTERVAL)
-				{
-					this->player->GetMoveServices()->m_LegacyJump().m_bOldJumpPressed = false;
-				}
-				if (!subtickMove->pressed())
-				{
-					this->lastJumpReleaseTime = (tickCount + when - 1) * ENGINE_FIXED_TICK_INTERVAL;
-				}
-			}
-		}
 
 		if (doubleTickrate)
 		{

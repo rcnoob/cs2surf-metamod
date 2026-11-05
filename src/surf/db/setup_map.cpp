@@ -28,8 +28,8 @@ void SurfDatabaseService::SetupMap()
 
 	Transaction txn;
 	char query[2048];
-	CUtlString mapName = g_pSurfUtils->GetCurrentMapName();
-	auto escapedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.Get());
+	std::string mapName = g_pSurfUtils->GetCurrentMapName();
+	auto escapedMapName = SurfDatabaseService::GetDatabaseConnection()->Escape(mapName.c_str());
 	auto databaseType = SurfDatabaseService::GetDatabaseType();
 	switch (databaseType)
 	{
@@ -62,10 +62,10 @@ void SurfDatabaseService::SetupMap()
 		txn, 
 		[databaseType, mapName](std::vector<ISQLQuery *> queries) 
 		{
-			CUtlString currentMapName = g_pSurfUtils->GetCurrentMapName();
-			if (!SURF_STREQ(currentMapName.Get(), mapName.Get()))
+			std::string currentMapName = g_pSurfUtils->GetCurrentMapName();
+			if (!SURF_STREQ(currentMapName.c_str(), mapName.c_str()))
 			{
-				SURF_LOG_WARN(LogChannel::DB, "Failed to setup map, current map name %s doesn't match %s!\n", currentMapName.Get(), mapName.Get());
+				SURF_LOG_WARN(LogChannel::DB, "Failed to setup map, current map name %s doesn't match %s!\n", currentMapName.c_str(), mapName.c_str());
 				return;
 			}
 			switch (databaseType)
@@ -95,7 +95,7 @@ void SurfDatabaseService::SetupMap()
 				}
 			}
 			mapSetUp = true;
-			SURF_LOG_INFO(LogChannel::DB, "Map setup successful for %s, current map ID: %i\n", currentMapName.Get(), SurfDatabaseService::currentMapID);
+			SURF_LOG_INFO(LogChannel::DB, "Map setup successful for %s, current map ID: %i\n", currentMapName.c_str(), SurfDatabaseService::currentMapID);
 			CALL_FORWARD(eventListeners, OnMapSetup);
 		},
 		OnGenericTxnFailure);

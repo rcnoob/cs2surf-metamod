@@ -3,8 +3,8 @@
 #include "entity2/entitysystem.h"
 #include "steam/steam_gameserver.h"
 
-#include "sdk/cgameresourceserviceserver.h"
 #include "utils/utils.h"
+#include "utils/addresses.h"
 #include "utils/hooks.h"
 #include "utils/gameconfig.h"
 #include "utils/async_file_io.h"
@@ -34,7 +34,6 @@
 SurfPlugin g_SurfPlugin;
 
 IMultiAddonManager *g_pMultiAddonManager;
-CSteamGameServerAPIContext g_steamAPI;
 
 PLUGIN_EXPOSE(SurfPlugin, g_SurfPlugin);
 
@@ -90,7 +89,6 @@ bool SurfPlugin::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bo
 	SurfTipService::Init();
 	if (late)
 	{
-		g_steamAPI.Init();
 		g_pSurfPlayerManager->OnLateLoad();
 		// We need to reset the map for mapping api to properly load in.
 		utils::ResetMap();
@@ -212,9 +210,4 @@ void SurfPlugin::UpdateSelfMD5()
 	const char *path;
 	pluginManager->Query(g_PLID, &path, nullptr, nullptr);
 	g_pSurfUtils->GetFileMD5(path, this->md5, sizeof(this->md5));
-}
-
-CGameEntitySystem *GameEntitySystem()
-{
-	return interfaces::pGameResourceServiceServer->GetGameEntitySystem();
 }

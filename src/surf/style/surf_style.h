@@ -14,7 +14,7 @@ public:
 	virtual void Init() {};
 	virtual void Cleanup() {};
 
-	virtual bool IsCompatibleWithStyle(CUtlString style)
+	virtual bool IsCompatibleWithStyle(const std::string &style)
 	{
 		return true;
 	}
@@ -31,13 +31,13 @@ public:
 
 	virtual void OnPhysicsSimulatePost() {}
 
-	virtual void OnProcessUsercmds(PlayerCommand *, int) {}
+	virtual void OnProcessUsercmds(CUserCmd *, int) {}
 
-	virtual void OnProcessUsercmdsPost(PlayerCommand *, int) {}
+	virtual void OnProcessUsercmdsPost(CUserCmd *, int) {}
 
-	virtual void OnSetupMove(PlayerCommand *) {}
+	virtual void OnSetupMove(CUserCmd *) {}
 
-	virtual void OnSetupMovePost(PlayerCommand *) {}
+	virtual void OnSetupMovePost(CUserCmd *) {}
 
 	virtual void OnProcessMovement() {}
 
@@ -174,7 +174,7 @@ public:
 		StyleServiceFactory factory {};
 		char md5[33] {};
 		i32 databaseID = -1;
-		CCopyableUtlVector<CUtlString> incompatibleStyles;
+		CCopyableUtlVector<std::string> incompatibleStyles;
 	};
 
 	virtual bool RegisterStyle(PluginId id, const char *shortName, const char *longName, StyleServiceFactory factory,
@@ -187,7 +187,7 @@ public:
 	void ToggleStyle(SurfPlayer *player, const char *styleName, bool silent = false, bool updatePreference = true);
 	void ClearStyles(SurfPlayer *player, bool silent = false, bool updatePreference = true);
 	void RefreshStyles(SurfPlayer *player, bool updatePreference = true);
-	CUtlString GetStylesString(SurfPlayer *player);
+	std::string GetStylesString(SurfPlayer *player);
 	static const CUtlVector<StylePluginInfo> &GetStyles();
 	void PrintActiveStyles(SurfPlayer *player);
 	void PrintAllStyles(SurfPlayer *player);
@@ -201,8 +201,8 @@ namespace Surf::style
 {
 	void InitStyleManager();
 	void LoadStylePlugins();
-	void UpdateStyleDatabaseID(CUtlString name, i32 id);
+	void UpdateStyleDatabaseID(const std::string &name, i32 id);
 	SurfStyleManager::StylePluginInfo GetStyleInfo(SurfStyleService *style);
-	SurfStyleManager::StylePluginInfo GetStyleInfo(CUtlString styleName);
+	SurfStyleManager::StylePluginInfo GetStyleInfo(const std::string &styleName);
 
 }; // namespace Surf::style

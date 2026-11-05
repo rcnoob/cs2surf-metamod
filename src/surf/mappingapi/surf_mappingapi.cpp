@@ -17,7 +17,8 @@
 #include "surf/db/surf_db.h"
 #include "surf/language/surf_language.h"
 #include "utils/simplecmds.h"
-#include "UtlSortVector.h"
+#include "tier0/utlsortvector.h"
+#include <memory>
 
 #include "tier0/memdbgon.h"
 
@@ -616,7 +617,9 @@ static_function void Mapi_OnTriggerPushSpawn(const EntitySpawnInfo_t *info)
 
 void Surf::mapapi::Init()
 {
-	g_mappingApi = {};
+	// Not `= {}`: moving a CUtlVectorFixed doesn't compile in s2sdk (its fixed memory has no Swap).
+	std::destroy_at(&g_mappingApi);
+	new (&g_mappingApi) decltype(g_mappingApi)();
 
 	g_errorTimer = g_errorTimer ? g_errorTimer : StartTimer(Mapi_PrintErrors, true);
 }

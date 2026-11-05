@@ -77,11 +77,6 @@ bool SurfOnlyWStylePlugin::Unpause(char *error, size_t maxlen)
 	return true;
 }
 
-CGameEntitySystem *GameEntitySystem()
-{
-	return g_pSurfUtils->GetGameEntitySystem();
-}
-
 void SurfOnlyWStyleService::Init() {}
 
 const CVValue_t *SurfOnlyWStyleService::GetTweakedConvarValue(const char *name)
@@ -91,7 +86,7 @@ const CVValue_t *SurfOnlyWStyleService::GetTweakedConvarValue(const char *name)
 
 void SurfOnlyWStyleService::Cleanup() {}
 
-void SurfOnlyWStyleService::OnSetupMove(PlayerCommand *pc)
+void SurfOnlyWStyleService::OnSetupMove(CUserCmd *pc)
 {
 	auto subtickMoves = pc->mutable_base()->mutable_subtick_moves();
 	auto iterator = subtickMoves->begin();

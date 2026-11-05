@@ -2,7 +2,6 @@
 
 namespace HTTP
 {
-	CSteamGameServerAPIContext g_steamAPI;
 	ISteamHTTP *g_pHTTP = nullptr;
 	std::vector<InFlightRequest *> g_InFlightRequests;
 
@@ -30,11 +29,8 @@ namespace HTTP
 		if (!g_pHTTP)
 		{
 			SURF_LOG_INFO(LogChannel::General, "[HTTP] Initializing HTTP client...\n");
-			if (g_steamAPI.Init())
-			{
-				g_pHTTP = g_steamAPI.SteamHTTP();
-			}
-			else
+			g_pHTTP = SteamGameServerHTTP();
+			if (!g_pHTTP)
 			{
 				SURF_LOG_WARN(LogChannel::General, "[HTTP] Failed to send HTTP request as the steam API is not yet initialized.\n");
 				return;

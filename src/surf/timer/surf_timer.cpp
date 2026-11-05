@@ -1,7 +1,6 @@
 #include "surf_timer.h"
 #include "surf/db/surf_db.h"
 #include "surf/global/surf_global.h"
-#include "surf/language/surf_language.h"
 #include "surf/mode/surf_mode.h"
 #include "surf/style/surf_style.h"
 #include "surf/noclip/surf_noclip.h"
@@ -375,7 +374,7 @@ bool SurfTimerService::TimerStop(bool playSound)
 
 void SurfTimerService::TimerStopAll(bool playSound)
 {
-	for (int i = 0; i < MAXPLAYERS + 1; i++)
+	for (int i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (!player || !player->timerService)
@@ -1001,7 +1000,7 @@ void SurfTimerService::ClearRecordCache()
 {
 	SurfTimerService::srCache.clear();
 	SurfTimerService::wrCache.clear();
-	for (i32 i = 0; i < MAXPLAYERS + 1; i++)
+	for (i32 i = 0; i < MAX_PLAYERS + 1; i++)
 	{
 		SurfPlayer *player = g_pSurfPlayerManager->ToPlayer(i);
 		if (player && player->timerService)
@@ -1030,25 +1029,25 @@ void SurfTimerService::UpdateLocalRecordCache()
 				{
 					continue;
 				}
-				SurfTimerService::InsertRecordToCache(result->GetFloat(0), course, modeInfo.id, false, result->GetString(3));
+				SurfTimerService::InsertRecordToCache(result->GetFloat(0), course, modeInfo.id, false, utils::OrEmpty(result->GetString(3)));
 			}
 		}
 	};
 	SurfDatabaseService::QueryAllRecords(g_pSurfUtils->GetCurrentMapName(), onQuerySuccess, SurfDatabaseService::OnGenericTxnFailure);
 }
 
-void SurfTimerService::InsertRecordToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, CUtlString metadata)
+void SurfTimerService::InsertRecordToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, const std::string &metadata)
 {
 	PBData &pb = global ? SurfTimerService::wrCache[ToPBDataKey(modeID, course->guid)] : SurfTimerService::srCache[ToPBDataKey(modeID, course->guid)];
 
 	pb.overall.pbTime = time;
 	KeyValues3 kv(KV3_TYPEEX_TABLE, KV3_SUBTYPE_UNSPECIFIED);
 	CUtlString error = "";
-	if (metadata.IsEmpty())
+	if (metadata.empty())
 	{
 		return;
 	}
-	LoadKV3FromJSON(&kv, &error, metadata.Get(), "");
+	LoadKV3FromJSON(&kv, &error, metadata.c_str(), "");
 	if (!error.IsEmpty())
 	{
 		SURF_LOG_WARN(LogChannel::Timer, "Failed to insert PB to cache due to metadata error: %s\n", error.Get());
@@ -1103,7 +1102,8 @@ const PBData *SurfTimerService::GetGlobalCachedPB(const SurfCourseDescriptor *co
 	return &this->globalPBCache[key];
 }
 
-void SurfTimerService::InsertPBToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, CUtlString metadata, f64 points)
+void SurfTimerService::InsertPBToCache(f64 time, const SurfCourseDescriptor *course, PluginId modeID, bool global, const std::string &metadata,
+									   f64 points)
 {
 	PBData &pb = global ? this->globalPBCache[ToPBDataKey(modeID, course->guid)] : this->localPBCache[ToPBDataKey(modeID, course->guid)];
 
@@ -1111,11 +1111,11 @@ void SurfTimerService::InsertPBToCache(f64 time, const SurfCourseDescriptor *cou
 	pb.overall.pbTime = time;
 	KeyValues3 kv(KV3_TYPEEX_TABLE, KV3_SUBTYPE_UNSPECIFIED);
 	CUtlString error = "";
-	if (metadata.IsEmpty())
+	if (metadata.empty())
 	{
 		return;
 	}
-	LoadKV3FromJSON(&kv, &error, metadata.Get(), "");
+	LoadKV3FromJSON(&kv, &error, metadata.c_str(), "");
 	if (!error.IsEmpty())
 	{
 		SURF_LOG_WARN(LogChannel::Timer, "Failed to insert server record to cache due to metadata error: %s\n", error.Get());
@@ -1179,8 +1179,8 @@ void SurfTimerService::CheckMissedTime()
 
 	if (this->shouldAnnounceMissedTime && pb->overall.pbTime > 0 && this->GetTime() > pb->overall.pbTime)
 	{
-		CUtlString timeText = utils::FormatTime(pb->overall.pbTime);
-		this->player->languageService->PrintChat(true, false, missedTimeKeys[this->currentCompareType], timeText.Get());
+		std::string timeText = utils::FormatTime(pb->overall.pbTime);
+		this->player->languageService->PrintChat(true, false, missedTimeKeys[this->currentCompareType], timeText.c_str());
 		this->shouldAnnounceMissedTime = false;
 		this->PlayMissedTimeSound();
 	}
@@ -1200,16 +1200,16 @@ void SurfTimerService::ShowCheckpointText(u32 currentCheckpoint)
 		return;
 	}
 
-	CUtlString time;
+	std::string time;
 	std::string pbDiff = "";
 
 	time = utils::FormatTime(this->cpZoneTimes[currentCheckpoint - 1]);
 	if (this->lastCheckpoint != 0)
 	{
 		f64 diff = this->cpZoneTimes[currentCheckpoint - 1] - this->cpZoneTimes[this->lastCheckpoint - 1];
-		CUtlString splitTime = SurfTimerService::FormatDiffTime(diff);
-		splitTime.Format(" {grey}({default}%s{grey})", splitTime.Get());
-		time.Append(splitTime.Get());
+		std::string splitTime = SurfTimerService::FormatDiffTime(diff);
+		splitTime = tfm::format(" {grey}({default}%s{grey})", splitTime.c_str());
+		time += splitTime;
 	}
 
 	auto modeInfo = Surf::mode::GetModeInfo(this->player->modeService->GetModeName());
@@ -1222,13 +1222,13 @@ void SurfTimerService::ShowCheckpointText(u32 currentCheckpoint)
 		if (pb->overall.pbCpZoneTimes[currentCheckpoint - 1] > 0)
 		{
 			f64 diff = this->cpZoneTimes[currentCheckpoint - 1] - pb->overall.pbCpZoneTimes[currentCheckpoint - 1];
-			CUtlString diffText = SurfTimerService::FormatDiffTime(diff);
-			diffText.Format("{grey}%s%s{grey}", diff < 0 ? "{green}" : "{lightred}", diffText.Get());
-			pbDiff = this->player->languageService->PrepareMessage(diffTextKeys[this->currentCompareType], diffText.Get());
+			std::string diffText = SurfTimerService::FormatDiffTime(diff);
+			diffText = tfm::format("{grey}%s%s{grey}", diff < 0 ? "{green}" : "{lightred}", diffText.c_str());
+			pbDiff = this->player->languageService->PrepareMessage(diffTextKeys[this->currentCompareType], diffText.c_str());
 		}
 	}
 
-	this->player->languageService->PrintChat(true, false, "Course Checkpoint Reached", currentCheckpoint, time.Get(), pbDiff.c_str());
+	this->player->languageService->PrintChat(true, false, "Course Checkpoint Reached", currentCheckpoint, time.c_str(), pbDiff.c_str());
 }
 
 void SurfTimerService::ShowStageText()
@@ -1245,7 +1245,7 @@ void SurfTimerService::ShowStageText()
 		return;
 	}
 
-	CUtlString time;
+	std::string time;
 	std::string pbDiff = "";
 
 	time = utils::FormatTime(this->stageZoneTimes[this->currentStage - 1]);
@@ -1260,16 +1260,16 @@ void SurfTimerService::ShowStageText()
 		if (pb->overall.pbStageZoneTimes[this->currentStage - 1] > 0)
 		{
 			f64 diff = this->stageZoneTimes[this->currentStage - 1] - pb->overall.pbStageZoneTimes[this->currentStage - 1];
-			CUtlString diffText = SurfTimerService::FormatDiffTime(diff);
-			diffText.Format("{grey}%s%s{grey}", diff < 0 ? "{green}" : "{lightred}", diffText.Get());
-			pbDiff = this->player->languageService->PrepareMessage(diffTextKeys[this->currentCompareType], diffText.Get());
+			std::string diffText = SurfTimerService::FormatDiffTime(diff);
+			diffText = tfm::format("{grey}%s%s{grey}", diff < 0 ? "{green}" : "{lightred}", diffText.c_str());
+			pbDiff = this->player->languageService->PrepareMessage(diffTextKeys[this->currentCompareType], diffText.c_str());
 		}
 	}
 
-	this->player->languageService->PrintChat(true, false, "Course Stage Reached", this->currentStage, time.Get(), pbDiff.c_str());
+	this->player->languageService->PrintChat(true, false, "Course Stage Reached", this->currentStage, time.c_str(), pbDiff.c_str());
 }
 
-CUtlString SurfTimerService::GetCurrentRunMetadata()
+std::string SurfTimerService::GetCurrentRunMetadata()
 {
 	KeyValues3 kv(KV3_TYPEEX_TABLE, KV3_SUBTYPE_UNSPECIFIED);
 
@@ -1292,7 +1292,7 @@ CUtlString SurfTimerService::GetCurrentRunMetadata()
 	CUtlString result, error;
 	if (SaveKV3AsJSON(&kv, &error, &result))
 	{
-		return result;
+		return result.Get();
 	}
 	SURF_LOG_WARN(LogChannel::Timer, "Failed to obtain current run's metadata! (%s)\n", error.Get());
 	return "";
@@ -1324,7 +1324,7 @@ void SurfTimerService::UpdateLocalPBCache()
 				{
 					continue;
 				}
-				pl->timerService->InsertPBToCache(result->GetFloat(0), course, modeInfo.id, false, result->GetString(3));
+				pl->timerService->InsertPBToCache(result->GetFloat(0), course, modeInfo.id, false, utils::OrEmpty(result->GetString(3)));
 			}
 		}
 	};

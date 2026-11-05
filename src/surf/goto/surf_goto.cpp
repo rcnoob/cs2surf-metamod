@@ -27,7 +27,7 @@ bool SurfGotoService::GotoPlayer(const char *playerNamePart)
 	SurfPlayer *targetPlayer = nullptr;
 
 	// Prefer exact matches over partial matches.
-	for (i32 i = 0; i <= MAXPLAYERS; i++)
+	for (i32 i = 0; i <= MAX_PLAYERS; i++)
 	{
 		CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController();
 		SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(i);
@@ -51,7 +51,7 @@ bool SurfGotoService::GotoPlayer(const char *playerNamePart)
 	// If no exact match was found, try partial matches.
 	if (!targetPlayer)
 	{
-		for (i32 i = 0; i <= MAXPLAYERS; i++)
+		for (i32 i = 0; i <= MAX_PLAYERS; i++)
 		{
 			CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController();
 			SurfPlayer *otherPlayer = g_pSurfPlayerManager->ToPlayer(i);

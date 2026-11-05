@@ -24,7 +24,7 @@ void SurfDatabaseService::UpdateModeIDs()
 	// clang-format on
 }
 
-void SurfDatabaseService::InsertAndUpdateModeIDs(CUtlString modeName, CUtlString shortName)
+void SurfDatabaseService::InsertAndUpdateModeIDs(const std::string &modeName, const std::string &shortName)
 {
 	if (!SurfDatabaseService::IsReady())
 	{
@@ -36,12 +36,12 @@ void SurfDatabaseService::InsertAndUpdateModeIDs(CUtlString modeName, CUtlString
 	{
 		case DatabaseType::SQLite:
 		{
-			V_snprintf(query, sizeof(query), sqlite_modes_insert, modeName.Get(), shortName.Get());
+			V_snprintf(query, sizeof(query), sqlite_modes_insert, modeName.c_str(), shortName.c_str());
 			break;
 		}
 		case DatabaseType::MySQL:
 		{
-			V_snprintf(query, sizeof(query), mysql_modes_insert, modeName.Get(), shortName.Get());
+			V_snprintf(query, sizeof(query), mysql_modes_insert, modeName.c_str(), shortName.c_str());
 			break;
 		}
 		default:
@@ -52,7 +52,7 @@ void SurfDatabaseService::InsertAndUpdateModeIDs(CUtlString modeName, CUtlString
 	}
 	txn.queries.push_back(query);
 
-	V_snprintf(query, sizeof(query), sql_modes_findid, modeName.Get());
+	V_snprintf(query, sizeof(query), sql_modes_findid, modeName.c_str());
 	txn.queries.push_back(query);
 	// clang-format off
 	SurfDatabaseService::GetDatabaseConnection()->ExecuteTransaction(

@@ -90,8 +90,8 @@ SCMD(surf_end, SCFL_MAP)
 		}
 		else
 		{
-			CUtlString courseName = player->timerService->GetCourse()->GetName();
-			player->languageService->PrintChat(true, false, "No End Position For Course", courseName.Get());
+			std::string courseName = player->timerService->GetCourse()->GetName();
+			player->languageService->PrintChat(true, false, "No End Position For Course", courseName.c_str());
 			return true;
 		}
 	}
@@ -108,8 +108,8 @@ SCMD(surf_end, SCFL_MAP)
 		}
 		else
 		{
-			CUtlString courseName = Surf::course::GetFirstCourse()->GetName();
-			player->languageService->PrintChat(true, false, "No End Position For Course", courseName.Get());
+			std::string courseName = Surf::course::GetFirstCourse()->GetName();
+			player->languageService->PrintChat(true, false, "No End Position For Course", courseName.c_str());
 		}
 	}
 
@@ -675,7 +675,7 @@ SCMD(surf_playercheck, SCFL_PLAYER)
 	}
 	else
 	{
-		for (i32 i = 0; i <= MAXPLAYERS; i++)
+		for (i32 i = 0; i <= MAX_PLAYERS; i++)
 		{
 			CBasePlayerController *controller = g_pSurfPlayerManager->players[i]->GetController();
 
@@ -872,10 +872,8 @@ void Surf::misc::ProcessConCommand(ConCommandRef cmd, const CCommandContext &ctx
 			return;
 		}
 
-		CUtlString message;
-		message.SetDirect(p, strlen(p) - wrappedInQuotes);
 		auto name = player->GetName();
-		std::string text = message.Get();
+		std::string text(p, strlen(p) - wrappedInQuotes);
 
 		// We have to replace these CS2 quotes with normal quotes
 		size_t pos = 0;
