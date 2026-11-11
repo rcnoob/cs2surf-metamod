@@ -340,7 +340,7 @@ private:
 	 * The key is the message ID we're looking for, and the callback will be
 	 * invoked with that message ID and the payload.
 	 */
-	static inline struct
+	static inline struct MessageCallbacks
 	{
 		std::mutex mutex;
 		std::unordered_map<u32, std::function<void(u32, const Json &)>> queue;
@@ -349,7 +349,7 @@ private:
 	/**
 	 * Information about the current map we got from the API
 	 */
-	static inline struct
+	static inline struct CurrentMap
 	{
 		std::mutex mutex;
 		std::optional<Surf::API::Map> data;
@@ -358,7 +358,7 @@ private:
 	/**
 	 * Information about all modes the API knows about
 	 */
-	static inline struct
+	static inline struct GlobalModes
 	{
 		std::mutex mutex;
 		std::vector<Surf::API::handshake::HelloAck::ModeInfo> data;
@@ -367,7 +367,7 @@ private:
 	/**
 	 * Information about all styles the API knows about
 	 */
-	static inline struct
+	static inline struct GlobalStyles
 	{
 		std::mutex mutex;
 		std::vector<Surf::API::handshake::HelloAck::StyleInfo> data;
