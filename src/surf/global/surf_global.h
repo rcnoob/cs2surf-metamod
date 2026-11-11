@@ -311,7 +311,7 @@ private:
 	 */
 	static inline std::atomic<State> state = State::Uninitialized;
 
-	static inline struct
+	static inline struct Callbacks
 	{
 		std::mutex mutex;
 
