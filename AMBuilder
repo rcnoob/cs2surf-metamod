@@ -225,6 +225,8 @@ def configure_85t(sdk, cxx):
   _85t_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'mode', 'surf_mode_85t.cpp'),
@@ -264,6 +266,8 @@ def configure_102t(sdk, cxx):
   _102t_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'mode', 'surf_mode_102t.cpp'),
@@ -342,6 +346,8 @@ def configure_css(sdk, cxx):
   css_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'mode', 'surf_mode_source.cpp'),
@@ -381,6 +387,8 @@ def configure_lg(sdk, cxx):
   lg_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_lowgrav.cpp'),
@@ -421,6 +429,8 @@ def configure_hg(sdk, cxx):
   hg_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_highgrav.cpp'),
@@ -461,6 +471,8 @@ def configure_sw(sdk, cxx):
   sw_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_sideways.cpp'),
@@ -501,6 +513,8 @@ def configure_hsw(sdk, cxx):
   hsw_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_halfsideways.cpp'),
@@ -541,6 +555,8 @@ def configure_ow(sdk, cxx):
   ow_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_onlyw.cpp'),
@@ -581,6 +597,8 @@ def configure_tas(sdk, cxx):
   tas_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_tas.cpp'),
@@ -621,6 +639,8 @@ def configure_3500vel(sdk, cxx):
   _3500vel_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_3500vel.cpp'),
@@ -661,6 +681,8 @@ def configure_5000vel(sdk, cxx):
   _5000vel_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_5000vel.cpp'),
@@ -701,6 +723,8 @@ def configure_10000vel(sdk, cxx):
   _10000vel_binary.sources += [
     os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'),
     os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'),
+    os.path.join(sdk['path'], 'entity2', 'entitykeyvalues.cpp'),
+    os.path.join(sdk['path'], 'tier0_perproject', 'keyvalues3.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'schema.cpp'),
     os.path.join(builder.sourcePath, 'src', 'utils', 'gameconfig.cpp'),
     os.path.join(builder.sourcePath, 'src', 'surf', 'style', 'surf_style_10000vel.cpp'),

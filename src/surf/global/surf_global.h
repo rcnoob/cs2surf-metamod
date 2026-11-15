@@ -6,7 +6,6 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
-#include <functional>
 
 #include <vendor/ixwebsocket/ixwebsocket/IXWebSocket.h>
 
@@ -18,35 +17,6 @@
 #include "surf/global/handshake.h"
 #include "surf/global/events.h"
 #include "surf/timer/submission.h"
-
-namespace Surf::detail
-{
-	template<typename F>
-	struct CallbackArg : CallbackArg<decltype(&F::operator())>
-	{
-	};
-
-	template<typename C, typename R, typename A>
-	struct CallbackArg<R (C::*)(A) const>
-	{
-		using type = std::remove_cv_t<std::remove_reference_t<A>>;
-	};
-
-	template<typename C, typename R, typename A>
-	struct CallbackArg<R (C::*)(A)>
-	{
-		using type = std::remove_cv_t<std::remove_reference_t<A>>;
-	};
-
-	template<typename R, typename A>
-	struct CallbackArg<R (*)(A)>
-	{
-		using type = std::remove_cv_t<std::remove_reference_t<A>>;
-	};
-
-	template<typename F>
-	using CallbackArgT = typename CallbackArg<std::decay_t<F>>::type;
-} // namespace Surf::detail
 
 class SurfGlobalService : public SurfBaseService
 {
@@ -505,8 +475,6 @@ private:
 			return false;
 		}
 
-		using ReplyType = Surf::detail::CallbackArgT<CB>;
-
 		// clang-format off
 		SurfGlobalService::AddMessageCallback(messageID, [callback = std::move(callback)](u32 messageID, const Json& payload)
 		{
@@ -516,7 +484,7 @@ private:
 				return;
 			}
 
-			ReplyType decoded;
+			std::remove_reference_t<typename decltype(std::function(callback))::argument_type> decoded;
 
 			if (!payload.Get("data", decoded))
 			{

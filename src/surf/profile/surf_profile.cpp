@@ -55,7 +55,7 @@ void SurfProfileService::OnGameFrame()
 		return;
 	}
 	CInGameRecipientFilter filter;
-	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("CCSUsrMsg_ServerRankRevealAll");
+	NetMessageInfo_t *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("CCSUsrMsg_ServerRankRevealAll");
 	CNetMessage *msg = netmsg->AllocateMessage();
 	interfaces::pGameEventSystem->PostEventAbstract(0, false, &filter, netmsg, msg, 0);
 	delete msg;

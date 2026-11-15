@@ -383,7 +383,7 @@ bool utils::SetConVarValue(CPlayerSlot slot, ConVarRefAbstract conVarRef, const 
 
 void utils::SendConVarValue(CPlayerSlot slot, const char *conVar, const char *value)
 {
-	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
+	NetMessageInfo_t *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
 	auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 	CMsg_CVars_CVar *cvar = msg->mutable_convars()->add_cvars();
 	cvar->set_name(conVar);
@@ -395,7 +395,7 @@ void utils::SendConVarValue(CPlayerSlot slot, const char *conVar, const char *va
 
 void utils::SendMultipleConVarValues(CPlayerSlot slot, const char **cvars, const char **values, u32 size)
 {
-	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
+	NetMessageInfo_t *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
 	auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 	for (u32 i = 0; i < size; i++)
 	{
@@ -430,7 +430,7 @@ void utils::SendConVarValue(CPlayerSlot slot, ConVarRefAbstract conVarRef, const
 
 void utils::SendMultipleConVarValues(CPlayerSlot slot, ConVarRefAbstract **conVarRefs, const char **values, u32 size)
 {
-	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
+	NetMessageInfo_t *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
 	auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 	for (u32 i = 0; i < size; i++)
 	{
@@ -450,7 +450,7 @@ void utils::SendMultipleConVarValues(CPlayerSlot slot, ConVarRefAbstract **conVa
 
 void utils::SendMultipleConVarValues(CPlayerSlot slot, ConVarRefAbstract **conVarRefs, const CVValue_t *values, u32 size)
 {
-	INetworkMessageInternal *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
+	NetMessageInfo_t *netmsg = g_pNetworkMessages->FindNetworkMessagePartial("SetConVar");
 	auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 	for (u32 i = 0; i < size; i++)
 	{

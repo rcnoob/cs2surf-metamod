@@ -129,12 +129,11 @@ static void FilterQuietClients(const uint64 *clients, u32 emitterPlayerIndex = 0
 	}
 }
 
-void Surf::quiet::OnPostEvent(INetworkMessageInternal *pEvent, const CNetMessage *pData, const uint64 *clients)
+void Surf::quiet::OnPostEvent(NetMessageInfo_t *pEvent, const CNetMessage *pData, const uint64 *clients)
 {
-	NetMessageInfo_t *info = pEvent->GetNetMessageInfo();
 	u32 emitterEntIndex = 0;
 
-	switch (info->m_MessageId)
+	switch (pEvent->m_MessageId)
 	{
 		// Hide bullet decals, and sound.
 		case GE_FireBulletsId:
